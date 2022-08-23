@@ -1,4 +1,10 @@
+.vscode
+
 web/node_modules/
 web/.cache/
 web/public
 web/src/gatsby-types.d.ts
+
+studio/node_modules/
+studio/.DS_Store
+studio/.vscode
