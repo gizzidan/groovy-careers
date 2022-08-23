@@ -1,11 +1,11 @@
 export default {
-	name: "jobTags",
-	title: "Job Tags",
+	name: "jobTag",
+	title: "Job Tag",
 	type: "document",
 	fields: [
 		{
-			name: "tag",
-			title: "Tag",
+			name: "tagName",
+			title: "Tag Name",
 			type: "string",
 			validation: (Rule) => [
 				Rule.lowercase().warning("Tags must be lowercase."),

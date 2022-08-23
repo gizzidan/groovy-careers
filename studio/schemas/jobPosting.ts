@@ -53,7 +53,7 @@ export default {
 					type: "reference",
 					to: [
 						{
-							type: "jobTags",
+							type: "jobTag",
 						},
 					],
 				},
