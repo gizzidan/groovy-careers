@@ -1,4 +1,4 @@
-export var salaryRange = [
+export const salaryRange = [
 	{
 		value: 5000,
 		title: "$5,000",

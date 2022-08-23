@@ -21,5 +21,19 @@ export default {
 			description: "Address for receiving invoices.",
 			validation: (Rule) => Rule.required(),
 		},
+		{
+			name: "twitter",
+			title: "Twitter",
+			type: "string",
+			description: "Company Twitter username",
+			validation: (Rule) => Rule.regex(/^@?(\w){1,15}$/),
+		},
+		{
+			name: "instagram",
+			title: "Instagram",
+			type: "string",
+			description: "Company Instagram username",
+			validation: (Rule) => Rule.regex(/^@?(\w){1,15}$/),
+		},
 	],
 };

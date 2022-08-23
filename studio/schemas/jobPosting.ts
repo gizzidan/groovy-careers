@@ -1,5 +1,4 @@
 import { salaryRange } from "../components/salaryRange";
-console.log(salaryRange);
 export default {
 	name: "jobPosting",
 	title: "Job Posting",
@@ -54,7 +53,7 @@ export default {
 					type: "reference",
 					to: [
 						{
-							type: "tag",
+							type: "jobTags",
 						},
 					],
 				},
@@ -91,7 +90,62 @@ export default {
 			name: "minAnnualSalary",
 			title: "Minimum Annual Salary",
 			type: "number",
-			list: salaryRange,
+			options: {
+				list: salaryRange,
+			},
+		},
+		{
+			name: "maxAnnualSalary",
+			title: "Maximum Annual Salary",
+			type: "number",
+			options: {
+				list: salaryRange,
+			},
+			validation: (Rule) =>
+				Rule.min(Rule.valueOfField("minAnnualSalary")).warning(
+					"The maximum salary can't be lower than the minimum salary."
+				),
+		},
+		{
+			name: "includeLogo",
+			title: "Include Logo",
+			type: "boolean",
+			description: "Set to include company logo in job post.",
+		},
+		{
+			name: "stickyLength",
+			title: "Sticky Length",
+			type: "string",
+			description: "How long to sticky post to the top.",
+			options: {
+				list: ["No Sticky", "24 hours", "3 days", "7 days", "420 hours"],
+				layout: "radio",
+			},
+			validation: (Rule) => Rule.required(),
+		},
+		{
+			name: "highlight",
+			title: "Highlight",
+			type: "boolean",
+			description: "Highlight your posting.",
+		},
+		{
+			name: "coupon",
+			title: "Coupon",
+			type: "string",
+			description: "Coupon code for pre-purchased postings.",
+		},
+		{
+			name: "paymentStatus",
+			title: "Payment Received",
+			type: "boolean",
+			description: "Set to Payment Received if Stripe payment was completed.",
 		},
 	],
+	initialValue: {
+		stickyLength: "No Sticky",
+		highlight: false,
+		paymentStatus: false,
+		includeLogo: false,
+	},
 };

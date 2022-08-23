@@ -1,6 +1,6 @@
 export default {
-	name: "tag",
-	title: "Tag",
+	name: "jobTags",
+	title: "Job Tags",
 	type: "document",
 	fields: [
 		{
