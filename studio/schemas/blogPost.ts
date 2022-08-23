@@ -7,6 +7,7 @@ export default {
 			name: "title",
 			title: "Title",
 			type: "string",
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: "slug",
@@ -16,16 +17,19 @@ export default {
 				source: "title",
 				maxLength: 96,
 			},
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: "publishedAt",
 			title: "Published At",
 			type: "date",
+			initialValue: new Date().toISOString().substring(0, 10),
 		},
 		{
 			name: "summary",
 			title: "Summary",
 			type: "text",
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: "body",
@@ -36,6 +40,7 @@ export default {
 					type: "block",
 				},
 			],
+			validation: (Rule) => Rule.required(),
 		},
 	],
 	preview: {

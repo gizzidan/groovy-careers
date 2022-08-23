@@ -13,5 +13,15 @@ export default {
 				Rule.required(),
 			],
 		},
+		{
+			name: "slug",
+			title: "Slug",
+			type: "slug",
+			options: {
+				source: "tag",
+				maxLength: 96,
+			},
+			validation: (Rule) => Rule.required(),
+		},
 	],
 };
