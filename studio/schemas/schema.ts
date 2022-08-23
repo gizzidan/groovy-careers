@@ -6,6 +6,9 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 
 import blogPost from "./blogPost";
 import jobPosting from "./jobPosting";
+import primarySkill from "./primarySkill";
+import tag from "./tag";
+import company from "./company";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -17,5 +20,8 @@ export default createSchema({
 		/* Your types here! */
 		blogPost,
 		jobPosting,
+		primarySkill,
+		tag,
+		company,
 	]),
 });
