@@ -4,9 +4,9 @@ import MenuToggle from './menu-toggle'
 import { Link as GatsbyLink, useStaticQuery, PageProps, graphql } from 'gatsby'
 import {
   Link,
+  List,
   Flex,
   Button,
-  HStack,
   Wrap,
   chakra
 } from '@chakra-ui/react'
@@ -69,27 +69,27 @@ const toggleMenu = () => setShow(!show)
           transform="translate(-50%, -50%)"
         >
           {navItemsGroup.map((node: { navItems: any[] }) => (
-            <>
+            <React.Fragment key={node.navItems.toString()}>
               {node.navItems ? (
                 <Wrap spacing='30px'>
                   {node.navItems.map((navItems) => (
-                    <Link key={navItems.id}>
+                    <List key={navItems.id}>
                       {navItems.href.externalContent ? (
                         <a href={navItems.href.linkUrl} target='_blank' rel='noopener noreferer'>{navItems.text}</a>
                       )
                         : <Link as={GatsbyLink} to={`/${navItems.href.linkUrl}`}>{navItems.text}</Link>
                       }
-                    </Link>
+                    </List>
                   ))}
                 </Wrap>
               ) : null}
-            </>
+            </React.Fragment>
           ))}
         </Flex>
         <Flex float="right">
-          <Button>
-            <Link as={GatsbyLink} to={`/${cta.href.linkUrl}`}>{cta.text}</Link>
-          </Button>
+          <Link as={GatsbyLink} to={`/${cta.href.linkUrl}`}>
+            <Button variant="brand-main">{cta.text}</Button>
+          </Link>
           <MenuToggle toggleMenu={toggleMenu} show={show} />
         </Flex>
 

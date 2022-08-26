@@ -48,6 +48,14 @@ const config: GatsbyConfig = {
 			__key: "pages",
 		},
 		{
+			resolve: "gatsby-source-filesystem",
+			options: {
+				name: "fonts",
+				path: "./src/fonts/",
+			},
+			__key: "fonts",
+		},
+		{
 			resolve: "@chakra-ui/gatsby-plugin",
 			options: {
 				resetCSS: true,

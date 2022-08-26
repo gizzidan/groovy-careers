@@ -7,5 +7,16 @@ import {
     Button,
     HStack,
     Wrap,
-    chakra
+    chakra,
+    Heading
 } from '@chakra-ui/react'
+
+const Hero = () => {
+    return (
+        <Flex>
+            <Heading>Test</Heading>
+        </Flex>
+    )
+}
+
+export default Hero
