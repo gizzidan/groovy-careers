@@ -56,18 +56,17 @@ const Hero = () => {
       align="center"
       minH="50vh"
       px={8}
-      mt={16}
+      mt={20}
       mb={16}
     >
       <VStack
-        spacing={4}
-        w={{ base: "80%", md: "40%" }}
+        spacing={6}
         align="center"
         m="auto"
       >
         <Heading
           as="h1"
-          size="xl"
+          size="2xl"
           color="green.600"
           textAlign="center"
           fontFamily="PicnicFont"
@@ -81,10 +80,8 @@ const Hero = () => {
         </Heading>
         <Text
           size="md"
-          color="primary.800"
           opacity="0.8"
-          fontWeight="normal"
-          lineHeight={1.5}
+          variant="body"
           textAlign="center"
         >
           { HomepageHero.text }
@@ -102,7 +99,7 @@ const Hero = () => {
           { HomepageHero.kicker }
         </Text>
         <HStack
-          pt={4}
+          pt={3}
           spacing={12}
           align="center"
           justify="space-evenly"

@@ -5,7 +5,6 @@ const theme = extendTheme({
 		heading: `"GT-America-Extended"`,
 	},
 	colors: {
-		black: "#000",
 		yellow: {
 			50: "#fff6de",
 			100: "#f7e4b7",
@@ -34,7 +33,12 @@ const theme = extendTheme({
 	components: {
 		Text: {
 			variants: {
-				paragraph: {},
+				body: {
+					fontFamily: "GT-America",
+					lineHeight: 1.4,
+					color: "black",
+					fontSize: "lg",
+				},
 			},
 		},
 		Button: {
