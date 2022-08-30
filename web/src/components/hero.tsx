@@ -1,26 +1,62 @@
 import React from 'react'
-import { GatsbyImage, getImage} from 'gatsby-plugin-image'
+import { GatsbyImage, StaticImage} from 'gatsby-plugin-image'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import {
     Link,
     Flex,
     Button,
     VStack,
+    HStack,
+    Center,
     Wrap,
+    WrapItem,
     chakra,
+    Image,
     Text,
     Heading
 } from '@chakra-ui/react'
+import { useTypewriter, Cursor } from 'react-simple-typewriter'
+import professional from '../images/professional.png'
+import jobhunt from '../images/jobhunt.png'
+import blooming from '../images/blooming.png'
+
 
 const Hero = () => {
+  const data = useStaticQuery(graphql`
+    query HomepageHeader {
+      sanityHomepageHero {
+        heading
+        kicker
+        subhead
+        text
+        typewriter
+        cta {
+          text
+          href {
+            externalContent
+            linkUrl
+          }
+        }
+      }
+    }
+  `)
+
+  const HomepageHero = data.sanityHomepageHero
+  const words = HomepageHero.typewriter.slice(0)
+  const { text } = useTypewriter({
+    words: words,
+    loop: false,
+    typeSpeed: 110,
+    deleteSpeed: 70,
+    delaySpeed: 2000
+  })
+
   return (
     <Flex
       align="center"
-      justify={{ base: "center", md: "space-around", xl: "space-between" }}
-      direction={{ base: "column-reverse", md: "row" }}
-      wrap="nowrap"
-      minH="70vh"
+      minH="50vh"
       px={8}
+      mt={16}
       mb={16}
     >
       <VStack
@@ -32,14 +68,18 @@ const Hero = () => {
         <Heading
           as="h1"
           size="xl"
-          fontWeight="bold"
-          color="primary.800"
+          color="green.600"
           textAlign="center"
+          fontFamily="PicnicFont"
+          fontWeight="normal"
         >
-          Title
+          {HomepageHero.heading}&nbsp;
+          <span>
+            {text}
+            </span>
+            <Cursor />
         </Heading>
-        <Heading
-          as="h2"
+        <Text
           size="md"
           color="primary.800"
           opacity="0.8"
@@ -47,10 +87,10 @@ const Hero = () => {
           lineHeight={1.5}
           textAlign="center"
         >
-          Subtitle
-        </Heading>
-        <Link as={GatsbyLink} to={`/$`}>
-          <Button variant="brand-main">CTA Text</Button>
+          { HomepageHero.text }
+        </Text>
+        <Link as={GatsbyLink} to={`/${ HomepageHero.cta.linkUrl }`}>
+          <Button variant="brand-main">{ HomepageHero.cta.text }</Button>
         </Link>
         <Text
           fontSize="xs"
@@ -59,8 +99,30 @@ const Hero = () => {
           color="primary.800"
           opacity="0.6"
         >
-          No credit card required.
+          { HomepageHero.kicker }
         </Text>
+        <HStack
+          pt={4}
+          spacing={12}
+          align="center"
+          justify="space-evenly"
+        >
+          <Image
+            boxSize="2xs"
+            src={jobhunt}
+            alt="person looking for a cannabisjob"
+          />
+          <Image
+            boxSize="sm"
+            src={professional}
+            alt="modern professional woman"
+          />
+          <Image
+            boxSize="2xs"
+            src={blooming}
+            alt="woman sitting in flowers"
+          />
+        </HStack>
       </VStack>
     </Flex>
   )

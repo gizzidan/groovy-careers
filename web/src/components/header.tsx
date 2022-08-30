@@ -42,9 +42,9 @@ const Header = () => {
     }
   `)
 
-const { navItemsGroup, cta } = data.sanityLayout.header
-const [show, setShow] = React.useState(false)
-const toggleMenu = () => setShow(!show)
+  const { navItemsGroup, cta } = data.sanityLayout.header
+  const [show, setShow] = React.useState(false)
+  const toggleMenu = () => setShow(!show)
 
   return (
     <chakra.header id="header">

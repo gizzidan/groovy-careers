@@ -32,10 +32,17 @@ const theme = extendTheme({
 		},
 	},
 	components: {
+		Text: {
+			variants: {
+				paragraph: {},
+			},
+		},
 		Button: {
 			variants: {
 				"brand-main": (props: StyleFunctionProps) => ({
 					bg: props.colorMode === "dark" ? "yellow.100" : "yellow.400",
+					fontFamily: "GT-America-Extended",
+					fontWeight: 500,
 				}),
 			},
 			defaultProps: {

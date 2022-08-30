@@ -35,7 +35,8 @@
 		"gatsby-source-sanity": "^7.4.2",
 		"gatsby-transformer-sharp": "^4.21.0",
 		"react": "^18.1.0",
-		"react-dom": "^18.1.0"
+		"react-dom": "^18.1.0",
+		"react-simple-typewriter": "^3.0.1"
 	},
 	"devDependencies": {
 		"@types/node": "^17.0.45",

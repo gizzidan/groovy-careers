@@ -22,17 +22,8 @@ const Layout = ({ children }: Props) => {
           px="6"
         >
           <Box as="main">{children}</Box>
-          <Box as="footer" marginTop="2rem" fontSize="xl">
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <Link
-              isExternal
-              textDecor="underline"
-              color="purple.500"
-              href="https://www.gatsbyjs.com"
-            >
-              Gatsby
-            </Link>
+          <Box as="footer" marginTop="2rem" fontSize="l">
+            © {new Date().getFullYear()}, Cannabis Friendly Jobs
           </Box>
         </Box>
       </Box>
