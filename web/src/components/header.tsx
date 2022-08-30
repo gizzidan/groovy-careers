@@ -1,7 +1,7 @@
 import React from 'react'
 import Logo from './brand-logo'
 import MenuToggle from './menu-toggle'
-import { Link as GatsbyLink, useStaticQuery, PageProps, graphql } from 'gatsby'
+import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import {
   Link,
   List,
@@ -50,6 +50,7 @@ const toggleMenu = () => setShow(!show)
     <chakra.header id="header">
       <Flex
         as="nav"
+        bg="transparent"
         w="100%"
         maxW="1200px"
         px="6"
