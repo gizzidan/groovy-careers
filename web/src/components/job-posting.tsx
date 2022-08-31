@@ -16,7 +16,9 @@ import {
 const JobPosting = () => {
   return (
     <Box>
-
+      I'm a job posting
     </Box>
   )
 }
+
+export default JobPosting

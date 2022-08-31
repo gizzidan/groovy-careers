@@ -18,7 +18,7 @@ const Layout = ({ children }: Props) => {
         <Box
           as="div"
           margin="0 auto"
-          maxWidth="1200px"
+          maxWidth="1100px"
           px="6"
         >
           <Box as="main">{children}</Box>

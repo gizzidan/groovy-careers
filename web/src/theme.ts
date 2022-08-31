@@ -47,6 +47,9 @@ const theme = extendTheme({
 					bg: props.colorMode === "dark" ? "yellow.100" : "yellow.400",
 					fontFamily: "GT-America-Extended",
 					fontWeight: 500,
+					_hover: {
+						bg: props.colorMode === "dark" ? "yellow.200" : "yellow.500",
+					},
 				}),
 			},
 			defaultProps: {

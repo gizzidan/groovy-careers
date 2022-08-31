@@ -57,7 +57,7 @@ const Hero = () => {
       minH="50vh"
       px={8}
       mt={20}
-      mb={16}
+      mb={4}
     >
       <VStack
         spacing={6}
@@ -105,17 +105,17 @@ const Hero = () => {
           justify="space-evenly"
         >
           <Image
-            boxSize="2xs"
+            boxSize="3xs"
             src={jobhunt}
             alt="person looking for a cannabisjob"
           />
           <Image
-            boxSize="sm"
+            boxSize="xs"
             src={professional}
             alt="modern professional woman"
           />
           <Image
-            boxSize="2xs"
+            boxSize="3xs"
             src={blooming}
             alt="woman sitting in flowers"
           />

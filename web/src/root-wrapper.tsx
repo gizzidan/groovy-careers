@@ -5,10 +5,10 @@ import theme from './theme'
 import Fonts from './fonts/fonts'
 
 export const wrapPageElement = ({ element }: any) => {
-    return (
-        <ChakraProvider theme={theme} resetCSS>
-            <Fonts />
-            <Layout>{element}</Layout>
-        </ChakraProvider>
-    )
+	return (
+		<ChakraProvider theme={theme} resetCSS>
+			<Fonts />
+			<Layout>{element}</Layout>
+		</ChakraProvider>
+	)
 }

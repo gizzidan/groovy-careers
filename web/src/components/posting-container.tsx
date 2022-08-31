@@ -11,11 +11,16 @@ import {
 	Text,
 	Heading
 } from '@chakra-ui/react'
+import JobPosting from './job-posting'
 
 const PostingContainer = () => {
 	return (
-		<Flex>
-
-		</Flex>
+		<VStack>
+			<JobPosting />
+			<JobPosting />
+			<JobPosting />
+		</VStack>
 	)
 }
+
+export default PostingContainer
