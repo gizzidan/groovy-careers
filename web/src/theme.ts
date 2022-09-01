@@ -31,6 +31,22 @@ const theme = extendTheme({
 		},
 	},
 	components: {
+		Tag: {
+			defaultProps: {
+				colorScheme: "blackAlpha",
+			},
+		},
+		Heading: {
+			variants: {
+				card: {
+					fontWeight: "medium",
+					fontSize: "md",
+				},
+			},
+			defaultProps: {
+				fontWeight: "medium",
+			},
+		},
 		Text: {
 			variants: {
 				body: {
@@ -39,10 +55,25 @@ const theme = extendTheme({
 					color: "black",
 					fontSize: "lg",
 				},
+				mono: {
+					fontFamily: "GT-America-Mono",
+				},
 			},
 		},
 		Button: {
 			variants: {
+				outline: (props: StyleFunctionProps) => ({
+					fontFamily: "GT-America-Extended",
+					fontWeight: 500,
+				}),
+				solid: (props: StyleFunctionProps) => ({
+					fontFamily: "GT-America-Extended",
+					fontWeight: 500,
+				}),
+				ghost: (props: StyleFunctionProps) => ({
+					fontFamily: "GT-America-Extended",
+					fontWeight: 500,
+				}),
 				"brand-main": (props: StyleFunctionProps) => ({
 					bg: props.colorMode === "dark" ? "yellow.100" : "yellow.400",
 					fontFamily: "GT-America-Extended",
@@ -54,6 +85,8 @@ const theme = extendTheme({
 			},
 			defaultProps: {
 				colorScheme: "yellow",
+				fontFamily: "GT-America-Extended",
+				fontWeight: 500,
 			},
 		},
 	},

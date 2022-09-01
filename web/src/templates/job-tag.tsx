@@ -16,26 +16,31 @@ import {
 } from '@chakra-ui/react'
 
 interface Props {
+  pageContext: {
+    id: string
+  },
   data: {
     sanityJobTag: {
       tagName: string
     }
   }
 }
-export const data = useStaticQuery(graphql`
-  query JobTagTemplateQuery($id: String!) {
-    sanityJobTag(id: {$id}) {
+
+export const query = graphql`
+  query JobTagTemplateQuery($id: String) {
+    sanityJobTag(id: {eq: $id}) {
       tagName
     }
   }
-`)
+`
 
-const JobTagTemplate = ({ data }: Props) => {
-  const tagName = data.sanityJobTag.tagName
+const JobTagTemplate = ({ pageContext, data }: Props) => {
+  const { id } = pageContext
+  const tagName = data.sanityJobTag?.tagName
 
   return (
     <Flex>
-      {tagName}
+      <Text>Tag: {tagName}</Text>
     </Flex>
   )
 }

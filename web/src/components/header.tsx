@@ -89,7 +89,7 @@ const Header = () => {
         </Flex>
         <Flex float="right">
           <Link as={GatsbyLink} to={`/${cta.href.linkUrl}`}>
-            <Button variant="brand-main">{cta.text}</Button>
+            <Button variant="solid">{cta.text}</Button>
           </Link>
           <MenuToggle toggleMenu={toggleMenu} show={show} />
         </Flex>

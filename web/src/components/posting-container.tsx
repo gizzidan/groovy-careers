@@ -7,6 +7,7 @@ import {
 	Button,
 	VStack,
 	Wrap,
+	Box,
 	chakra,
 	Text,
 	Heading
@@ -15,11 +16,11 @@ import JobPosting from './job-posting'
 
 const PostingContainer = () => {
 	return (
-		<VStack>
+		<Box width='100%' my={8}>
 			<JobPosting />
 			<JobPosting />
 			<JobPosting />
-		</VStack>
+		</Box>
 	)
 }
 

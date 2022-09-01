@@ -16,9 +16,9 @@ export const createPages: GatsbyNode["createPages"] = async ({
 					slug: {
 						current: string;
 					};
+					id: string;
+					tagName: string;
 				}[];
-				id: string;
-				tagName: string;
 			};
 		};
 	} = await graphql(`
@@ -37,17 +37,15 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
 	const tagTemplate = path.resolve("./src/templates/job-tag.tsx");
 	const allJobTags = data.data?.allSanityJobTag;
-	const createPostPromise =
-		allJobTags &&
-		allJobTags.nodes.map((tag) => {
-			createPage({
-				path: `posts/${tag.slug.current}`,
-				component: tagTemplate,
-				context: {
-					id: allJobTags.id,
-				},
-			});
+	const createPostPromise = allJobTags?.nodes.map((tag) => {
+		const { id, slug = {} } = tag;
+		if (!slug) return;
+		createPage({
+			path: `/${tag.slug.current}-jobs`,
+			component: tagTemplate,
+			context: { id },
 		});
+	});
 
 	await Promise.all([createPostPromise]);
 };

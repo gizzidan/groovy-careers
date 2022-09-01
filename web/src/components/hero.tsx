@@ -1,19 +1,19 @@
 import React from 'react'
-import { GatsbyImage, StaticImage} from 'gatsby-plugin-image'
+import { GatsbyImage, StaticImage } from 'gatsby-plugin-image'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import {
-    Link,
-    Flex,
-    Button,
-    VStack,
-    HStack,
-    Center,
-    Wrap,
-    WrapItem,
-    chakra,
-    Image,
-    Text,
-    Heading
+  Link,
+  Flex,
+  Button,
+  VStack,
+  HStack,
+  Center,
+  Wrap,
+  WrapItem,
+  chakra,
+  Image,
+  Text,
+  Heading
 } from '@chakra-ui/react'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
 import professional from '../images/professional.png'
@@ -75,8 +75,8 @@ const Hero = () => {
           {HomepageHero.heading}&nbsp;
           <span>
             {text}
-            </span>
-            <Cursor />
+          </span>
+          <Cursor />
         </Heading>
         <Text
           size="md"
@@ -84,10 +84,10 @@ const Hero = () => {
           variant="body"
           textAlign="center"
         >
-          { HomepageHero.text }
+          {HomepageHero.text}
         </Text>
-        <Link as={GatsbyLink} to={`/${ HomepageHero.cta.linkUrl }`}>
-          <Button variant="brand-main">{ HomepageHero.cta.text }</Button>
+        <Link as={GatsbyLink} to={`/${HomepageHero.cta.linkUrl}`}>
+          <Button variant="solid">{HomepageHero.cta.text}</Button>
         </Link>
         <Text
           fontSize="xs"
@@ -96,7 +96,7 @@ const Hero = () => {
           color="primary.800"
           opacity="0.6"
         >
-          { HomepageHero.kicker }
+          {HomepageHero.kicker}
         </Text>
         <HStack
           pt={3}

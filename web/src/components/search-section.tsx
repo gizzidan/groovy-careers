@@ -23,6 +23,9 @@ const SearchSection = () => {
         nodes {
           tagName
           id
+          slug {
+            current
+          }
         }
       }
     }
@@ -45,9 +48,25 @@ const SearchSection = () => {
         placeholder='🔎 Tag or Location'
       />
       <Wrap spacing={3} justify="center">
-        {JobTag.map((node: { id: string; tagName: string }) => (
+        {JobTag.map((node: { id: string; tagName: string; slug: any }) => (
           <WrapItem key={node.id}>
-            <Tag variant="subtle" colorScheme="blackAlpha">{node.tagName}</Tag>
+            <Link
+              _hover={{
+                textDecoration: "none"
+              }}
+              as={GatsbyLink}
+              to={`/${node.slug.current}-jobs`}
+            >
+              <Tag
+                variant="subtle"
+                colorScheme="blackAlpha"
+                _hover={{
+                  bg: "green.100",
+                }}
+              >
+                {node.tagName}
+              </Tag>
+            </Link>
           </WrapItem>
         ))}
       </Wrap>
