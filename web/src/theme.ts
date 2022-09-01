@@ -2,7 +2,8 @@ import { extendTheme, StyleFunctionProps } from "@chakra-ui/react";
 
 const theme = extendTheme({
 	fonts: {
-		heading: `"GT-America-Extended"`,
+		heading: "GT-America-Extended",
+		body: "GT-America",
 	},
 	colors: {
 		yellow: {
