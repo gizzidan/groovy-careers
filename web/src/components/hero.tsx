@@ -54,7 +54,7 @@ const Hero = () => {
   return (
     <Flex
       align="center"
-      minH="50vh"
+      minH="25vh"
       px={8}
       mt={20}
       mb={4}
@@ -67,7 +67,7 @@ const Hero = () => {
         <Heading
           as="h1"
           size="2xl"
-          color="green.600"
+          color="black"
           textAlign="center"
           fontFamily="PicnicFont"
           fontWeight="normal"
@@ -98,31 +98,10 @@ const Hero = () => {
         >
           {HomepageHero.kicker}
         </Text>
-        <HStack
-          pt={3}
-          spacing={12}
-          align="center"
-          justify="space-evenly"
-        >
-          <Image
-            boxSize="3xs"
-            src={jobhunt}
-            alt="person looking for a cannabisjob"
-          />
-          <Image
-            boxSize="xs"
-            src={professional}
-            alt="modern professional woman"
-          />
-          <Image
-            boxSize="3xs"
-            src={blooming}
-            alt="woman sitting in flowers"
-          />
-        </HStack>
       </VStack>
     </Flex>
   )
 }
 
 export default Hero
+

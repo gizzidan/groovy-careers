@@ -5,16 +5,16 @@ import React from 'react'
 import Header from './header'
 
 interface Props {
-	children?: any
+  children?: any
 }
 
 const Layout = ({ children }: Props) => {
-	return (
-		<>
+  return (
+    <>
       <Box
-        bg="#EDF2E4"
+        bg="#ebebeb"
       >
-			  <Header />
+        <Header />
         <Box
           as="div"
           margin="0 auto"
@@ -27,12 +27,12 @@ const Layout = ({ children }: Props) => {
           </Box>
         </Box>
       </Box>
-		</>
-	)
+    </>
+  )
 }
 
 Layout.propTypes = {
-	children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 export default Layout

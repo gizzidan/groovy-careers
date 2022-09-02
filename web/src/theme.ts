@@ -1,4 +1,5 @@
-import { extendTheme, StyleFunctionProps } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
+import type { StyleFunctionProps } from "@chakra-ui/styled-system";
 
 const theme = extendTheme({
 	fonts: {
@@ -6,35 +7,49 @@ const theme = extendTheme({
 		body: "GT-America",
 	},
 	colors: {
-		yellow: {
-			50: "#fff6de",
-			100: "#f7e4b7",
-			200: "#efd28d",
-			300: "#e7c063",
-			400: "#e1ad38", // Brand
-			500: "#c7941e",
-			600: "#9b7316",
-			700: "#70520d",
-			800: "#433103",
-			900: "#1a0f00",
+		red: {
+			50: "#ffe6ee",
+			100: "#f8bbcd",
+			200: "#ee90ab",
+			300: "#e6658a",
+			400: "#de3a68",
+			500: "#c5224f",
+			600: "#9a193d",
+			700: "#6f102c",
+			800: "#44071a",
+			900: "#1d0009",
 		},
-		green: {
-			50: "#eaf9e8",
-			100: "#cce7c9",
-			200: "#add5a9",
-			300: "#8dc488",
-			400: "#6eb367",
-			500: "#54994d",
-			600: "#41773b", // Brand
-			700: "#2d5529",
-			800: "#1a3317",
-			900: "#021300",
+		pink: {
+			50: "#ffe7eb",
+			100: "#f6bcc4",
+			200: "#ee90a3",
+			300: "#e66587",
+			400: "#e03b71",
+			500: "#c72461",
+			600: "#9b1b55",
+			700: "#6f1243",
+			800: "#43092c",
+			900: "#1a0113",
+		},
+		blackOutline: {
+			50: "#0d0d0d",
+			100: "#0d0d0d",
+			200: "#0d0d0d",
+			300: "#0d0d0d",
+			400: "#0d0d0d",
+			500: "#0d0d0d",
+			600: "#0d0d0d",
+			700: "#0d0d0d",
+			800: "#0d0d0d",
+			900: "#0d0d0d",
 		},
 	},
 	components: {
 		Tag: {
 			defaultProps: {
-				colorScheme: "blackAlpha",
+				colorScheme: "pink",
+				variant: "outline",
+				size: "sm",
 			},
 		},
 		Heading: {
@@ -43,9 +58,6 @@ const theme = extendTheme({
 					fontWeight: "medium",
 					fontSize: "md",
 				},
-			},
-			defaultProps: {
-				fontWeight: "medium",
 			},
 		},
 		Text: {
@@ -66,6 +78,10 @@ const theme = extendTheme({
 				outline: (props: StyleFunctionProps) => ({
 					fontFamily: "GT-America-Extended",
 					fontWeight: 500,
+					_hover: {
+						bg: "green",
+						color: "green.50",
+					},
 				}),
 				solid: (props: StyleFunctionProps) => ({
 					fontFamily: "GT-America-Extended",
@@ -85,7 +101,7 @@ const theme = extendTheme({
 				}),
 			},
 			defaultProps: {
-				colorScheme: "yellow",
+				colorScheme: "red",
 				fontFamily: "GT-America-Extended",
 				fontWeight: 500,
 			},

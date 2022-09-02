@@ -18,8 +18,6 @@ const PostingContainer = () => {
 	return (
 		<Box width='100%' my={8}>
 			<JobPosting />
-			<JobPosting />
-			<JobPosting />
 		</Box>
 	)
 }

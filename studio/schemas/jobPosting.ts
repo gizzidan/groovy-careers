@@ -3,6 +3,12 @@ export default {
 	name: "jobPosting",
 	title: "Job Posting",
 	type: "document",
+	preview: {
+		select: {
+			title: "position",
+			subtitle: "company.name",
+		},
+	},
 	fields: [
 		{
 			name: "position",
@@ -84,7 +90,7 @@ export default {
 						name: "email", // Error message is "Does not match email-pattern"
 						invert: false, // Boolean to allow any value that does NOT match pattern
 					}
-				),
+				).required(),
 		},
 		{
 			name: "minAnnualSalary",
@@ -115,10 +121,10 @@ export default {
 		{
 			name: "stickyLength",
 			title: "Sticky Length",
-			type: "string",
-			description: "How long to sticky post to the top.",
+			type: "number",
+			description: "How many days to pin post to the top.",
 			options: {
-				list: ["No Sticky", "24 hours", "3 days", "7 days", "420 hours"],
+				list: [0, 1, 7],
 				layout: "radio",
 			},
 			validation: (Rule) => Rule.required(),
@@ -143,7 +149,7 @@ export default {
 		},
 	],
 	initialValue: {
-		stickyLength: "No Sticky",
+		stickyLength: 0,
 		highlight: false,
 		paymentStatus: false,
 		includeLogo: false,
