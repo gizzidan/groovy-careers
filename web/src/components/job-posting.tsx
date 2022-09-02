@@ -51,10 +51,12 @@ interface Props {
   }
 }
 
-const JobPosting = () => {
+const JobPosting = (props: any) => {
   const data = useStaticQuery(graphql`
     query JobPostingQuery {
-      allSanityJobPosting {
+      allSanityJobPosting(
+        sort: { fields: [stickyLength, _createdAt], order: [DESC, DESC] })
+      {
         nodes {
           _createdAt
           applicationLink
@@ -93,7 +95,6 @@ const JobPosting = () => {
   `)
 
   const jobPosting = data.allSanityJobPosting.nodes
-  const minSalary = jobPosting.minAnnualSalary
 
   return (
     <>
@@ -101,20 +102,24 @@ const JobPosting = () => {
 
         const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
         const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
+        const bgColor = node.highlight == true ?
+          "whiteAlpha.900" : "whiteAlpha.300"
+        const buttonVariant = node.highlight == true ? "black" : "outline"
 
         return (
           < Grid
-            p={2}
-            my={2}
+            p={3}
+            my={3}
             templateColumns='repeat(5, 1fr)'
             width="100%"
             alignItems="center"
+            bg={bgColor}
           >
             <GridItem colSpan={2}>
               <HStack spacing={5}>
                 <Avatar></Avatar>
                 <VStack spacing={1} align="left">
-                  <Heading variant="card" as="h3">{node.position}</Heading>
+                  <Heading variant="card" as="h3">{node.position} - {node.stickyLength}</Heading>
                   <Text fontSize="sm">{node.company.name}</Text>
                   <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
                 </VStack>
@@ -137,7 +142,7 @@ const JobPosting = () => {
             <GridItem colSpan={1}>
               <HStack verticalAlign="center" float="right">
                 <Text>4h</Text>
-                <Button variant="outline" colorScheme="pink">Apply</Button>
+                <Button variant={buttonVariant}>Apply</Button>
               </HStack>
             </GridItem>
           </Grid >

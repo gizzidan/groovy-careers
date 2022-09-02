@@ -6,6 +6,7 @@ import {
   Link,
   List,
   Flex,
+  HStack,
   Button,
   Wrap,
   chakra
@@ -63,18 +64,13 @@ const Header = () => {
         <Flex float="left">
           <Logo />
         </Flex>
-        <Flex
-          position="absolute"
-          top="50%"
-          left="50%"
-          transform="translate(-50%, -50%)"
-        >
+        <HStack float="right" spacing={5}>
           {navItemsGroup.map((node: { navItems: any[] }) => (
             <React.Fragment key={node.navItems.toString()}>
               {node.navItems ? (
                 <Wrap spacing='30px'>
                   {node.navItems.map((navItems) => (
-                    <List key={navItems.id}>
+                    <List fontFamily="GT-America-Extended" key={navItems.id}>
                       {navItems.href.externalContent ? (
                         <a href={navItems.href.linkUrl} target='_blank' rel='noopener noreferer'>{navItems.text}</a>
                       )
@@ -86,13 +82,11 @@ const Header = () => {
               ) : null}
             </React.Fragment>
           ))}
-        </Flex>
-        <Flex float="right">
           <Link as={GatsbyLink} to={`/${cta.href.linkUrl}`}>
-            <Button variant="solid">{cta.text}</Button>
+            <Button variant="brand">{cta.text}</Button>
           </Link>
           <MenuToggle toggleMenu={toggleMenu} show={show} />
-        </Flex>
+        </HStack>
 
       </Flex>
     </chakra.header>

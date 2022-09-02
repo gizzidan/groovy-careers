@@ -67,10 +67,10 @@ const Hero = () => {
         <Heading
           as="h1"
           size="2xl"
-          color="black"
           textAlign="center"
           fontFamily="PicnicFont"
           fontWeight="normal"
+          color="black"
         >
           {HomepageHero.heading}&nbsp;
           <span>
@@ -87,7 +87,7 @@ const Hero = () => {
           {HomepageHero.text}
         </Text>
         <Link as={GatsbyLink} to={`/${HomepageHero.cta.linkUrl}`}>
-          <Button variant="solid">{HomepageHero.cta.text}</Button>
+          <Button variant="brand">{HomepageHero.cta.text}</Button>
         </Link>
         <Text
           fontSize="xs"

@@ -12,7 +12,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Box
-        bg="#ebebeb"
+        bg="#E8E6E2"
       >
         <Header />
         <Box

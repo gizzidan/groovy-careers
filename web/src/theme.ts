@@ -7,29 +7,53 @@ const theme = extendTheme({
 		body: "GT-America",
 	},
 	colors: {
-		red: {
-			50: "#ffe6ee",
-			100: "#f8bbcd",
-			200: "#ee90ab",
-			300: "#e6658a",
-			400: "#de3a68",
-			500: "#c5224f",
-			600: "#9a193d",
-			700: "#6f102c",
-			800: "#44071a",
-			900: "#1d0009",
+		purple: {
+			50: "#feeafe",
+			100: "#edc6ed",
+			200: "#dea2de",
+			300: "#cf7ccf",
+			400: "#c158c1",
+			500: "#a73ea7",
+			600: "#833083",
+			700: "#5e215e",
+			800: "#39123a",
+			900: "#170417",
 		},
-		pink: {
-			50: "#ffe7eb",
-			100: "#f6bcc4",
-			200: "#ee90a3",
-			300: "#e66587",
-			400: "#e03b71",
-			500: "#c72461",
-			600: "#9b1b55",
-			700: "#6f1243",
-			800: "#43092c",
-			900: "#1a0113",
+		yellow: {
+			50: "#fcffde",
+			100: "#f7fcb2",
+			200: "#f2f984",
+			300: "#edf755",
+			400: "#e7f528",
+			500: "#cedb11",
+			600: "#a0aa08",
+			700: "#727a03",
+			800: "#454900",
+			900: "#171900",
+		},
+		accent: {
+			50: "#e6f9f1",
+			100: "#cae4da",
+			200: "#add0c2",
+			300: "#8ebeaa",
+			400: "#70ab92",
+			500: "#569278",
+			600: "#41715d",
+			700: "#2e5143",
+			800: "#183227",
+			900: "#00130a",
+		},
+		gray: {
+			50: "#f6f3eb",
+			100: "#dddad4",
+			200: "#c6c2bb",
+			300: "#aea99f",
+			400: "#979184",
+			500: "#7e776b",
+			600: "#635d52",
+			700: "#46423a",
+			800: "#2b2822",
+			900: "#110d04",
 		},
 		blackOutline: {
 			50: "#0d0d0d",
@@ -47,8 +71,8 @@ const theme = extendTheme({
 	components: {
 		Tag: {
 			defaultProps: {
-				colorScheme: "pink",
-				variant: "outline",
+				colorScheme: "blackAlpha",
+				variant: "subtle",
 				size: "sm",
 			},
 		},
@@ -74,6 +98,10 @@ const theme = extendTheme({
 			},
 		},
 		Button: {
+			baseStyle: {
+				fontFamily: "GT-America-Extended",
+				fontWeight: 500,
+			},
 			variants: {
 				outline: (props: StyleFunctionProps) => ({
 					fontFamily: "GT-America-Extended",
@@ -91,17 +119,16 @@ const theme = extendTheme({
 					fontFamily: "GT-America-Extended",
 					fontWeight: 500,
 				}),
-				"brand-main": (props: StyleFunctionProps) => ({
-					bg: props.colorMode === "dark" ? "yellow.100" : "yellow.400",
-					fontFamily: "GT-America-Extended",
-					fontWeight: 500,
-					_hover: {
-						bg: props.colorMode === "dark" ? "yellow.200" : "yellow.500",
-					},
-				}),
+				brand: {
+					bg: "#eff86a",
+				},
+				black: {
+					bg: "#000",
+					color: "white",
+				},
 			},
 			defaultProps: {
-				colorScheme: "red",
+				colorScheme: "accent",
 				fontFamily: "GT-America-Extended",
 				fontWeight: 500,
 			},
