@@ -54,7 +54,7 @@ interface Props {
   }
 }
 
-const JobPosting = (props: any) => {
+const JobPosting = () => {
   const data = useStaticQuery(graphql`
     query JobPostingQuery {
       allSanityJobPosting
@@ -105,7 +105,7 @@ const JobPosting = (props: any) => {
         return (
           (
             (a.stickyLength > 0 && b.stickyLength > 0)
-            || (a.stickLength < 0 && b.stickyLength < 0)
+            || (a.stickyLength === 0 && b.stickyLength === 0)
           )
             ? a._createdAt > b._createdAt ? -1 : 1
             : a.stickyLength > 0 ? -1 : 1
@@ -145,7 +145,7 @@ const JobPosting = (props: any) => {
                     : <Avatar name={node.company.name}></Avatar>
                   }
                   <VStack spacing={1} align="left">
-                    <Heading variant="card" as="h3">{node.position} - {node.stickyLength}</Heading>
+                    <Heading variant="card" as="h3">{node.position}</Heading>
                     <Text fontSize="md">{node.company.name}
                       {node.company.diverseOwnership
                         ? node.company.diverseOwnership.sort().map((ownership) => {
