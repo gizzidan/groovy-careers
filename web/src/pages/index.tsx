@@ -6,6 +6,7 @@ import Hero from '../components/hero'
 import PostingContainer from '../components/posting-container'
 import SearchSection from '../components/search-section'
 
+
 const IndexPage = () => (
   <>
     <Hero />

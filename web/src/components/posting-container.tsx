@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import JobPosting from './job-posting'
 
+
 const PostingContainer = () => {
 	return (
 		<Box width='100%' my={8}>

@@ -87,7 +87,6 @@ const JobPosting = (props: any) => {
             diverseOwnership
             logo {
               asset {
-                gatsbyImageData(width: 100)
                 url
               }
             }
@@ -136,13 +135,15 @@ const JobPosting = (props: any) => {
               width="100%"
               alignItems="center"
               bg={bgColor}
-              borderLeft={border}
               borderColor={borderColor}
               key={node.id}
             >
               <GridItem colSpan={2}>
                 <HStack spacing={5}>
-                  <Avatar src={node.company.logo.asset.url}></Avatar>
+                  {node.company.logo
+                    ? <Avatar name={node.company.name} src={node.company.logo.asset.url}></Avatar>
+                    : <Avatar name={node.company.name}></Avatar>
+                  }
                   <VStack spacing={1} align="left">
                     <Heading variant="card" as="h3">{node.position} - {node.stickyLength}</Heading>
                     <Text fontSize="md">{node.company.name}
