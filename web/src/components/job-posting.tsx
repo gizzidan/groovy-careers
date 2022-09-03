@@ -1,12 +1,14 @@
 import React from 'react'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
+import TimeAgo from 'react-timeago'
 import {
   Link,
   Flex,
   Avatar,
   Button,
   Box,
+  Badge,
   Tag,
   VStack,
   Grid,
@@ -43,9 +45,10 @@ interface Props {
   }[]
   company: {
     name: string
-    diverseOwnership: []
+    diverseOwnership: string[]
     logo: {
       asset: {
+        url: string
       }
     }
   }
@@ -54,8 +57,7 @@ interface Props {
 const JobPosting = (props: any) => {
   const data = useStaticQuery(graphql`
     query JobPostingQuery {
-      allSanityJobPosting(
-        sort: { fields: [stickyLength, _createdAt], order: [DESC, DESC] })
+      allSanityJobPosting
       {
         nodes {
           _createdAt
@@ -86,6 +88,7 @@ const JobPosting = (props: any) => {
             logo {
               asset {
                 gatsbyImageData(width: 100)
+                url
               }
             }
           }
@@ -98,56 +101,91 @@ const JobPosting = (props: any) => {
 
   return (
     <>
-      {jobPosting.map((node: Props) => {
-
-        const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
-        const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
-        const bgColor = node.highlight == true ?
-          "whiteAlpha.900" : "whiteAlpha.300"
-        const buttonVariant = node.highlight == true ? "black" : "outline"
+      {jobPosting.sort((a: any, b: any) => {
 
         return (
-          < Grid
-            p={3}
-            my={3}
-            templateColumns='repeat(5, 1fr)'
-            width="100%"
-            alignItems="center"
-            bg={bgColor}
-          >
-            <GridItem colSpan={2}>
-              <HStack spacing={5}>
-                <Avatar></Avatar>
-                <VStack spacing={1} align="left">
-                  <Heading variant="card" as="h3">{node.position} - {node.stickyLength}</Heading>
-                  <Text fontSize="sm">{node.company.name}</Text>
-                  <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
-                </VStack>
-              </HStack>
-            </GridItem>
-            <GridItem colSpan={1} alignSelf="start">
-              <Text variant="mono" fontSize="xs">{node.location}</Text>
-            </GridItem>
-            <GridItem colSpan={1} alignSelf="start">
-              <Wrap align="center">
-                {node.tags.map((tag) =>
-                  <Tag
-                    fontFamily="GT-America-Mono"
-                  >
-                    {tag.tagName}
-                  </Tag>
-                )}
-              </Wrap>
-            </GridItem>
-            <GridItem colSpan={1}>
-              <HStack verticalAlign="center" float="right">
-                <Text>4h</Text>
-                <Button variant={buttonVariant}>Apply</Button>
-              </HStack>
-            </GridItem>
-          </Grid >
+          (
+            (a.stickyLength > 0 && b.stickyLength > 0)
+            || (a.stickLength < 0 && b.stickyLength < 0)
+          )
+            ? a._createdAt > b._createdAt ? -1 : 1
+            : a.stickyLength > 0 ? -1 : 1
         )
-      })}
+      })
+        .map((node: Props) => {
+
+          const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
+          const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
+          const bgColor = node.highlight === true ?
+            "yellow.50" : "whiteAlpha.100"
+          const border = node.highlight === true ?
+            "5px solid" : ""
+          const borderColor = node.highlight === true ?
+            "yellow.500" : ""
+          const buttonVariant = node.highlight == true ? "black" : "outline"
+          const time = node.stickyLength > 0
+            ? <Badge colorScheme="green">Featured</Badge>
+            : <TimeAgo date={node._createdAt} />
+
+
+          return (
+            < Grid
+              p={3}
+              my={3}
+              templateColumns='repeat(5, 1fr)'
+              width="100%"
+              alignItems="center"
+              bg={bgColor}
+              borderLeft={border}
+              borderColor={borderColor}
+              key={node.id}
+            >
+              <GridItem colSpan={2}>
+                <HStack spacing={5}>
+                  <Avatar src={node.company.logo.asset.url}></Avatar>
+                  <VStack spacing={1} align="left">
+                    <Heading variant="card" as="h3">{node.position} - {node.stickyLength}</Heading>
+                    <Text fontSize="md">{node.company.name}
+                      {node.company.diverseOwnership
+                        ? node.company.diverseOwnership.sort().map((ownership) => {
+                          const color = ownership == "Minority-Owned" ? "gray" : ownership == "Women-Owned" ? "pink" : ownership == "Veteran-Owned" ? "cyan" : "whiteAlpha"
+                          return (
+                            <Badge key={ownership.toString()} mb={1} ml={2} variant="solid" fontSize="0.7rem" colorScheme={color}>{ownership.slice(0, -6)}</Badge>
+                          )
+                        }
+                        )
+                        : null
+                      }
+                    </Text>
+                    <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
+                  </VStack>
+                </HStack>
+              </GridItem>
+              <GridItem colSpan={1} alignSelf="start">
+                <Text variant="mono" fontSize="sm">{node.location}</Text>
+              </GridItem>
+              <GridItem colSpan={1} alignSelf="start">
+                <Wrap align="center">
+                  {node.tags.map((tag) =>
+                    <Tag
+                      key={tag.id}
+                      fontFamily="GT-America-Mono"
+                    >
+                      {tag.tagName}
+                    </Tag>
+                  )}
+                </Wrap>
+              </GridItem>
+              <GridItem colSpan={1}>
+                <HStack verticalAlign="center" float="right">
+                  {time}
+                  <Button variant={buttonVariant}>Apply</Button>
+                </HStack>
+              </GridItem>
+            </Grid >
+          )
+        })
+      }
     </>
   )
 }

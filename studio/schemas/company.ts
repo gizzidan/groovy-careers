@@ -29,7 +29,12 @@ export default {
 				{
 					type: "string",
 					options: {
-						list: ["Black-Owned", "Women-Owned", "Veteran-Owned"],
+						list: [
+							"Black-Owned",
+							"Minority-Owned",
+							"Women-Owned",
+							"Veteran-Owned",
+						],
 					},
 				},
 			],
