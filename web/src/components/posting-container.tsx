@@ -15,10 +15,51 @@ import {
 import JobPosting from './job-posting'
 
 
+
 const PostingContainer = () => {
+	const data = useStaticQuery(graphql`
+    query JobPostingQuery {
+      allSanityJobPosting
+      {
+        nodes {
+          _createdAt
+          applicationLink
+          position
+          highlight
+          id
+          email
+          includeLogo
+          minAnnualSalary
+          maxAnnualSalary
+          location
+          paymentStatus
+          stickyLength
+          primarySkill {
+            skillName
+          }
+          tags {
+            id
+            tagName
+            slug {
+              current
+            }
+          }
+          company {
+            name
+            diverseOwnership
+            logo {
+              asset {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
 	return (
 		<Box width='100%' my={8}>
-			<JobPosting />
+			<JobPosting data={data} />
 		</Box>
 	)
 }

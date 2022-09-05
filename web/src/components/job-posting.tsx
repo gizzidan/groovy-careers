@@ -54,47 +54,7 @@ interface Props {
   }
 }
 
-const JobPosting = () => {
-  const data = useStaticQuery(graphql`
-    query JobPostingQuery {
-      allSanityJobPosting
-      {
-        nodes {
-          _createdAt
-          applicationLink
-          position
-          highlight
-          id
-          email
-          includeLogo
-          minAnnualSalary
-          maxAnnualSalary
-          location
-          paymentStatus
-          stickyLength
-          primarySkill {
-            skillName
-          }
-          tags {
-            id
-            tagName
-            slug {
-              current
-            }
-          }
-          company {
-            name
-            diverseOwnership
-            logo {
-              asset {
-                url
-              }
-            }
-          }
-        }
-      }
-    }
-  `)
+const JobPosting = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }) => {
 
   const jobPosting = data.allSanityJobPosting.nodes
 
