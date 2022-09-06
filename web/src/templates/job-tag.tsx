@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
+import JobPostings from '../components/job-postings'
 import {
   Link,
   Flex,
@@ -23,6 +24,7 @@ interface Props {
     sanityJobTag: {
       tagName: string
     }
+    allSanityJobPosting: any
   }
 }
 
@@ -31,17 +33,54 @@ export const query = graphql`
     sanityJobTag(id: {eq: $id}) {
       tagName
     }
-  }
-`
+     allSanityJobPosting(filter: {tags: {elemMatch: {id: {eq: $id}}}})
+      {
+        nodes {
+          _createdAt
+          applicationLink
+          position
+          highlight
+          id
+          email
+          includeLogo
+          minAnnualSalary
+          maxAnnualSalary
+          location
+          paymentStatus
+          stickyLength
+          primarySkill {
+            skillName
+          }
+          tags {
+            id
+            tagName
+            slug {
+              current
+            }
+          }
+          company {
+            name
+            diverseOwnership
+            logo {
+              asset {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  `
 
 const JobTagTemplate = ({ pageContext, data }: Props) => {
   const { id } = pageContext
   const tagName = data.sanityJobTag?.tagName
 
   return (
-    <Flex>
+    <VStack>
       <Text>Tag: {tagName}</Text>
-    </Flex>
+      <JobPostings data={data} />
+    </VStack>
   )
 }
 
