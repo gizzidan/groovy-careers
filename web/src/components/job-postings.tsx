@@ -88,7 +88,7 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
             const buttonVariant = node.highlight == true ? "black" : "outline"
             const time = node.stickyLength > 0
               ? <Badge colorScheme="green">Featured</Badge>
-              : <TimeAgo date={node._createdAt} />
+              : <Text><TimeAgo date={node._createdAt} /></Text>
 
 
             return (
@@ -127,7 +127,7 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
                   </HStack>
                 </GridItem>
                 <GridItem colSpan={1} alignSelf="start">
-                  <Text variant="mono" fontSize="sm">{node.location}</Text>
+                  <Text fontSize="sm">{node.location}</Text>
                 </GridItem>
                 <GridItem colSpan={1} alignSelf="start">
                   <Wrap align="center">

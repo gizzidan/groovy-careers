@@ -5,7 +5,7 @@ import SEO from '../components/seo'
 import Hero from '../components/hero'
 import PostingContainer from '../components/job-postings'
 import SearchSection from '../components/search-section'
-import JobPostings from '../components/job-posting'
+import JobPostings from '../components/job-postings'
 
 
 const IndexPage = () => {
