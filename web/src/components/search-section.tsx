@@ -47,7 +47,11 @@ const SearchSection = () => {
         fontFamily="GT-America-Mono"
         placeholder='🔎 Tag or Location'
       />
-      <Wrap spacing={3} justify="center">
+      <Wrap
+        spacing={3}
+        justify="center"
+        display={["none", "block"]}
+      >
         {jobTag.map((node: { id: string; tagName: string; slug: any }) => (
           <WrapItem key={node.id}>
             <Link

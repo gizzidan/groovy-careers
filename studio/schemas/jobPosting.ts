@@ -1,4 +1,7 @@
 import { salaryRange } from "../components/salaryRange";
+import sanityClient from "part:@sanity/base/client";
+const client = sanityClient.withConfig({ apiVersion: "2021-12-17" });
+
 export default {
 	name: "jobPosting",
 	title: "Job Posting",
@@ -146,6 +149,23 @@ export default {
 			title: "Payment Received",
 			type: "boolean",
 			description: "Set to Payment Received if Stripe payment was completed.",
+		},
+		{
+			name: "slug",
+			title: "Slug",
+			type: "slug",
+			isUnique: "true",
+			options: {
+				source: (doc) => {
+					const query = '*[_type=="company" && _id == $ref]{...}';
+					const params = { ref: doc.company._ref };
+					const slug = client.fetch(query, params).then((data) => {
+						return doc.position + "-" + data[0].name + "-" + doc._id.slice(-6);
+					});
+					return slug;
+				},
+			},
+			validation: (Rule) => Rule.required(),
 		},
 	],
 	initialValue: {

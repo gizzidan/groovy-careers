@@ -13,7 +13,8 @@ import {
   chakra,
   Image,
   Text,
-  Heading
+  Heading,
+  useMediaQuery
 } from '@chakra-ui/react'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
 import professional from '../images/professional.png'
@@ -40,7 +41,7 @@ const Hero = () => {
       }
     }
   `)
-
+  const [isLargerThan600] = useMediaQuery('(max-width: 600px)')
   const HomepageHero = data.sanityHomepageHero
   const words = HomepageHero.typewriter.slice(0)
   const { text } = useTypewriter({
@@ -71,8 +72,9 @@ const Hero = () => {
           fontFamily="PicnicFont"
           fontWeight="normal"
           color="black"
-        >
-          {HomepageHero.heading}&nbsp;
+          whiteSpace="pre-wrap"
+        >{HomepageHero.heading}
+          {isLargerThan600 ? '\n' : ' '}
           <span>
             {text}
           </span>

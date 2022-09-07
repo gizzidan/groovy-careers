@@ -54,8 +54,8 @@ const Header = () => {
         bg="transparent"
         w="100%"
         maxW="1200px"
-        px="6"
-        py="5"
+        px={["2", "5"]}
+        py={["2", "5"]}
         m="auto"
         align="center"
         position="relative"
@@ -68,7 +68,10 @@ const Header = () => {
           {navItemsGroup.map((node: { navItems: any[] }) => (
             <React.Fragment key={node.navItems.toString()}>
               {node.navItems ? (
-                <Wrap spacing='30px'>
+                <Wrap
+                  display={{ base: show ? "block" : "none", md: "block" }}
+                  spacing='30px'
+                >
                   {node.navItems.map((navItems) => (
                     <List fontFamily="GT-America-Extended" key={navItems.id}>
                       {navItems.href.externalContent ? (
@@ -85,9 +88,7 @@ const Header = () => {
           <Link as={GatsbyLink} to={`/${cta.href.linkUrl}`}>
             <Button variant="brand">{cta.text}</Button>
           </Link>
-          <MenuToggle toggleMenu={toggleMenu} show={show} />
         </HStack>
-
       </Flex>
     </chakra.header>
   )
