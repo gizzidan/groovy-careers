@@ -13,11 +13,20 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		data?: {
 			allSanityJobTag: {
 				nodes: {
+					id: string;
+					tagName: string;
 					slug: {
 						current: string;
 					};
+				}[];
+			};
+			allSanityJobPosting: {
+				nodes: {
 					id: string;
-					tagName: string;
+					position: string;
+					slug: {
+						current: string;
+					};
 				}[];
 			};
 		};
@@ -32,12 +41,25 @@ export const createPages: GatsbyNode["createPages"] = async ({
 					}
 				}
 			}
+			allSanityJobPosting {
+				nodes {
+					id
+					position
+					slug {
+						current
+					}
+				}
+			}
 		}
 	`);
 
 	const tagTemplate = path.resolve("./src/templates/job-tag.tsx");
+	const jobPostingTemplate = path.resolve("./src/templates/job-posting.tsx");
+
 	const allJobTags = data.data?.allSanityJobTag;
-	const createPostPromise = allJobTags?.nodes.map((tag) => {
+	const allJobPostings = data.data?.allSanityJobPosting;
+
+	const createTagPromise = allJobTags?.nodes.map((tag) => {
 		const { id, slug = {} } = tag;
 		if (!slug) return;
 		createPage({
@@ -47,5 +69,16 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		});
 	});
 
-	await Promise.all([createPostPromise]);
+	const createJobPostingPromise = allJobPostings?.nodes.map((posting) => {
+		const { id, slug = {} } = posting;
+		if (!slug) return;
+		createPage({
+			path: `/${posting.slug.current}`,
+			component: jobPostingTemplate,
+			context: { id },
+		});
+	});
+
+	await Promise.all([createTagPromise]);
+	await Promise.all([createJobPostingPromise]);
 };

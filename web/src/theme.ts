@@ -2,6 +2,11 @@ import { extendTheme } from "@chakra-ui/react";
 import type { StyleFunctionProps } from "@chakra-ui/styled-system";
 
 const theme = extendTheme({
+	styles: {
+		global: {
+			p: {},
+		},
+	},
 	fonts: {
 		heading: "GT-America-Extended",
 		body: "GT-America",

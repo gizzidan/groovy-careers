@@ -104,8 +104,10 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
               >
                 <GridItem colSpan={2}>
                   <HStack spacing={5}>
-                    {node.company.logo
-                      ? <Avatar name={node.company.name} src={node.company.logo.asset.url}></Avatar>
+                    {node.includeLogo ?
+                      node.company.logo
+                        ? <Avatar name={node.company.name} src={node.company.logo.asset.url}></Avatar>
+                        : <Avatar name={node.company.name}></Avatar>
                       : <Avatar name={node.company.name}></Avatar>
                     }
                     <VStack spacing={1} align="left">
