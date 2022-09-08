@@ -2,6 +2,8 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 import { PortableTextTypeComponent } from '@portabletext/react'
+import TimeAgo from 'react-timeago'
+
 
 import {
   Link,
@@ -11,6 +13,7 @@ import {
   Wrap,
   Center,
   VStack,
+  ListItem,
   Tag,
   chakra,
   Text,
@@ -18,7 +21,11 @@ import {
   Heading,
   Avatar,
   WrapItem,
-  position
+  position,
+  UnorderedList,
+  HStack,
+  Grid,
+  GridItem
 } from '@chakra-ui/react'
 
 type Block = {
@@ -36,7 +43,13 @@ type BlockDefault = Block & {
 
 const components: Partial<PortableTextReactComponents> = {
   block: {
-    normal: ({ children }) => <Text>{children}</Text>,
+    normal: ({ children }) => <Text fontSize={"lg"}>{children}</Text>,
+  },
+  list: {
+    bullet: ({ children }) => <UnorderedList w="80%" fontSize={"lg"}>{children}</UnorderedList>
+  },
+  listItem: {
+    bullet: ({ children }) => <ListItem>{children}</ListItem>
   }
 };
 
@@ -46,6 +59,7 @@ interface Props {
   },
   data: {
     sanityJobPosting: {
+      _createdAt: any
       applicationLink: URL
       position: string
       description: BlockDefault
@@ -82,6 +96,7 @@ interface Props {
 export const query = graphql`
   query JobPostingTemplateQuery($id: String) {
     sanityJobPosting(id: {eq: $id}) {
+      _createdAt
       applicationLink
       position
       description {
@@ -134,12 +149,13 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
       p={10}
       maxWidth="70%"
       m="auto"
+      spacing={5}
     >
       {posting.includeLogo ?
         posting.company.logo
-          ? <Avatar name={posting.company.name} src={posting.company.logo.asset.url}></Avatar>
-          : <Avatar name={posting.company.name}></Avatar>
-        : <Avatar name={posting.company.name}></Avatar>
+          ? <Avatar size="lg" name={posting.company.name} src={posting.company.logo.asset.url}></Avatar>
+          : <Avatar size="lg" name={posting.company.name}></Avatar>
+        : <Avatar size="lg" name={posting.company.name}></Avatar>
       }
       <Heading
         as="h1"
@@ -158,6 +174,35 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
       </Text>
       <Button variant="solid">Apply Now</Button>
       <PortableText value={posting._rawDescription} components={components} />
+      <Button variant="solid">Apply Now</Button>
+      <Grid
+        pt={10}
+        templateColumns='repeat(3, 1fr)'
+        width="100%"
+        gap={5}
+        alignItems={"center"}
+        textAlign={"center"}
+      >
+        <GridItem>
+          <Text><TimeAgo date={posting._createdAt} /></Text>
+        </GridItem>
+        <GridItem>
+          <Text whiteSpace={"pre-wrap"}>View more jobs at
+            < br />{posting.company.name}</Text>
+        </GridItem>
+        <GridItem>
+          <Wrap align="center">
+            {posting.tags.map((tag) =>
+              <Tag
+                key={tag.id}
+                fontFamily="GT-America-Mono"
+              >
+                {tag.tagName}
+              </Tag>
+            )}
+          </Wrap>
+        </GridItem>
+      </Grid>
     </VStack>
   )
 }

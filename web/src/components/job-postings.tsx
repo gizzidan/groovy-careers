@@ -80,7 +80,7 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
             const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
             const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
             const bgColor = node.highlight === true ?
-              "yellow.50" : "whiteAlpha.100"
+              "green.50" : "whiteAlpha.200"
             const border = node.highlight === true ?
               "5px solid" : ""
             const borderColor = node.highlight === true ?
