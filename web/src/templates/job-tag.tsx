@@ -48,6 +48,9 @@ export const query = graphql`
           location
           paymentStatus
           stickyLength
+          slug {
+            current
+          }
           primarySkill {
             skillName
           }

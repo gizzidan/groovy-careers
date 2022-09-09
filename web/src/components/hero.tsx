@@ -17,9 +17,6 @@ import {
   useMediaQuery
 } from '@chakra-ui/react'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
-import professional from '../images/professional.png'
-import jobhunt from '../images/jobhunt.png'
-import blooming from '../images/blooming.png'
 
 
 const Hero = () => {

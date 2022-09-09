@@ -3,30 +3,23 @@ import { graphql } from 'gatsby'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 import { PortableTextTypeComponent } from '@portabletext/react'
 import TimeAgo from 'react-timeago'
-
-
 import {
   Link,
   Flex,
   Button,
   Input,
   Wrap,
-  Center,
   VStack,
   ListItem,
   Tag,
-  chakra,
   Text,
-  Box,
   Heading,
   Avatar,
-  WrapItem,
-  position,
   UnorderedList,
-  HStack,
   Grid,
   GridItem
 } from '@chakra-ui/react'
+import DiversityTags from '../components/diversity-tags'
 
 type Block = {
   _key: string;
@@ -157,13 +150,14 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
           : <Avatar size="lg" name={posting.company.name}></Avatar>
         : <Avatar size="lg" name={posting.company.name}></Avatar>
       }
+      <DiversityTags node={posting} />
       <Heading
         as="h1"
         fontFamily="GT-America"
         textAlign="center"
         fontWeight="500"
         whiteSpace="pre-wrap"
-      >{posting.company.name} is hiring a
+      >{posting.company.name} is hiring:
         <br /><strong>{posting.position}</strong>
       </Heading>
       <Text variant="mono">

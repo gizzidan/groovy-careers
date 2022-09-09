@@ -2,9 +2,9 @@ import React from 'react'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import TimeAgo from 'react-timeago'
+import { FiExternalLink } from "react-icons/fi"
 import {
   Link,
-  Flex,
   Avatar,
   Button,
   Box,
@@ -15,14 +15,14 @@ import {
   GridItem,
   HStack,
   Wrap,
-  chakra,
   Text,
-  Heading
+  Heading,
 } from '@chakra-ui/react'
+import DiversityTags from './diversity-tags'
 
 interface Props {
   _createdAt: any
-  applicationLink: URL
+  applicationLink: string
   position: string
   highlight: boolean
   id: string
@@ -84,6 +84,8 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
             const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
             const bgColor = node.highlight === true ?
               "mantis.50" : "whiteAlpha.200"
+            const bgHover = node.highlight === true ?
+              "mantis.100" : "blackAlpha.100"
             const border = node.highlight === true ?
               "5px solid" : "5px solid"
             const borderColor = node.highlight === true ?
@@ -95,73 +97,88 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
 
 
             return (
-              <Link>
-                < Grid
-                  p={3}
-                  my={3}
-                  templateColumns='repeat(5, 1fr)'
-                  width="100%"
-                  alignItems="center"
-                  bg={bgColor}
-                  borderLeft={border}
-                  borderColor={borderColor}
-                  key={node.id}
-                >
-                  <GridItem colSpan={2}>
-                    <HStack spacing={5}>
-                      {node.includeLogo ?
-                        node.company.logo
-                          ? <Avatar name={node.company.name} src={node.company.logo.asset.url}></Avatar>
-                          : <Avatar color="black" bg="gray.200" name={node.company.name}></Avatar>
-                        : <Avatar color="black" bg="blackAlpha.300" name={node.company.name}></Avatar>
-                      }
-                      <VStack spacing={1} align="left">
-                        <Heading variant="card" as="h3">{node.position}</Heading>
-                        <Text fontSize="md">{node.company.name}
-                          {node.company.diverseOwnership
-                            ? node.company.diverseOwnership.sort().map((ownership) => {
-                              const color = ownership == "Minority-Owned" ? "gray" : ownership == "Women-Owned" ? "pink" : ownership == "Veteran-Owned" ? "cyan" : "whiteAlpha"
-                              return (
-                                <Badge key={ownership.toString()} mb={1} ml={2} variant="solid" fontSize="0.7rem" colorScheme={color}>{ownership.slice(0, -6)}</Badge>
-                              )
-                            }
-                            )
-                            : null
-                          }
-                        </Text>
-                        <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
-                      </VStack>
-                    </HStack>
-                  </GridItem>
-                  <GridItem colSpan={1} alignSelf="start">
-                    <Text fontSize="sm">{node.location}</Text>
-                  </GridItem>
-                  <GridItem colSpan={1} alignSelf="start">
-                    <Wrap align="center">
-                      {node.tags.map((tag) =>
+              < Grid
+
+                p={3}
+                my={3}
+                templateColumns='repeat(5, 1fr)'
+                width="100%"
+                alignItems="center"
+                bg={bgColor}
+                _hover={{
+                  bg: bgHover
+                }}
+                borderLeft={border}
+                borderColor={borderColor}
+                key={node.id}
+              >
+                <GridItem zIndex="docked" height="100%" gridRow={1} colStart={1} colSpan={5}>
+                  <Link as={GatsbyLink} to={`/${node.slug.current}`}><Box height="100%" ></Box></Link>
+                </GridItem>
+                <GridItem colStart={1} gridRow={1} colSpan={2}>
+                  <HStack spacing={5}>
+                    {node.includeLogo ?
+                      node.company.logo
+                        ? <Avatar name={node.company.name} src={node.company.logo.asset.url}></Avatar>
+                        : <Avatar color="black" bg="gray.200" name={node.company.name}></Avatar>
+                      : <Avatar color="black" bg="blackAlpha.300" name={node.company.name}></Avatar>
+                    }
+                    <VStack spacing={1} align="left">
+                      <Heading variant="card" as="h3">{node.position}</Heading>
+                      <DiversityTags label={node.company.name} node={node} />
+                      <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
+                    </VStack>
+                  </HStack>
+                </GridItem>
+                <GridItem colStart={3} gridRow={1} colSpan={1} alignSelf="start">
+                  <Text fontSize="sm">{node.location}</Text>
+                </GridItem>
+                <GridItem colStart={4} gridRow={1} colSpan={1} alignSelf="start">
+                  <Wrap align="center">
+                    {node.tags.map((tag) =>
+                      <Link
+                        zIndex="sticky"
+                        _hover={{
+                          textDecoration: "none",
+                        }}
+                        as={GatsbyLink}
+                        to={`/${tag.slug.current}-jobs`}
+                      >
                         <Tag
                           key={tag.id}
                           fontFamily="GT-America-Mono"
+                          _hover={{
+                            bg: "blackAlpha.800",
+                            color: "white"
+                          }}
                         >
                           {tag.tagName}
                         </Tag>
-                      )}
-                    </Wrap>
-                  </GridItem>
-                  <GridItem colSpan={1}>
-                    <HStack verticalAlign="center" float="right">
-                      {time}
-                      <Button variant={buttonVariant}>Apply</Button>
-                    </HStack>
-                  </GridItem>
-                </Grid >
-              </Link>
-
+                      </Link>
+                    )}
+                  </Wrap>
+                </GridItem>
+                <GridItem colStart={5} gridRow={1} colSpan={1}>
+                  <HStack verticalAlign="center" float="right">
+                    {time}
+                    <Link
+                      _hover={{
+                        textDecoration: "none"
+                      }}
+                      zIndex="sticky"
+                      href={node.applicationLink}
+                      isExternal
+                    >
+                      <Button variant={buttonVariant}>Apply<Box ml={1}><FiExternalLink /></Box></Button>
+                    </Link>
+                  </HStack>
+                </GridItem>
+              </Grid >
             )
           })
         }
       </>
-    </Box>
+    </Box >
   )
 }
 

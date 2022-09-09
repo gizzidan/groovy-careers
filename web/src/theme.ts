@@ -130,10 +130,6 @@ const theme = extendTheme({
 				outline: (props: StyleFunctionProps) => ({
 					fontFamily: "GT-America-Extended",
 					fontWeight: 500,
-					_hover: {
-						bg: "black",
-						color: "white",
-					},
 				}),
 				solid: (props: StyleFunctionProps) => ({
 					fontFamily: "GT-America-Extended",

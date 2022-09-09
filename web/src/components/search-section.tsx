@@ -64,7 +64,8 @@ const SearchSection = () => {
               <Tag
                 fontFamily="GT-America-Mono"
                 _hover={{
-                  bg: "green.100",
+                  bg: "blackAlpha.800",
+                  color: "white"
                 }}
               >
                 {node.tagName}
