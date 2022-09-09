@@ -26,6 +26,9 @@ const IndexPage = () => {
           location
           paymentStatus
           stickyLength
+          slug {
+            current
+          }
           primarySkill {
             skillName
           }

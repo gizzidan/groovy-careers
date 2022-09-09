@@ -43,10 +43,10 @@ type BlockDefault = Block & {
 
 const components: Partial<PortableTextReactComponents> = {
   block: {
-    normal: ({ children }) => <Text fontSize={"lg"}>{children}</Text>,
+    normal: ({ children }) => <Text justifyItems="left" fontSize={"lg"} > {children}</Text>,
   },
   list: {
-    bullet: ({ children }) => <UnorderedList w="80%" fontSize={"lg"}>{children}</UnorderedList>
+    bullet: ({ children }) => <UnorderedList pl={"7%"} fontSize={"lg"}>{children}</UnorderedList>
   },
   listItem: {
     bullet: ({ children }) => <ListItem>{children}</ListItem>
@@ -147,7 +147,7 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
   return (
     <VStack
       p={10}
-      maxWidth="70%"
+      maxWidth="80%"
       m="auto"
       spacing={5}
     >
@@ -173,7 +173,9 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
         {posting.location}
       </Text>
       <Button variant="solid">Apply Now</Button>
-      <PortableText value={posting._rawDescription} components={components} />
+      <VStack align={"left"}>
+        <PortableText value={posting._rawDescription} components={components} />
+      </VStack>
       <Button variant="solid">Apply Now</Button>
       <Grid
         pt={10}

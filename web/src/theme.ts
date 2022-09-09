@@ -95,8 +95,8 @@ const theme = extendTheme({
 		},
 		Tag: {
 			defaultProps: {
-				colorScheme: "blackOutline",
-				variant: "outline",
+				colorScheme: "blackAlpha",
+				variant: "subtle",
 				size: "sm",
 			},
 		},
@@ -144,7 +144,7 @@ const theme = extendTheme({
 					fontWeight: 500,
 				}),
 				brand: {
-					bg: "#7BC950",
+					bg: "#F05D23",
 					color: "white",
 				},
 				black: {
@@ -157,7 +157,7 @@ const theme = extendTheme({
 				},
 			},
 			defaultProps: {
-				colorScheme: "pink",
+				colorScheme: "mantis",
 				fontFamily: "GT-America-Extended",
 				fontWeight: 500,
 			},
