@@ -7,8 +7,11 @@ import SearchSection from '../components/search-section'
 import JobPostings from '../components/job-postings'
 
 export const query = graphql`
-    query JobPostingQuery {
-      allSanityJobPosting
+    query JobListTemplateQuery($skip: Int!, $limit: Int!) {
+      allSanityJobPosting(
+        limit: $limit
+        skip: $skip
+      )
       {
         nodes {
           _createdAt
@@ -50,7 +53,7 @@ export const query = graphql`
     }
   `
 
-const IndexPage = ({ data }: any) => {
+const JobPostingListTemplate = ({ data, pageContext }: any) => {
   return (
     <>
       <Hero />
@@ -62,8 +65,5 @@ const IndexPage = ({ data }: any) => {
 }
 
 
-export default IndexPage
+export default JobPostingListTemplate
 
-export const Head = () => (
-  <SEO />
-)
