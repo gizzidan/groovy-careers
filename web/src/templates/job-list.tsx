@@ -9,6 +9,7 @@ import JobPostings from '../components/job-postings'
 export const query = graphql`
     query JobListTemplateQuery($skip: Int!, $limit: Int!) {
       allSanityJobPosting(
+        sort: { fields: [stickyLength, _createdAt], order: [DESC, DESC] }
         limit: $limit
         skip: $skip
       )
@@ -59,6 +60,22 @@ const JobPostingListTemplate = ({ data, pageContext }: any) => {
       <Hero />
       <SearchSection />
       <JobPostings data={data} />
+      <ul>
+        {Array.from({ length: pageContext.numPages }).map((item, i) => {
+          const index = i + 1
+          const link = index === 1 ? '/job' : `/job/page/${index}`
+
+          return (
+            <li>
+              {pageContext.currentPage === index ? (
+                <span>{index}</span>
+              ) : (
+                <Link as={GatsbyLink} to={link}>{index}</Link>
+              )}
+            </li>
+          )
+        })}
+      </ul>
     </>
   )
 

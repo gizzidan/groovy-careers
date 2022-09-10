@@ -67,7 +67,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	const allJobTags = data.data?.allSanityJobTag;
 	const allJobPostings = data.data?.allSanityJobPosting;
 
-	const postsPerPage = 3;
+	const postsPerPage = 4;
 	const numPages = allJobPostings
 		? Math.ceil(allJobPostings.edges.length / postsPerPage)
 		: 0;
@@ -107,6 +107,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		});
 	});
 
+	await Promise.all([createJobPaginationPromise]);
 	await Promise.all([createTagPromise]);
 	await Promise.all([createJobPostingPromise]);
 };
