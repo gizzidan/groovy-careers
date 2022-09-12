@@ -169,7 +169,7 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
                       href={node.applicationLink}
                       isExternal
                     >
-                      <Button variant={buttonVariant}>Apply<Box ml={1}><FiExternalLink /></Box></Button>
+                      <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
                     </Link>
                   </HStack>
                 </GridItem>

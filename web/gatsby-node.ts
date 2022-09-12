@@ -67,7 +67,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	const allJobTags = data.data?.allSanityJobTag;
 	const allJobPostings = data.data?.allSanityJobPosting;
 
-	const postsPerPage = 4;
+	const postsPerPage = 2;
 	const numPages = allJobPostings
 		? Math.ceil(allJobPostings.edges.length / postsPerPage)
 		: 0;
