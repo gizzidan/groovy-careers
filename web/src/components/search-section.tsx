@@ -36,14 +36,14 @@ const SearchSection = () => {
   return (
     <VStack spacing={6}>
       <Input
-        borderColor="accent.800"
+        borderColor="mantis.800"
         bg="whiteAlpha.100"
         _hover={{
-          borderColor: 'accent.600',
+          borderColor: 'mantis.600',
         }}
         borderWidth={1}
         width="300px"
-        focusBorderColor='accent.400'
+        focusBorderColor='mantis.400'
         fontFamily="GT-America-Mono"
         placeholder='🔎 Tag or Location'
       />

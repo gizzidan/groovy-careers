@@ -96,15 +96,29 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	);
 	const createTagPromise = allJobTags?.nodes.map((tag) => {
 		const { id, slug = {} } = tag;
-		const test = allJobPostings?.group.map(function (item) {
-			return item.fieldValue;
+		const link = `/${tag.slug.current}-jobs`;
+		let postingCount = allJobPostings?.group.find(({ fieldValue }) => {
+			fieldValue === tag.tagName;
 		});
-		console.log(test);
+		console.log(postingCount);
+		const tagNumPages =
+			postingCount && postingCount.totalCount > 0
+				? Math.ceil(postingCount.totalCount / postsPerPage)
+				: 1;
+		console.log(tagNumPages);
 		if (!slug) return;
-		createPage({
-			path: `/${tag.slug.current}-jobs`,
-			component: tagTemplate,
-			context: { id },
+		Array.from({ length: tagNumPages }).forEach((_, i) => {
+			createPage({
+				path: i === 0 ? link : `${link}/page/${i + 1}`,
+				component: tagTemplate,
+				context: {
+					limit: postsPerPage,
+					skip: i * postsPerPage,
+					currentPage: i + 1,
+					id,
+					tagNumPages,
+				},
+			});
 		});
 	});
 

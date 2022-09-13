@@ -143,9 +143,9 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
                         }}
                         as={GatsbyLink}
                         to={`/${tag.slug.current}-jobs`}
+                        key={tag.id}
                       >
                         <Tag
-                          key={tag.id}
                           fontFamily="GT-America-Mono"
                           _hover={{
                             bg: "blackAlpha.800",

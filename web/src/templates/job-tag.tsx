@@ -15,6 +15,7 @@ import {
   Heading,
   WrapItem
 } from '@chakra-ui/react'
+import PaginationNav from '../components/pagination-nav'
 
 interface Props {
   pageContext: {
@@ -29,11 +30,16 @@ interface Props {
 }
 
 export const query = graphql`
-  query JobTagTemplateQuery($id: String) {
+  query JobTagTemplateQuery($id: String, $skip: Int!, $limit: Int!) {
     sanityJobTag(id: {eq: $id}) {
       tagName
     }
-     allSanityJobPosting(filter: {tags: {elemMatch: {id: {eq: $id}}}})
+     allSanityJobPosting(
+      filter: {tags: {elemMatch: {id: {eq: $id}}}}
+      sort: { fields: [stickyLength, _createdAt], order: [DESC, DESC] }
+      limit: $limit
+      skip: $skip
+      )
       {
         nodes {
           _createdAt
@@ -83,6 +89,7 @@ const JobTagTemplate = ({ pageContext, data }: Props) => {
     <VStack>
       <Text>Tag: {tagName}</Text>
       <JobPostings data={data} />
+      <PaginationNav pageContext={pageContext} />
     </VStack>
   )
 }
