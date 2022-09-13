@@ -26,6 +26,10 @@ type TypeData = {
 	};
 	allSanityJobPosting: {
 		edges: TypeJobPosting[];
+		group: {
+			totalCount: number;
+			fieldValue: string;
+		}[];
 	};
 };
 
@@ -55,6 +59,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
 							current
 						}
 					}
+				}
+				group(field: tags___tagName) {
+					totalCount
+					fieldValue
 				}
 			}
 		}
@@ -88,6 +96,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	);
 	const createTagPromise = allJobTags?.nodes.map((tag) => {
 		const { id, slug = {} } = tag;
+		const test = allJobPostings?.group.map(function (item) {
+			return item.fieldValue;
+		});
+		console.log(test);
 		if (!slug) return;
 		createPage({
 			path: `/${tag.slug.current}-jobs`,
