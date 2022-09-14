@@ -1,6 +1,7 @@
 .vscode
 node_modules
 .DS_Store
+.env
 
 web/node_modules/
 web/.cache/

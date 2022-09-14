@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 import JobPostings from '../components/job-postings'
 import SEO from '../components/seo'
-import { TextToUpper as cap } from '../components/convert-to-uppercase'
+import { TextToUpper as cap } from '../utils/convert-to-uppercase'
 import {
   Link,
   Flex,

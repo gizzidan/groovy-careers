@@ -24,8 +24,5 @@
 	"devDependencies": {
 		"lerna": "^3.14.1",
 		"rimraf": "^2.6.3"
-	},
-	"dependencies": {
-		"react-icons": "^4.4.0"
 	}
 }

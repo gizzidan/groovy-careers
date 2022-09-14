@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from "gatsby";
+require("dotenv").config();
 
 const config: GatsbyConfig = {
 	siteMetadata: {
@@ -13,6 +14,13 @@ const config: GatsbyConfig = {
 	// Learn more at: https://gatsby.dev/graphql-typegen
 	graphqlTypegen: true,
 	plugins: [
+		{
+			resolve: `gatsby-plugin-algolia`,
+			options: {
+				appId: process.env.GATSBY_ALGOLIA_APP_ID,
+				apiKey: process.env.ALGOLIA_ADMIN_KEY,
+			},
+		},
 		{
 			resolve: "gatsby-source-sanity",
 			options: {

@@ -3,8 +3,8 @@ import { graphql } from 'gatsby'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 import SEO from '../components/seo'
 import TimeAgo from 'react-timeago'
-import { TextToUpper as cap } from '../components/convert-to-uppercase'
-import { blocksToText } from '../components/blocks-to-text'
+import { TextToUpper as cap } from '../utils/convert-to-uppercase'
+import { blocksToText } from '../utils/blocks-to-text'
 var a = require('indefinite');
 import {
   Link,

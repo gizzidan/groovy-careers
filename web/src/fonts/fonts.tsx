@@ -1,6 +1,6 @@
 import React from "react";
 import { css, Global } from "@emotion/react";
-import PicNic from './Picnic-Regular.woff2'
+import PicNic from './PicNic-Regular.woff2'
 import GTAmericaExtendedMedium from './GTAmerica-ExtendedMedium.woff'
 import GTAmericaExtendedBold from './GTAmerica-ExtendedBold.woff'
 import GTAmericaRegular from './GTAmerica-Regular.woff2'

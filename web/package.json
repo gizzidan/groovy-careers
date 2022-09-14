@@ -28,6 +28,7 @@
 		"@types/react-timeago": "^4.1.3",
 		"framer-motion": "^7.2.0",
 		"gatsby": "^4.21.1",
+		"gatsby-plugin-algolia": "^0.26.0",
 		"gatsby-plugin-image": "^2.21.0",
 		"gatsby-plugin-manifest": "^4.21.0",
 		"gatsby-plugin-mdx": "^4.0.0",
@@ -39,8 +40,10 @@
 		"indefinite": "^2.4.1",
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",
+		"react-icons": "^4.4.0",
 		"react-simple-typewriter": "^3.0.1",
-		"react-timeago": "^7.1.0"
+		"react-timeago": "^7.1.0",
+		"sanity-algolia": "^1.0.2"
 	},
 	"devDependencies": {
 		"@types/node": "^17.0.45",
