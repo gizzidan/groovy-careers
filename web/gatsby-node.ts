@@ -78,45 +78,48 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	const postsPerPage = 2;
 	const numPages = allJobPostings
 		? Math.ceil(allJobPostings.edges.length / postsPerPage)
-		: 0;
+		: 1;
 
 	const createJobPaginationPromise = Array.from({ length: numPages }).forEach(
 		(_, i) => {
 			createPage({
-				path: i === 0 ? `/job` : `/job/page/${i + 1}`,
+				path: i === 0 ? `/` : `/page/${i + 1}`,
 				component: jobPostingListTemplate,
 				context: {
 					limit: postsPerPage,
 					skip: i * postsPerPage,
 					currentPage: i + 1,
 					numPages,
+					link: `/`,
 				},
 			});
 		}
 	);
 	const createTagPromise = allJobTags?.nodes.map((tag) => {
 		const { id, slug = {} } = tag;
-		const link = `/${tag.slug.current}-jobs`;
-		let postingCount = allJobPostings?.group.find(({ fieldValue }) => {
-			fieldValue === tag.tagName;
+		const link = `/${tag.slug.current}-jobs/`;
+		const postingCount = allJobPostings?.group.find((item) => {
+			return item.fieldValue == tag.tagName;
 		});
-		console.log(postingCount);
-		const tagNumPages =
-			postingCount && postingCount.totalCount > 0
+		console.log(postingCount?.fieldValue);
+		const tagNumPages = postingCount
+			? postingCount.totalCount > 0
 				? Math.ceil(postingCount.totalCount / postsPerPage)
-				: 1;
+				: 1
+			: 1;
 		console.log(tagNumPages);
 		if (!slug) return;
 		Array.from({ length: tagNumPages }).forEach((_, i) => {
 			createPage({
-				path: i === 0 ? link : `${link}/page/${i + 1}`,
+				path: i === 0 ? link : `${link}page/${i + 1}`,
 				component: tagTemplate,
 				context: {
 					limit: postsPerPage,
 					skip: i * postsPerPage,
 					currentPage: i + 1,
 					id,
-					tagNumPages,
+					numPages: tagNumPages,
+					link,
 				},
 			});
 		});

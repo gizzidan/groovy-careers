@@ -80,3 +80,6 @@ const JobPostingListTemplate = ({ data, pageContext }: any) => {
 
 export default JobPostingListTemplate
 
+export const Head = () => (
+  <SEO />
+)

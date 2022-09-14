@@ -36,6 +36,7 @@
 		"gatsby-source-filesystem": "^4.21.1",
 		"gatsby-source-sanity": "^7.4.2",
 		"gatsby-transformer-sharp": "^4.21.0",
+		"indefinite": "^2.4.1",
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",
 		"react-simple-typewriter": "^3.0.1",

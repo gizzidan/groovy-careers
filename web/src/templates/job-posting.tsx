@@ -1,8 +1,11 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
-import { PortableTextTypeComponent } from '@portabletext/react'
+import SEO from '../components/seo'
 import TimeAgo from 'react-timeago'
+import { TextToUpper as cap } from '../components/convert-to-uppercase'
+import { blocksToText } from '../components/blocks-to-text'
+var a = require('indefinite');
 import {
   Link,
   Flex,
@@ -157,7 +160,7 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
         textAlign="center"
         fontWeight="500"
         whiteSpace="pre-wrap"
-      >{posting.company.name} is hiring:
+      >{posting.company.name} is hiring {a(posting.position, { articleOnly: true })}
         <br /><strong>{posting.position}</strong>
       </Heading>
       <Text variant="mono">
@@ -204,3 +207,17 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
 }
 
 export default JobPostingTemplate
+
+export const Head = ({ data }: any) => {
+  const position = data.sanityJobPosting?.position
+  const company = data.sanityJobPosting?.company.name
+  const location = data.sanityJobPosting?.location
+  const minSalary = "$" + data.sanityJobPosting?.minAnnualSalary / 1000 + "k"
+  const maxSalary = "$" + data.sanityJobPosting?.maxAnnualSalary / 1000 + "k"
+  const description = blocksToText(data.sanityJobPosting?._rawDescription).split(/\s+/).slice(0, 19).join(" ") + "..."
+  const title = cap(position)
+    + " at " + company + " (" + minSalary + "-" + maxSalary + ")" + " in " + location
+  return (
+    <SEO title={title} description={description} />
+  )
+}

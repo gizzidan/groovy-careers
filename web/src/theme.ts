@@ -107,6 +107,9 @@ const theme = extendTheme({
 					fontSize: "md",
 				},
 			},
+			baseStyle: {
+				color: "black",
+			},
 		},
 		Text: {
 			variants: {

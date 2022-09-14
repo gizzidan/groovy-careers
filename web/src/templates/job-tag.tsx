@@ -1,6 +1,8 @@
 import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 import JobPostings from '../components/job-postings'
+import SEO from '../components/seo'
+import { TextToUpper as cap } from '../components/convert-to-uppercase'
 import {
   Link,
   Flex,
@@ -84,10 +86,16 @@ export const query = graphql`
 const JobTagTemplate = ({ pageContext, data }: Props) => {
   const { id } = pageContext
   const tagName = data.sanityJobTag?.tagName
+  const tag = cap(tagName)
 
   return (
-    <VStack>
-      <Text>Tag: {tagName}</Text>
+    <VStack spacing={5}>
+      <Heading
+        as="h1"
+        textAlign="center"
+        fontWeight="500"
+      >
+        {tag} Careers</Heading>
       <JobPostings data={data} />
       <PaginationNav pageContext={pageContext} />
     </VStack>
@@ -96,3 +104,10 @@ const JobTagTemplate = ({ pageContext, data }: Props) => {
 
 export default JobTagTemplate
 
+export const Head = ({ data }: any) => {
+  const tagName = data.sanityJobTag?.tagName
+  const title = "Cannabis Friendly " + cap(tagName) + " Careers"
+  return (
+    <SEO title={title} />
+  )
+}

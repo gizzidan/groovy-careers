@@ -12,8 +12,8 @@ import {
 
 const PaginationNav = ({ pageContext }: any) => {
   const currentPage = pageContext.currentPage
-  const next = `/job/page/${currentPage + 1}`
-  const prev = currentPage === 2 ? '/job' : `/job/page/${currentPage - 1}`
+  const next = `${pageContext.link}page/${currentPage + 1}`
+  const prev = currentPage === 2 ? `${pageContext.link}` : `${pageContext.link}page/${currentPage - 1}`
   let nextDisplay = false
   let nextDisabled = false
   currentPage < pageContext.numPages
