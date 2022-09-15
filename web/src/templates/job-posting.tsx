@@ -156,9 +156,6 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
         : <Avatar size="lg" name={posting.company.name}></Avatar>
       }
       <DiversityTags node={posting} />
-      <Text>
-        {numDaysBetween(posting._createdAt, new Date())}
-      </Text>
       <Heading
         as="h1"
         fontFamily="GT-America"
