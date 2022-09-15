@@ -47,6 +47,8 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 				projection: `{
           position,
           location,
+          minAnnualSalary,
+          maxAnnualSalary,
           "path": slug.current,
           "companyName": company->name
         }`,
@@ -62,6 +64,8 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 					return {
 						position: document.position,
 						location: document.location,
+						minAnnualSalary: document.minAnnualSalary,
+						maxAnnualSalary: document.maxAnnualSalary,
 						companyName: document.companyName,
 					};
 				default:
