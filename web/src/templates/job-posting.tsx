@@ -6,6 +6,8 @@ import TimeAgo from 'react-timeago'
 import { TextToUpper as cap } from '../utils/convert-to-uppercase'
 import { blocksToText } from '../utils/blocks-to-text'
 var a = require('indefinite');
+import { numDaysBetween } from '../utils/num-days-between'
+
 import {
   Link,
   Flex,
@@ -154,6 +156,9 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
         : <Avatar size="lg" name={posting.company.name}></Avatar>
       }
       <DiversityTags node={posting} />
+      <Text>
+        {numDaysBetween(posting._createdAt, new Date())}
+      </Text>
       <Heading
         as="h1"
         fontFamily="GT-America"
