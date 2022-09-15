@@ -92,3 +92,5 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 		.webhookSync(sanity, req.body)
 		.then(() => res.status(200).send("ok"));
 };
+
+export default handler;
