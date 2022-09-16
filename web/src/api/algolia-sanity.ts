@@ -54,12 +54,11 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
           location,
           paymentStatus,
           stickyLength,
-          tags,
-          "logo": company->logo->asset->url,
+          "tags": tags[]->{tagName, slug}
+          "logo": company->{logo{asset->{url}}},
           "primarySkill": primarySkill->skillName,
-          "tagNames": tags[]->tagName,
           "path": slug.current,
-          "diverseOwnership": company->diverseOwnership,
+          "diverseOwnership": company->{diverseOwnership},
           "companyName": company->name
         }`,
 			},
@@ -86,7 +85,6 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 						tags: document.tags,
 						logo: document.logo,
 						primarySkill: document.primarySkill,
-						tagNames: document.tagNames,
 						path: document.path,
 						diverseOwnership: document.diverseOwnership,
 						companyName: document.companyName,
