@@ -54,7 +54,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
           location,
           paymentStatus,
           stickyLength,
-          "tags": tags[]->{tagName, slug}
+          "tags": tags[]->{tagName, slug},
           "logo": company->{logo{asset->{url}}},
           "primarySkill": primarySkill->skillName,
           "path": slug.current,
