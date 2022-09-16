@@ -1,8 +1,9 @@
 .vscode
 node_modules
 .DS_Store
-.env
+.env.*
 
+web/.env.*
 web/node_modules/
 web/.cache/
 web/public

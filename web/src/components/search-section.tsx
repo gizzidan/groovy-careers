@@ -1,6 +1,3 @@
-import React from 'react'
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import {
   Link,
   Flex,
@@ -15,6 +12,10 @@ import {
   Heading,
   WrapItem
 } from '@chakra-ui/react'
+import React from 'react'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
+import Search from './search'
 
 const SearchSection = () => {
   const data = useStaticQuery(graphql`
@@ -35,6 +36,7 @@ const SearchSection = () => {
 
   return (
     <VStack spacing={6}>
+      <Search />
       <Input
         borderColor="mantis.800"
         bg="whiteAlpha.100"

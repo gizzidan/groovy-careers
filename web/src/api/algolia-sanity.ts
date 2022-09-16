@@ -6,7 +6,7 @@ import { numDaysBetween } from "../utils/num-days-between";
 
 const algolia = algoliasearch("WCOAAGSNH7", process.env.ALGOLIA_ADMIN_KEY);
 
-const sanity = sanityClient({
+export const sanity = sanityClient({
 	projectId: "6t1tj18u",
 	dataset: "production",
 	// If your dataset is private you need to add a read token.
@@ -17,7 +17,6 @@ const sanity = sanityClient({
 
 //  This function receives webhook POSTs from Sanity and updates, creates or
 //  deletes records in the corresponding Algolia indices.
-
 const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 	// Tip: Its good practice to include a shared secret in your webhook URLs and
 	// validate it before proceeding with webhook handling. Omitted in this short
@@ -45,12 +44,23 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			jobPosting: {
 				index: algoliaIndex,
 				projection: `{
+          applicationLink,
           position,
-          location,
+          highlight,
+          id,
+          email,
+          includeLogo,
           minAnnualSalary,
           maxAnnualSalary,
+          location,
+          paymentStatus,
+          stickyLength,
+          "logo": company.logo.asset.url,
+          "primarySkill": primarySkill.skillName,
+          "tagNames": tags[]->tagName,
           "path": slug.current,
-          "companyName": company->name
+          "diverseOwnership": company->diverseOwnership[],
+          "companyName": company.name
         }`,
 			},
 		},
@@ -62,10 +72,22 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			switch (document._type) {
 				case "jobPosting":
 					return {
+						applicationLink: document.applicationLink,
 						position: document.position,
-						location: document.location,
+						highlight: document.highlight,
+						id: document.id,
+						email: document.email,
+						includeLogo: document.includeLogo,
 						minAnnualSalary: document.minAnnualSalary,
 						maxAnnualSalary: document.maxAnnualSalary,
+						location: document.location,
+						paymentStatus: document.PaymentStatus,
+						stickyLength: document.stickyLength,
+						logo: document.logo,
+						primarySkill: document.primarySkill,
+						tagNames: document.tagNames,
+						path: document.path,
+						diverseOwnership: document.diverseOwnership,
 						companyName: document.companyName,
 					};
 				default:
