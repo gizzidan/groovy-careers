@@ -48,7 +48,6 @@ const Hit = (props: any) => {
     : <Text><TimeAgo date={node._createdAt} /></Text>
   return (
     < Grid
-
       p={3}
       my={3}
       templateColumns='repeat(5, 1fr)'
@@ -79,6 +78,9 @@ const Hit = (props: any) => {
             <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
           </VStack>
         </HStack>
+      </GridItem>
+      <GridItem colStart={3} gridRow={1} colSpan={1} alignSelf="start">
+        <Text fontSize="sm">{node.location}</Text>
       </GridItem>
     </Grid>
   )
