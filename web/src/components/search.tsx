@@ -68,7 +68,7 @@ const Hit = (props: any) => {
         <HStack spacing={5}>
           {node.includeLogo ?
             node.logo
-              ? <Avatar name={node.companyName} src={node.logo}></Avatar>
+              ? <Avatar name={node.companyName} src={node.logo.asset.url}></Avatar>
               : <Avatar color="black" bg="gray.200" name={node.companyName}></Avatar>
             : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
           }
