@@ -44,6 +44,8 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			jobPosting: {
 				index: algoliaIndex,
 				projection: `{
+					_createdAt,
+					id,
           applicationLink,
           position,
           highlight,
@@ -71,10 +73,11 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			switch (document._type) {
 				case "jobPosting":
 					return {
+						_createdAt: document._createdAt,
+						id: document.id,
 						applicationLink: document.applicationLink,
 						position: document.position,
 						highlight: document.highlight,
-						id: document.id,
 						email: document.email,
 						includeLogo: document.includeLogo,
 						minAnnualSalary: document.minAnnualSalary,

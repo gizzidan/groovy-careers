@@ -18,17 +18,18 @@ import {
   Hits,
   SearchBox,
   Pagination,
+  connectHits,
   Highlight,
   ClearRefinements,
   RefinementList,
   Configure,
 } from 'react-instantsearch-dom';
+import { FiExternalLink } from "react-icons/fi"
 import React from 'react'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import algoliasearch from "algoliasearch/lite";
 import TimeAgo from 'react-timeago'
 import DiversityTags from './diversity-tags';
-
 
 const Hit = (props: any) => {
   const node = props.hit
@@ -73,14 +74,64 @@ const Hit = (props: any) => {
             : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
           }
           <VStack spacing={1} align="left">
-            <Heading variant="card" as="h3">{node.position}</Heading>
-            <DiversityTags label={node.companyName} node={node} diverseOwnership={node.diverseOwnership} />
+            <Heading variant="card" as="h3">
+              <Highlight attribute="position" hit={props.hit} />
+            </Heading>
+            {node.diverseOwnership
+              ? <DiversityTags label={node.companyName} node={node}
+                diverseOwnership={node.diverseOwnership.diverseOwnership} />
+              : null}
             <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
           </VStack>
         </HStack>
       </GridItem>
       <GridItem colStart={3} gridRow={1} colSpan={1} alignSelf="start">
-        <Text fontSize="sm">{node.location}</Text>
+        <Text fontSize="sm">
+          <Highlight attribute="location" hit={props.hit} />
+        </Text>
+      </GridItem>
+      <GridItem colStart={4} gridRow={1} colSpan={1} alignSelf="start">
+        <Wrap align="center">
+          {node.tags
+            ? node.tags.map((tag: any) =>
+              <Link
+                zIndex="sticky"
+                _hover={{
+                  textDecoration: "none",
+                }}
+                as={GatsbyLink}
+                to={`/${tag.slug.current}-jobs`}
+                key={tag.id}
+              >
+                <Tag
+                  fontFamily="GT-America-Mono"
+                  _hover={{
+                    bg: "blackAlpha.800",
+                    color: "white"
+                  }}
+                >
+                  {tag.tagName}
+                </Tag>
+              </Link>
+            )
+            : null
+          }
+        </Wrap>
+      </GridItem>
+      <GridItem colStart={5} gridRow={1} colSpan={1}>
+        <HStack verticalAlign="center" float="right">
+          {time}
+          <Link
+            _hover={{
+              textDecoration: "none"
+            }}
+            zIndex="sticky"
+            href={node.applicationLink}
+            isExternal
+          >
+            <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
+          </Link>
+        </HStack>
       </GridItem>
     </Grid>
   )
@@ -98,9 +149,12 @@ const Search = () => {
       searchClient={algolia}
     >
       <SearchBox />
-      <Hits hitComponent={Hit} />
+      <Box width='100%' my={8}>
+        <Hits hitComponent={Hit} />
+      </Box>
     </InstantSearch>
   )
 }
 
 export default Search
+

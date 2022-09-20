@@ -5,6 +5,13 @@ const theme = extendTheme({
 	styles: {
 		global: {
 			p: {},
+			ul: {
+				listStyleType: "none",
+			},
+			".ais-Highlight-highlighted": {
+				bg: "pink.200",
+				fontStyle: "normal",
+			},
 		},
 	},
 	fonts: {
