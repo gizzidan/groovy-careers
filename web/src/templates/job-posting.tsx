@@ -155,7 +155,6 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
           : <Avatar size="lg" name={posting.company.name}></Avatar>
         : <Avatar size="lg" name={posting.company.name}></Avatar>
       }
-      <DiversityTags node={posting} />
       <Heading
         as="h1"
         fontFamily="GT-America"

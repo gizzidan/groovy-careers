@@ -150,7 +150,6 @@ const Search = () => {
     >
       <SearchBox />
       <Box width='100%' my={8}>
-        <RefinementList sortBy={['_createdAt:desc']} />
         <Hits hitComponent={Hit} />
       </Box>
     </InstantSearch>
