@@ -103,7 +103,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 		// implement any `publishedAt` datetime visibility rules or other custom
 		// visibility scheme you may be using.
 		(document: SanityDocumentStub) => {
-			if (numDaysBetween(document.createdAt, new Date()) > 60) {
+			if (numDaysBetween(document._createdAt, new Date()) > 60) {
 				return false;
 			}
 			return true;
