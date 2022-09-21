@@ -44,7 +44,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			jobPosting: {
 				index: algoliaIndex,
 				projection: `{
-					publishedAt
+					publishedAt,
           applicationLink,
           position,
           highlight,
