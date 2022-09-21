@@ -72,7 +72,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			switch (document._type) {
 				case "jobPosting":
 					return {
-						publishedAt: document.publishedAt,
+						publishedAt: Math.floor(Date.parse(document.publishedAt) / 1000),
 						applicationLink: document.applicationLink,
 						position: document.position,
 						highlight: document.highlight,
