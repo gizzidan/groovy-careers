@@ -67,9 +67,9 @@ const Hit = (props: any) => {
       </GridItem>
       <GridItem colStart={1} gridRow={1} colSpan={2}>
         <HStack spacing={5}>
-          {node.includeLogo ?
+          {node.includeLogo === true ?
             node.logo
-              ? <Avatar name={node.companyName} src={node.logo.asset.url}></Avatar>
+              ? <Avatar name={node.companyName} src={node.logo.logo.asset.url}></Avatar>
               : <Avatar color="black" bg="gray.200" name={node.companyName}></Avatar>
             : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
           }
@@ -150,6 +150,7 @@ const Search = () => {
     >
       <SearchBox />
       <Box width='100%' my={8}>
+        <RefinementList sortBy={['_createdAt:desc']} />
         <Hits hitComponent={Hit} />
       </Box>
     </InstantSearch>
