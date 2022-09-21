@@ -60,7 +60,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
           "primarySkill": primarySkill->skillName,
           "path": slug.current,
           "diverseOwnership": company->{diverseOwnership},
-          "companyName": company->name
+          "companyName": company->name,
         }`,
 			},
 		},
@@ -72,7 +72,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			switch (document._type) {
 				case "jobPosting":
 					return {
-						publishedAt: Math.floor(document.publishedAt.getTime() / 1000),
+						publishedAt: document.publishedAt,
 						applicationLink: document.applicationLink,
 						position: document.position,
 						highlight: document.highlight,
