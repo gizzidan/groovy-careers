@@ -154,9 +154,7 @@ export default {
 			name: "publishedAt",
 			title: "Published At",
 			type: "datetime",
-			description:
-				"Start date for displaying on website. Defaults to current time.",
-			initialValue: Math.floor(new Date().getTime() / 1000),
+			description: "Start date for displaying on website.",
 		},
 		{
 			name: "slug",
