@@ -151,6 +151,14 @@ export default {
 			description: "Set to Payment Received if Stripe payment was completed.",
 		},
 		{
+			name: "publishedAt",
+			title: "Published At",
+			type: "datetime",
+			description:
+				"Start date for displaying on website. Defaults to current time.",
+			initialValue: Math.floor(new Date().getTime() / 1000),
+		},
+		{
 			name: "slug",
 			title: "Slug",
 			type: "slug",

@@ -46,7 +46,7 @@ const Hit = (props: any) => {
   const buttonVariant = node.highlight == true ? "black" : "outline"
   const time = node.stickyLength > 0
     ? <Badge colorScheme="mantis">Featured</Badge>
-    : <Text><TimeAgo date={node._createdAt} /></Text>
+    : <Text><TimeAgo date={node.createdAt} /></Text>
   return (
     < Grid
       p={3}
@@ -150,6 +150,7 @@ const Search = () => {
     >
       <SearchBox />
       <Box width='100%' my={8}>
+        <RefinementList sortBy={['createdAt:desc']} />
         <Hits hitComponent={Hit} />
       </Box>
     </InstantSearch>
