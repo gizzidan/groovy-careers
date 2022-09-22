@@ -44,7 +44,7 @@ const Hit = (props: any) => {
   const borderColor = node.highlight === true ?
     "mantis.500" : "transparent"
   const buttonVariant = node.highlight == true ? "black" : "outline"
-  const time = node.stickyLength > 0
+  const test = Boolean(node.stickyLength)
     ? <Badge colorScheme="mantis">Featured</Badge>
     : <Text><TimeAgo date={node.createdAt} /></Text>
   return (
@@ -121,7 +121,6 @@ const Hit = (props: any) => {
       </GridItem>
       <GridItem colStart={5} gridRow={1} colSpan={1}>
         <HStack verticalAlign="center" float="right">
-          {time}
           <Link
             _hover={{
               textDecoration: "none"

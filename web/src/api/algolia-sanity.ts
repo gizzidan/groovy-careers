@@ -84,7 +84,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 						location: document.location,
 						paymentStatus: document.PaymentStatus,
 						stickyLength: document.stickyLength,
-						stickyBoolean: document.stickyLength > 0 ? true : false,
+						stickyBoolean: Boolean(document.stickyLength),
 						tags: document.tags,
 						logo: document.logo,
 						primarySkill: document.primarySkill,
