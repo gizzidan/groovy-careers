@@ -124,7 +124,8 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
                       : <Avatar color="black" bg="blackAlpha.300" name={node.company.name}></Avatar>
                     }
                     <VStack spacing={1} align="left">
-                      <Heading variant="card" as="h3">{node.position}</Heading>
+                      <Heading variant="card" as="h3">{node.position}
+                      </Heading>
                       <DiversityTags label={node.company.name} node={node} diverseOwnership={node.company.diverseOwnership} />
                       <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
                     </VStack>
