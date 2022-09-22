@@ -61,6 +61,7 @@ const Hit = (props: any) => {
       borderLeft={border}
       borderColor={borderColor}
       key={node.id}
+
     >
       <GridItem zIndex="docked" height="100%" gridRow={1} colStart={1} colSpan={5}>
         <Link as={GatsbyLink} to={`/${node.path}`}><Box height="100%" ></Box></Link>
@@ -150,7 +151,6 @@ const Search = () => {
     >
       <SearchBox />
       <Box width='100%' my={8}>
-        <RefinementList sortBy={['createdAt:desc']} />
         <Hits hitComponent={Hit} />
       </Box>
     </InstantSearch>
