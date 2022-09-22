@@ -72,8 +72,8 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 			switch (document._type) {
 				case "jobPosting":
 					return {
-						publishedAt: document.publishedAt,
-						publishedAt_unix: Date.parse(document.publishedAt),
+						publishedAt: Date.parse(document.publishedAt),
+						publishedAt_str: document.publishedAt,
 						applicationLink: document.applicationLink,
 						position: document.position,
 						highlight: document.highlight,
