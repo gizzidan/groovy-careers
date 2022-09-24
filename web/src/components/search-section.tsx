@@ -36,7 +36,6 @@ const SearchSection = () => {
 
   return (
     <VStack spacing={6}>
-      <Search />
       <Input
         borderColor="mantis.800"
         bg="whiteAlpha.100"

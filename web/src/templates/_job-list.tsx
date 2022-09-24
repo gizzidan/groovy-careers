@@ -71,7 +71,6 @@ const JobPostingListTemplate = ({ data, pageContext }: any) => {
       <Hero />
       <SearchSection />
       <JobPostings data={data} />
-      <PaginationNav pageContext={pageContext} />
     </>
   )
 

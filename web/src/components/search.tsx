@@ -18,18 +18,21 @@ import {
   Hits,
   SearchBox,
   Pagination,
-  connectHits,
   Highlight,
   ClearRefinements,
   RefinementList,
   Configure,
-} from 'react-instantsearch-dom';
+} from 'react-instantsearch-hooks-web';
+import { history } from 'instantsearch.js/es/lib/routers';
+import { simple } from 'instantsearch.js/es/lib/stateMappings';
 import { FiExternalLink } from "react-icons/fi"
 import React from 'react'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import algoliasearch from "algoliasearch/lite";
 import TimeAgo from 'react-timeago'
 import DiversityTags from './diversity-tags';
+import PaginationNav from './pagination-nav';
+import SearchBoxComponent from './search-box';
 
 const Hit = (props: any) => {
   const node = props.hit
@@ -44,9 +47,9 @@ const Hit = (props: any) => {
   const borderColor = node.highlight === true ?
     "mantis.500" : "transparent"
   const buttonVariant = node.highlight == true ? "black" : "outline"
-  const test = Boolean(node.stickyLength)
+  const time = Boolean(node.stickyLength)
     ? <Badge colorScheme="mantis">Featured</Badge>
-    : <Text><TimeAgo date={node.createdAt} /></Text>
+    : <Text><TimeAgo date={node.publishedAt_str} /></Text>
   return (
     < Grid
       p={3}
@@ -121,6 +124,7 @@ const Hit = (props: any) => {
       </GridItem>
       <GridItem colStart={5} gridRow={1} colSpan={1}>
         <HStack verticalAlign="center" float="right">
+          {time}
           <Link
             _hover={{
               textDecoration: "none"
@@ -137,6 +141,11 @@ const Hit = (props: any) => {
   )
 }
 
+const routing = {
+  router: history(),
+  stateMapping: simple(),
+}
+
 const Search = () => {
   const algolia = algoliasearch(
     "WCOAAGSNH7",
@@ -147,10 +156,12 @@ const Search = () => {
     <InstantSearch
       indexName="dev_cannabisfriendly"
       searchClient={algolia}
+      routing={routing}
     >
-      <SearchBox />
       <Box width='100%' my={8}>
+        <SearchBoxComponent />
         <Hits hitComponent={Hit} />
+        <PaginationNav />
       </Box>
     </InstantSearch>
   )

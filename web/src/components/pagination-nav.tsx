@@ -1,6 +1,5 @@
 import React from "react"
 import { FiArrowRight, FiArrowLeft } from "react-icons/fi"
-import { Link as GatsbyLink } from 'gatsby'
 import {
   Text,
   Button,
@@ -8,28 +7,38 @@ import {
   Link,
   ButtonGroup,
 } from '@chakra-ui/react'
+import { usePagination } from 'react-instantsearch-hooks-web'
 
 
-const PaginationNav = ({ pageContext }: any) => {
-  const currentPage = pageContext.currentPage
-  const next = `${pageContext.link}page/${currentPage + 1}`
-  const prev = currentPage === 2 ? `${pageContext.link}` : `${pageContext.link}page/${currentPage - 1}`
+const PaginationNav = ({ props }: any) => {
+  const {
+    pages,
+    currentRefinement,
+    nbHits,
+    nbPages,
+    isFirstPage,
+    isLastPage,
+    canRefine,
+    refine,
+    createURL,
+  } = usePagination(props)
+  const currentPage = currentRefinement
   let nextDisplay = false
   let nextDisabled = false
-  currentPage < pageContext.numPages
+  currentPage < nbPages
     ? (nextDisplay = false, nextDisabled = false)
     : (nextDisplay = true, nextDisabled = true)
 
   var prevDisplay = false
   var prevDisabled = false
-  currentPage > 1
+  currentPage > 0
     ? (prevDisplay = false, prevDisabled = false)
     : (prevDisplay = true, prevDisabled = true)
 
   return (
     <Box textAlign="center">
       <ButtonGroup isAttached={true}>
-        {currentPage == 1
+        {isFirstPage
           ?
           <>
             <Button
@@ -46,14 +55,16 @@ const PaginationNav = ({ pageContext }: any) => {
               variant="outline"
               colorScheme="mantis"
               isActive={true} >
-              {currentPage}
+              {currentPage + 1}
             </Button>
             <Link
               _hover={{
                 textDecoration: "none"
               }}
-              as={GatsbyLink}
-              to={next}>
+              onClick={(event) => {
+                event.preventDefault();
+                refine(currentPage + 1);
+              }}>
               <Button
                 borderLeftRadius={0}
                 borderLeftWidth={0}
@@ -65,15 +76,55 @@ const PaginationNav = ({ pageContext }: any) => {
               </Button>
             </Link>
           </>
-          : currentPage > 1 && currentPage < pageContext.numPages
+          : isLastPage
             ?
             <>
               <Link
                 _hover={{
                   textDecoration: "none"
                 }}
-                as={GatsbyLink}
-                to={prev}>
+                onClick={(event) => {
+                  event.preventDefault();
+                  refine(currentPage - 1);
+                }}>
+                <Button
+                  borderRightRadius={0}
+                  borderRightWidth={0}
+                  leftIcon={<FiArrowLeft />}
+                  variant="outline"
+                  colorScheme="mantis"
+                >
+                  Prev
+                </Button>
+              </Link>
+              <Button
+                borderRadius={0}
+                variant="outline"
+                colorScheme="mantis"
+                isActive={true} >
+                {currentPage + 1}
+              </Button>
+              <Button
+                borderLeftRadius={0}
+                borderLeftWidth={0}
+                rightIcon={<FiArrowRight />}
+                variant="outline"
+                colorScheme="mantis"
+                isDisabled={true}>
+                Next
+              </Button>
+
+            </>
+            :
+            <>
+              <Link
+                _hover={{
+                  textDecoration: "none"
+                }}
+                onClick={(event) => {
+                  event.preventDefault();
+                  refine(currentPage - 1);
+                }}>
                 <Button
                   borderRightRadius={0}
                   borderRightWidth={0}
@@ -89,14 +140,16 @@ const PaginationNav = ({ pageContext }: any) => {
                 variant="outline"
                 colorScheme="mantis"
                 isActive={true} >
-                {currentPage}
+                {currentPage + 1}
               </Button>
               <Link
                 _hover={{
                   textDecoration: "none"
                 }}
-                as={GatsbyLink}
-                to={next}>
+                onClick={(event) => {
+                  event.preventDefault();
+                  refine(currentPage + 1);
+                }}>
                 <Button
                   borderLeftRadius={0}
                   borderLeftWidth={0}
@@ -108,43 +161,6 @@ const PaginationNav = ({ pageContext }: any) => {
                 </Button>
               </Link>
             </>
-            :
-            <>
-              <Link
-                _hover={{
-                  textDecoration: "none"
-                }}
-                as={GatsbyLink}
-                to={prev}>
-                <Button
-                  borderRightRadius={0}
-                  borderRightWidth={0}
-                  leftIcon={<FiArrowLeft />}
-                  variant="outline"
-                  colorScheme="mantis"
-                >
-                  Prev
-                </Button>
-              </Link>
-              <Button
-                borderRadius={0}
-                variant="outline"
-                colorScheme="mantis"
-                isActive={true} >
-                {currentPage}
-              </Button>
-              <Button
-                borderLeftRadius={0}
-                borderLeftWidth={0}
-                rightIcon={<FiArrowRight />}
-                variant="outline"
-                colorScheme="mantis"
-                isDisabled={true}>
-                Next
-              </Button>
-
-            </>
-
         }
       </ButtonGroup>
     </Box>

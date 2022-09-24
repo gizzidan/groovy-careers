@@ -80,21 +80,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		? Math.ceil(allJobPostings.edges.length / postsPerPage)
 		: 1;
 
-	const createJobPaginationPromise = Array.from({ length: numPages }).forEach(
-		(_, i) => {
-			createPage({
-				path: i === 0 ? `/` : `/page/${i + 1}`,
-				component: jobPostingListTemplate,
-				context: {
-					limit: postsPerPage,
-					skip: i * postsPerPage,
-					currentPage: i + 1,
-					numPages,
-					link: `/`,
-				},
-			});
-		}
-	);
 	const createTagPromise = allJobTags?.nodes.map((tag) => {
 		const { id, slug = {} } = tag;
 		const link = `/${tag.slug.current}-jobs/`;
@@ -136,7 +121,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		});
 	});
 
-	await Promise.all([createJobPaginationPromise]);
 	await Promise.all([createTagPromise]);
 	await Promise.all([createJobPostingPromise]);
 };
