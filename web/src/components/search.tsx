@@ -103,14 +103,13 @@ const Hit = (props: any) => {
                 _hover={{
                   textDecoration: "none",
                 }}
-                as={GatsbyLink}
-                to={`/${tag.slug.current}-jobs`}
+                href={`/?tags=${tag.tagName}`}
                 key={tag.id}
               >
                 <Tag
                   fontFamily="GT-America-Mono"
                   _hover={{
-                    bg: "blackAlpha.800",
+                    bg: "blackAlpha.600",
                     color: "white"
                   }}
                 >
@@ -144,12 +143,23 @@ const Hit = (props: any) => {
 const indexName = 'dev_cannabisfriendly';
 
 const routing = {
-  router: history(),
+  router: history({
+    windowTitle({ query }) {
+      const queryTitle = query ? `Results for "${query}"` : 'Search';
+
+      if (query) {
+        return queryTitle;
+      }
+
+      return "fuck";
+    },
+  }),
   stateMapping: {
     stateToRoute(uiState: any) {
       const indexUiState = uiState[indexName]
       return {
         q: indexUiState.query,
+        tags: indexUiState.menu?.["tags.tagName"],
         diverse: indexUiState.refinementList?.["diverseOwnership.diverseOwnership"],
         page: indexUiState.page,
       }
@@ -158,6 +168,9 @@ const routing = {
       return {
         [indexName]: {
           query: routeState.q,
+          menu: {
+            ["tags.tagName"]: routeState.tags
+          },
           refinementList: {
             ["diverseOwnership.diverseOwnership"]: routeState.diverse
           },
