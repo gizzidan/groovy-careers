@@ -141,10 +141,33 @@ const Hit = (props: any) => {
   )
 }
 
+const indexName = 'dev_cannabisfriendly';
+
 const routing = {
   router: history(),
-  stateMapping: simple(),
-}
+  stateMapping: {
+    stateToRoute(uiState: any) {
+      const indexUiState = uiState[indexName]
+      return {
+        q: indexUiState.query,
+        diverse: indexUiState.refinementList?.["diverseOwnership.diverseOwnership"],
+        page: indexUiState.page,
+      }
+    },
+    routeToState(routeState: any) {
+      return {
+        [indexName]: {
+          query: routeState.q,
+          refinementList: {
+            ["diverseOwnership.diverseOwnership"]: routeState.diverse
+          },
+          page: routeState.page,
+        },
+      };
+    },
+  },
+};
+
 
 const Search = () => {
   const algolia = algoliasearch(

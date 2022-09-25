@@ -1,20 +1,11 @@
 import {
   Link,
   Flex,
-  Button,
-  Input,
-  Wrap,
-  Center,
   VStack,
-  Box,
-  Tag,
-  chakra,
-  Text,
   Heading,
-  WrapItem
 } from '@chakra-ui/react'
 import React from 'react'
-import { SearchBox, RefinementList } from 'react-instantsearch-hooks-web';
+import { SearchBox, RefinementList, RangeInput } from 'react-instantsearch-hooks-web';
 
 const SearchBoxComponent = () => {
 
