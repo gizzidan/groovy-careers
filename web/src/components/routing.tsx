@@ -19,8 +19,6 @@ const routeStateDefaultValues: RouteState = {
   diverse: undefined,
 }
 
-const originalWindowTitle = document.title;
-
 const today = new Date()
 const month = today.toLocaleString('en-US', { month: 'short' })
 const year = today.getFullYear()
