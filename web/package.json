@@ -34,7 +34,7 @@
 		"gatsby-plugin-manifest": "^4.21.0",
 		"gatsby-plugin-mdx": "^4.0.0",
 		"gatsby-plugin-sharp": "^4.21.0",
-		"gatsby-plugin-sitemap": "^5.21.0",
+		"gatsby-plugin-sitemap": "^5.24.0",
 		"gatsby-source-filesystem": "^4.21.1",
 		"gatsby-source-sanity": "^7.4.2",
 		"gatsby-transformer-sharp": "^4.21.0",

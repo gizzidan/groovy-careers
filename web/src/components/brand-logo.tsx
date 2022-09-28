@@ -2,7 +2,8 @@ import React from "react"
 import { Box, Link, Text, useMediaQuery } from "@chakra-ui/react"
 import { Link as GatsbyLink } from 'gatsby'
 
-export default function Logo(props: any) {
+
+const Logo = (props: any) => {
 	const [isLargerThan600] = useMediaQuery('(max-width: 600px)')
 	return (
 		<Box {...props}>
@@ -23,3 +24,5 @@ export default function Logo(props: any) {
 		</Box>
 	)
 }
+
+export default Logo

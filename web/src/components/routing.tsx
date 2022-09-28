@@ -5,6 +5,23 @@ function cap(string: any) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function getCategorySlug(name: any) {
+  return name
+    .split(' ')
+    .map(encodeURIComponent)
+    .join('+');
+}
+
+// Returns a name from the category slug.
+// The "+" are replaced by spaces and other
+// characters are decoded.
+function getCategoryName(slug: any) {
+  return slug
+    .split('+')
+    .map(decodeURIComponent)
+    .join(' ');
+}
+
 type RouteState = {
   query?: string
   page?: string
@@ -44,16 +61,28 @@ const router = history<RouteState>({
     const { protocol, hostname, port = '', pathname, hash } = location;
     const portWithPrefix = port === '' ? '' : `:${port}`;
     const urlParts = location.href.match(/^(.*?)\//);
-    console.log(urlParts)
     const baseUrl =
       (urlParts && urlParts[0]) ||
       `${protocol}//${hostname}${portWithPrefix}${pathname}`;
 
     const tagPath = routeState.tag
-      ? `${routeState.tag}/`
-      : '';
+      ? `${getCategorySlug(routeState.tag)}/`
+      : ''
+
     const queryParameters: Partial<RouteState> = {}
 
+    if (
+      routeState.tag &&
+      routeState.tag !== routeStateDefaultValues.tag
+    ) {
+      queryParameters.tag = encodeURIComponent(routeState.tag);
+    }
+    if (
+      routeState.diverse &&
+      routeState.diverse !== routeStateDefaultValues.diverse
+    ) {
+      queryParameters.diverse = routeState.diverse.map(encodeURIComponent);
+    }
     if (
       routeState.query &&
       routeState.query !== routeStateDefaultValues.query
@@ -63,40 +92,37 @@ const router = history<RouteState>({
     if (routeState.page && routeState.page !== routeStateDefaultValues.page) {
       queryParameters.page = routeState.page;
     }
-    if (
-      routeState.diverse &&
-      routeState.diverse !== routeStateDefaultValues.diverse
-    ) {
-      queryParameters.diverse = routeState.diverse.map(encodeURIComponent);
-    }
 
     const queryString = qsModule.stringify(queryParameters, {
       addQueryPrefix: true,
       arrayFormat: 'repeat',
-    });
+    })
+    const encodedString = queryString
+      .replace(/%5B/g, "[")
+      .replace(/%5D/g, "]")
 
-    return `${baseUrl}${tagPath}${queryString}${hash}`
+    return `${baseUrl}${encodedString}${hash}`
   },
   parseURL({ qsModule, location }: any) {
-    const pathnameMatches = location.pathname.match(/\/(.*?)\/?$/);
-    const tag =
-      (pathnameMatches && pathnameMatches[1]) || ''
+    const pathnameMatches = location.pathname.match(/\/(.*?)\/?$/)
+    const wasTag = getCategoryName(
+      (pathnameMatches?.[1]) || ''
+    )
     const queryParameters = qsModule.parse(location.search.slice(1));
     const {
       query = '',
       page = 1,
       diverse = [],
+      tag = ''
     } = queryParameters
-
     const allDiverse = (
       Array.isArray(diverse) ? diverse : [diverse].filter(Boolean)
     ) as string[]
-
     return {
       tag,
+      diverse: allDiverse.map(decodeURIComponent),
       query: decodeURIComponent(query as string),
       page: page as string,
-      diverse: allDiverse.map(decodeURIComponent),
     }
   }
 })

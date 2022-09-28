@@ -11,7 +11,8 @@ import {
   TagCloseButton,
 } from '@chakra-ui/react'
 import React from 'react'
-import { SearchBox, RefinementList, useMenu, UseMenuProps } from 'react-instantsearch-hooks-web';
+import { SearchBox, RefinementList, ClearRefinements, useMenu, UseMenuProps } from 'react-instantsearch-hooks-web';
+import ClearSearch from './clear-search';
 
 const TagMenu = (props: UseMenuProps) => {
   const {
@@ -27,6 +28,7 @@ const TagMenu = (props: UseMenuProps) => {
 
   return (
     <VStack spacing={6}>
+      <ClearSearch />
       <Wrap
         spacing={3}
         justify="center"
@@ -75,7 +77,6 @@ const SearchBoxComponent = () => {
       </VStack>
       <HStack>
         <VStack>
-          <Heading variant="filter" as="h3">Filter by diverse ownership:</Heading>
           <RefinementList attribute="diverseOwnership.diverseOwnership"
             sortBy={['count:desc', 'name:asc']} />
         </VStack>

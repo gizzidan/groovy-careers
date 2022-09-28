@@ -1,5 +1,4 @@
 import { GatsbyNode } from "gatsby";
-import { resolve } from "path";
 import * as path from "path";
 
 type TypeTag = {
@@ -69,9 +68,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	`);
 
 	const jobPostingTemplate = path.resolve("./src/templates/job-posting.tsx");
-	const jobPostingListTemplate = path.resolve("./src/templates/job-list.tsx");
 
-	const allJobTags = data.data?.allSanityJobTag;
 	const allJobPostings = data.data?.allSanityJobPosting;
 
 	const postsPerPage = 2;
