@@ -40,7 +40,7 @@ const TagMenu = (props: UseMenuProps) => {
               _hover={{
                 textDecoration: "none"
               }}
-              href={createURL(item.value)}
+              href='#'
               onClick={event => {
                 event.preventDefault();
                 refine(item.value);

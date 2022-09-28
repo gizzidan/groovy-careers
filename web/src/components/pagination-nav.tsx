@@ -38,107 +38,21 @@ const PaginationNav = ({ props }: any) => {
 
   return (
     <Box textAlign="center">
-      <ButtonGroup isAttached={true}>
-        {isFirstPage
-          ?
-          <>
-            <Button
-              borderRightRadius={0}
-              borderRightWidth={0}
-              leftIcon={<FiArrowLeft />}
-              variant="outline"
-              colorScheme="mantis"
-              isDisabled={true}>
-              Prev
-            </Button>
-            <Button
-              borderRadius={0}
-              variant="outline"
-              colorScheme="mantis"
-              isActive={true} >
-              {currentPage + 1}
-            </Button>
-            <Link
-              _hover={{
-                textDecoration: "none"
-              }}
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                refine(currentPage + 1);
-              }}>
-              <Button
-                borderLeftRadius={0}
-                borderLeftWidth={0}
-                rightIcon={<FiArrowRight />}
-                variant="outline"
-                colorScheme="mantis"
-                isDisabled={nextDisplay}>
-                Next
-              </Button>
-            </Link>
-          </>
-          : isLastPage
+      <Text>{currentRefinement + 1} of {nbPages} page(s) for {nbHits} listing(s)</Text>
+      {nbPages > 1 ?
+        <ButtonGroup isAttached={true}>
+          {isFirstPage
             ?
             <>
-              <Link
-                _hover={{
-                  textDecoration: "none"
-                }}
-                href="#"
-                onClick={(event) => {
-                  event.preventDefault();
-                  refine(currentPage - 1);
-                }}>
-                <Button
-                  borderRightRadius={0}
-                  borderRightWidth={0}
-                  leftIcon={<FiArrowLeft />}
-                  variant="outline"
-                  colorScheme="mantis"
-                >
-                  Prev
-                </Button>
-              </Link>
               <Button
-                borderRadius={0}
-                variant="outline"
-                colorScheme="mantis"
-                isActive={true} >
-                {currentPage + 1}
-              </Button>
-              <Button
-                borderLeftRadius={0}
-                borderLeftWidth={0}
-                rightIcon={<FiArrowRight />}
+                borderRightRadius={0}
+                borderRightWidth={0}
+                leftIcon={<FiArrowLeft />}
                 variant="outline"
                 colorScheme="mantis"
                 isDisabled={true}>
-                Next
+                Prev
               </Button>
-
-            </>
-            :
-            <>
-              <Link
-                _hover={{
-                  textDecoration: "none"
-                }}
-                href="#"
-                onClick={(event) => {
-                  event.preventDefault();
-                  refine(currentPage - 1);
-                }}>
-                <Button
-                  borderRightRadius={0}
-                  borderRightWidth={0}
-                  leftIcon={<FiArrowLeft />}
-                  variant="outline"
-                  colorScheme="mantis"
-                  isDisabled={prevDisplay}>
-                  Prev
-                </Button>
-              </Link>
               <Button
                 borderRadius={0}
                 variant="outline"
@@ -161,13 +75,104 @@ const PaginationNav = ({ props }: any) => {
                   rightIcon={<FiArrowRight />}
                   variant="outline"
                   colorScheme="mantis"
-                >
+                  isDisabled={nextDisplay}>
                   Next
                 </Button>
               </Link>
             </>
-        }
-      </ButtonGroup>
+            : isLastPage
+              ?
+              <>
+                <Link
+                  _hover={{
+                    textDecoration: "none"
+                  }}
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    refine(currentPage - 1);
+                  }}>
+                  <Button
+                    borderRightRadius={0}
+                    borderRightWidth={0}
+                    leftIcon={<FiArrowLeft />}
+                    variant="outline"
+                    colorScheme="mantis"
+                  >
+                    Prev
+                  </Button>
+                </Link>
+                <Button
+                  borderRadius={0}
+                  variant="outline"
+                  colorScheme="mantis"
+                  isActive={true} >
+                  {currentPage + 1}
+                </Button>
+                <Button
+                  borderLeftRadius={0}
+                  borderLeftWidth={0}
+                  rightIcon={<FiArrowRight />}
+                  variant="outline"
+                  colorScheme="mantis"
+                  isDisabled={true}>
+                  Next
+                </Button>
+
+              </>
+              :
+              <>
+                <Link
+                  _hover={{
+                    textDecoration: "none"
+                  }}
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    refine(currentPage - 1);
+                  }}>
+                  <Button
+                    borderRightRadius={0}
+                    borderRightWidth={0}
+                    leftIcon={<FiArrowLeft />}
+                    variant="outline"
+                    colorScheme="mantis"
+                    isDisabled={prevDisplay}>
+                    Prev
+                  </Button>
+                </Link>
+                <Button
+                  borderRadius={0}
+                  variant="outline"
+                  colorScheme="mantis"
+                  isActive={true} >
+                  {currentPage + 1}
+                </Button>
+                <Link
+                  _hover={{
+                    textDecoration: "none"
+                  }}
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    refine(currentPage + 1);
+                  }}>
+                  <Button
+                    borderLeftRadius={0}
+                    borderLeftWidth={0}
+                    rightIcon={<FiArrowRight />}
+                    variant="outline"
+                    colorScheme="mantis"
+                  >
+                    Next
+                  </Button>
+                </Link>
+              </>
+          }
+        </ButtonGroup>
+        : null
+      }
+
     </Box>
   )
 }

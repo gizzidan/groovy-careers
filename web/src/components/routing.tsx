@@ -65,10 +65,6 @@ const router = history<RouteState>({
       (urlParts && urlParts[0]) ||
       `${protocol}//${hostname}${portWithPrefix}${pathname}`;
 
-    const tagPath = routeState.tag
-      ? `${getCategorySlug(routeState.tag)}/`
-      : ''
-
     const queryParameters: Partial<RouteState> = {}
 
     if (
@@ -104,10 +100,6 @@ const router = history<RouteState>({
     return `${baseUrl}${encodedString}${hash}`
   },
   parseURL({ qsModule, location }: any) {
-    const pathnameMatches = location.pathname.match(/\/(.*?)\/?$/)
-    const wasTag = getCategoryName(
-      (pathnameMatches?.[1]) || ''
-    )
     const queryParameters = qsModule.parse(location.search.slice(1));
     const {
       query = '',

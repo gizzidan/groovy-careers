@@ -40,15 +40,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
 	const data = await graphql<TypeData>(`
 		query {
-			allSanityJobTag {
-				nodes {
-					tagName
-					id
-					slug {
-						current
-					}
-				}
-			}
 			allSanityJobPosting {
 				edges {
 					node {
@@ -70,11 +61,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	const jobPostingTemplate = path.resolve("./src/templates/job-posting.tsx");
 
 	const allJobPostings = data.data?.allSanityJobPosting;
-
-	const postsPerPage = 2;
-	const numPages = allJobPostings
-		? Math.ceil(allJobPostings.edges.length / postsPerPage)
-		: 1;
 
 	const createJobPostingPromise = allJobPostings?.edges.map((node) => {
 		const posting = node.node;
