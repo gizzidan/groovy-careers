@@ -153,7 +153,7 @@ const Search = () => {
     <InstantSearch
       indexName={indexName}
       searchClient={algolia}
-      routing={routing}
+      routing={false}
     >
       <Box width='100%' my={8}>
         <SearchBoxComponent />

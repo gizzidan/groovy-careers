@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Button,
 } from '@chakra-ui/react'
-import { SearchBox, RefinementList, UseClearRefinementsProps, useClearRefinements, UseMenuProps } from 'react-instantsearch-hooks-web';
+import { UseClearRefinementsProps, useClearRefinements, UseMenuProps } from 'react-instantsearch-hooks-web';
 import { FiTrash2 } from "react-icons/fi"
 
 const ClearSearch = (props: UseClearRefinementsProps) => {
@@ -10,7 +10,7 @@ const ClearSearch = (props: UseClearRefinementsProps) => {
 
   return (
     canRefine ?
-      <Button colorScheme="gray" variant="link" size="sm" onClick={() => refine()}>Clear Filters</Button>
+      <Button rightIcon={<FiTrash2 />} colorScheme="pink" variant="solid" size="xs" onClick={() => refine()}>Clear Filters</Button>
       : null
   )
 }

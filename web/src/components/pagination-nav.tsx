@@ -38,7 +38,6 @@ const PaginationNav = ({ props }: any) => {
 
   return (
     <Box textAlign="center">
-      <Text>{currentRefinement + 1} of {nbPages} page(s) for {nbHits} listing(s)</Text>
       {nbPages > 1 ?
         <ButtonGroup isAttached={true}>
           {isFirstPage
@@ -172,6 +171,7 @@ const PaginationNav = ({ props }: any) => {
         </ButtonGroup>
         : null
       }
+      <Text pt="10px" fontSize="sm" color="blackAlpha.800">{currentRefinement + 1} of {nbPages} page(s) for {nbHits} listing(s)</Text>
 
     </Box>
   )
