@@ -68,7 +68,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		}
 	`);
 
-	const tagTemplate = path.resolve("./src/templates/job-tag.tsx");
 	const jobPostingTemplate = path.resolve("./src/templates/job-posting.tsx");
 	const jobPostingListTemplate = path.resolve("./src/templates/job-list.tsx");
 
@@ -79,36 +78,6 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	const numPages = allJobPostings
 		? Math.ceil(allJobPostings.edges.length / postsPerPage)
 		: 1;
-
-	const createTagPromise = allJobTags?.nodes.map((tag) => {
-		const { id, slug = {} } = tag;
-		const link = `/${tag.slug.current}-jobs/`;
-		const postingCount = allJobPostings?.group.find((item) => {
-			return item.fieldValue == tag.tagName;
-		});
-		console.log(postingCount?.fieldValue);
-		const tagNumPages = postingCount
-			? postingCount.totalCount > 0
-				? Math.ceil(postingCount.totalCount / postsPerPage)
-				: 1
-			: 1;
-		console.log(tagNumPages);
-		if (!slug) return;
-		Array.from({ length: tagNumPages }).forEach((_, i) => {
-			createPage({
-				path: i === 0 ? link : `${link}page/${i + 1}`,
-				component: tagTemplate,
-				context: {
-					limit: postsPerPage,
-					skip: i * postsPerPage,
-					currentPage: i + 1,
-					id,
-					numPages: tagNumPages,
-					link,
-				},
-			});
-		});
-	});
 
 	const createJobPostingPromise = allJobPostings?.edges.map((node) => {
 		const posting = node.node;
@@ -121,6 +90,5 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		});
 	});
 
-	await Promise.all([createTagPromise]);
 	await Promise.all([createJobPostingPromise]);
 };

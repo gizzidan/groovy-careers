@@ -8,6 +8,7 @@ import {
   ButtonGroup,
 } from '@chakra-ui/react'
 import { usePagination } from 'react-instantsearch-hooks-web'
+import { Link as GatsbyLink } from 'gatsby'
 
 
 const PaginationNav = ({ props }: any) => {
@@ -61,6 +62,7 @@ const PaginationNav = ({ props }: any) => {
               _hover={{
                 textDecoration: "none"
               }}
+              href="#"
               onClick={(event) => {
                 event.preventDefault();
                 refine(currentPage + 1);
@@ -83,6 +85,7 @@ const PaginationNav = ({ props }: any) => {
                 _hover={{
                   textDecoration: "none"
                 }}
+                href="#"
                 onClick={(event) => {
                   event.preventDefault();
                   refine(currentPage - 1);
@@ -121,6 +124,7 @@ const PaginationNav = ({ props }: any) => {
                 _hover={{
                   textDecoration: "none"
                 }}
+                href="#"
                 onClick={(event) => {
                   event.preventDefault();
                   refine(currentPage - 1);
@@ -146,6 +150,7 @@ const PaginationNav = ({ props }: any) => {
                 _hover={{
                   textDecoration: "none"
                 }}
+                href="#"
                 onClick={(event) => {
                   event.preventDefault();
                   refine(currentPage + 1);

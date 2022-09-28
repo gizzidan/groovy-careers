@@ -24,15 +24,18 @@ import {
   Configure,
 } from 'react-instantsearch-hooks-web';
 import { history } from 'instantsearch.js/es/lib/routers';
-import { simple } from 'instantsearch.js/es/lib/stateMappings';
 import { FiExternalLink } from "react-icons/fi"
 import React from 'react'
-import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
+import { Link as GatsbyLink } from 'gatsby'
 import algoliasearch from "algoliasearch/lite";
 import TimeAgo from 'react-timeago'
 import DiversityTags from './diversity-tags';
 import PaginationNav from './pagination-nav';
 import SearchBoxComponent from './search-box';
+import getRouting from './routing';
+
+const indexName = "dev_cannabisfriendly"
+const routing = getRouting(indexName)
 
 const Hit = (props: any) => {
   const node = props.hit
@@ -63,7 +66,7 @@ const Hit = (props: any) => {
       }}
       borderLeft={border}
       borderColor={borderColor}
-      key={node.id}
+      key={node.objectID}
 
     >
       <GridItem zIndex="docked" height="100%" gridRow={1} colStart={1} colSpan={5}>
@@ -104,7 +107,7 @@ const Hit = (props: any) => {
                   textDecoration: "none",
                 }}
                 href={`/?tags=${tag.tagName}`}
-                key={tag.id}
+                key={tag.slug.current}
               >
                 <Tag
                   fontFamily="GT-America-Mono"
@@ -140,48 +143,6 @@ const Hit = (props: any) => {
   )
 }
 
-const indexName = 'dev_cannabisfriendly';
-
-const routing = {
-  router: history({
-    windowTitle({ query }) {
-      const queryTitle = query ? `Results for "${query}"` : 'Search';
-
-      if (query) {
-        return queryTitle;
-      }
-
-      return "fuck";
-    },
-  }),
-  stateMapping: {
-    stateToRoute(uiState: any) {
-      const indexUiState = uiState[indexName]
-      return {
-        q: indexUiState.query,
-        tags: indexUiState.menu?.["tags.tagName"],
-        diverse: indexUiState.refinementList?.["diverseOwnership.diverseOwnership"],
-        page: indexUiState.page,
-      }
-    },
-    routeToState(routeState: any) {
-      return {
-        [indexName]: {
-          query: routeState.q,
-          menu: {
-            ["tags.tagName"]: routeState.tags
-          },
-          refinementList: {
-            ["diverseOwnership.diverseOwnership"]: routeState.diverse
-          },
-          page: routeState.page,
-        },
-      };
-    },
-  },
-};
-
-
 const Search = () => {
   const algolia = algoliasearch(
     "WCOAAGSNH7",
@@ -190,7 +151,7 @@ const Search = () => {
 
   return (
     <InstantSearch
-      indexName="dev_cannabisfriendly"
+      indexName={indexName}
       searchClient={algolia}
       routing={routing}
     >
