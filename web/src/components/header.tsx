@@ -85,7 +85,11 @@ const Header = () => {
               ) : null}
             </React.Fragment>
           ))}
-          <Link as={GatsbyLink} to={`/${cta.href.linkUrl}`}>
+          <Link
+            _hover={{
+              textDecoration: "none"
+            }}
+            as={GatsbyLink} to={`/${cta.href.linkUrl}`}>
             <Button variant="brand">{cta.text}</Button>
           </Link>
         </HStack>

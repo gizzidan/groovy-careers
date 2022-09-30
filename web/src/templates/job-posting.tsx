@@ -7,6 +7,7 @@ import { TextToUpper as cap } from '../utils/convert-to-uppercase'
 import { blocksToText } from '../utils/blocks-to-text'
 var a = require('indefinite');
 import { numDaysBetween } from '../utils/num-days-between'
+import { formatter } from '../components/search'
 
 import {
   Link,
@@ -143,17 +144,18 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
 
   return (
     <VStack
-      p={10}
-      maxWidth="80%"
+      p={[3, 10]}
+      maxWidth={["100%", "700px"]}
       m="auto"
       spacing={5}
     >
       {posting.includeLogo ?
         posting.company.logo
           ? <Avatar size="lg" name={posting.company.name} src={posting.company.logo.asset.url}></Avatar>
-          : <Avatar size="lg" name={posting.company.name}></Avatar>
-        : <Avatar size="lg" name={posting.company.name}></Avatar>
+          : <Avatar color="black" bg="blackAlpha.300" size="lg" name={posting.company.name}></Avatar>
+        : <Avatar color="black" bg="blackAlpha.300" size="lg" name={posting.company.name}></Avatar>
       }
+      <DiversityTags label={null} diverseOwnership={posting.company.diverseOwnership} />
       <Heading
         as="h1"
         fontFamily="GT-America"
@@ -183,7 +185,7 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
         textAlign={"center"}
       >
         <GridItem>
-          <Text><TimeAgo date={posting._createdAt} /></Text>
+          <Text><TimeAgo date={posting._createdAt} formatter={formatter} /></Text>
         </GridItem>
         <GridItem>
           <Text whiteSpace={"pre-wrap"}>View more jobs at

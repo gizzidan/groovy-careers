@@ -8,8 +8,6 @@ import {
   ButtonGroup,
 } from '@chakra-ui/react'
 import { usePagination } from 'react-instantsearch-hooks-web'
-import { Link as GatsbyLink } from 'gatsby'
-
 
 const PaginationNav = ({ props }: any) => {
   const {
@@ -19,7 +17,6 @@ const PaginationNav = ({ props }: any) => {
     nbPages,
     isFirstPage,
     isLastPage,
-    canRefine,
     refine,
     createURL,
   } = usePagination(props)
@@ -37,7 +34,7 @@ const PaginationNav = ({ props }: any) => {
     : (prevDisplay = true, prevDisabled = true)
 
   return (
-    <Box textAlign="center">
+    <Box pt={2} textAlign="center">
       {nbPages > 1 ?
         <ButtonGroup isAttached={true}>
           {isFirstPage
@@ -48,14 +45,14 @@ const PaginationNav = ({ props }: any) => {
                 borderRightWidth={0}
                 leftIcon={<FiArrowLeft />}
                 variant="outline"
-                colorScheme="mantis"
+                colorScheme="blackOutine"
                 isDisabled={true}>
                 Prev
               </Button>
               <Button
                 borderRadius={0}
                 variant="outline"
-                colorScheme="mantis"
+                colorScheme="blackOutine"
                 isActive={true} >
                 {currentPage + 1}
               </Button>
@@ -73,7 +70,7 @@ const PaginationNav = ({ props }: any) => {
                   borderLeftWidth={0}
                   rightIcon={<FiArrowRight />}
                   variant="outline"
-                  colorScheme="mantis"
+                  colorScheme="blackOutine"
                   isDisabled={nextDisplay}>
                   Next
                 </Button>
@@ -96,7 +93,7 @@ const PaginationNav = ({ props }: any) => {
                     borderRightWidth={0}
                     leftIcon={<FiArrowLeft />}
                     variant="outline"
-                    colorScheme="mantis"
+                    colorScheme="blackOutine"
                   >
                     Prev
                   </Button>
@@ -104,7 +101,7 @@ const PaginationNav = ({ props }: any) => {
                 <Button
                   borderRadius={0}
                   variant="outline"
-                  colorScheme="mantis"
+                  colorScheme="blackOutine"
                   isActive={true} >
                   {currentPage + 1}
                 </Button>
@@ -113,7 +110,7 @@ const PaginationNav = ({ props }: any) => {
                   borderLeftWidth={0}
                   rightIcon={<FiArrowRight />}
                   variant="outline"
-                  colorScheme="mantis"
+                  colorScheme="blackOutine"
                   isDisabled={true}>
                   Next
                 </Button>
@@ -135,7 +132,7 @@ const PaginationNav = ({ props }: any) => {
                     borderRightWidth={0}
                     leftIcon={<FiArrowLeft />}
                     variant="outline"
-                    colorScheme="mantis"
+                    colorScheme="blackOutine"
                     isDisabled={prevDisplay}>
                     Prev
                   </Button>
@@ -143,7 +140,7 @@ const PaginationNav = ({ props }: any) => {
                 <Button
                   borderRadius={0}
                   variant="outline"
-                  colorScheme="mantis"
+                  colorScheme="blackOutine"
                   isActive={true} >
                   {currentPage + 1}
                 </Button>
@@ -161,7 +158,7 @@ const PaginationNav = ({ props }: any) => {
                     borderLeftWidth={0}
                     rightIcon={<FiArrowRight />}
                     variant="outline"
-                    colorScheme="mantis"
+                    colorScheme="blackOutine"
                   >
                     Next
                   </Button>

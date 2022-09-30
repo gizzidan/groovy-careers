@@ -22,7 +22,7 @@ const theme = extendTheme({
 				height: "2.5rem",
 				lineHeight: "1.35rem",
 				position: "relative",
-				width: "md",
+				width: "xs",
 			},
 			".ais-SearchBox-form::before": {
 				background:
@@ -287,6 +287,10 @@ const theme = extendTheme({
 				brand: {
 					bg: "#F05D23",
 					color: "white",
+					_hover: {
+						bg: "orange.600",
+						textDecoration: "none",
+					},
 				},
 				black: {
 					bg: "black",

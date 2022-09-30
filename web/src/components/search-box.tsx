@@ -1,17 +1,15 @@
 import {
   Link,
-  Flex,
   Wrap,
   WrapItem,
   VStack,
   Tag,
-  Heading,
   HStack,
   TagLabel,
   TagCloseButton,
 } from '@chakra-ui/react'
 import React from 'react'
-import { SearchBox, RefinementList, ClearRefinements, useMenu, UseMenuProps } from 'react-instantsearch-hooks-web';
+import { SearchBox, RefinementList, useMenu, UseMenuProps } from 'react-instantsearch-hooks-web';
 import ClearSearch from './clear-search';
 
 const TagMenu = (props: UseMenuProps) => {
@@ -27,7 +25,7 @@ const TagMenu = (props: UseMenuProps) => {
   } = useMenu(props)
 
   return (
-    <VStack spacing={6}>
+    <VStack spacing={[6]}>
       <ClearSearch />
       <Wrap
         spacing={3}
@@ -70,7 +68,7 @@ const TagMenu = (props: UseMenuProps) => {
 const SearchBoxComponent = () => {
 
   return (
-    <VStack spacing={6} pb={6}>
+    <VStack spacing={[3, 6]} pb={6}>
       <SearchBox placeholder='Search for cannabis-friendly careers' />
       <VStack>
         <TagMenu attribute="tags.tagName" limit={25} sortBy={['count:desc', 'name:asc']} />

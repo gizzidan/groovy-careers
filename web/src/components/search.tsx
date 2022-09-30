@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Link,
   Avatar,
@@ -12,23 +13,20 @@ import {
   Wrap,
   Text,
   Heading,
+  useMediaQuery
 } from '@chakra-ui/react'
 import {
   InstantSearch,
   Hits,
-  SearchBox,
-  Pagination,
   Highlight,
-  ClearRefinements,
-  RefinementList,
   Configure,
 } from 'react-instantsearch-hooks-web';
-import { history } from 'instantsearch.js/es/lib/routers';
 import { FiExternalLink } from "react-icons/fi"
-import React from 'react'
 import { Link as GatsbyLink } from 'gatsby'
 import algoliasearch from "algoliasearch/lite";
 import TimeAgo from 'react-timeago'
+import enShort from 'react-timeago/lib/language-strings/en-short'
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 import DiversityTags from './diversity-tags';
 import PaginationNav from './pagination-nav';
 import SearchBoxComponent from './search-box';
@@ -37,27 +35,32 @@ import getRouting from './routing';
 const indexName = "dev_cannabisfriendly"
 const routing = getRouting(indexName)
 
+export const formatter = buildFormatter(enShort)
+
+
 const Hit = (props: any) => {
+  const [isLargerThan400] = useMediaQuery('(min-width: 400px)')
   const node = props.hit
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "mantis.50" : "whiteAlpha.200"
+    "olive.50" : "whiteAlpha.200"
   const bgHover = node.highlight === true ?
-    "mantis.100" : "blackAlpha.100"
+    "olive.100" : "blackAlpha.50"
   const border = node.highlight === true ?
     "5px solid" : "5px solid"
   const borderColor = node.highlight === true ?
-    "mantis.500" : "transparent"
+    "olive.500" : "transparent"
   const buttonVariant = node.highlight == true ? "black" : "outline"
   const time = Boolean(node.stickyLength)
-    ? <Badge colorScheme="mantis">Featured</Badge>
-    : <Text><TimeAgo date={node.publishedAt_str} /></Text>
+    ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
+    : <Text><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
   return (
     < Grid
-      p={3}
+      p={[2, 3]}
       my={3}
-      templateColumns='repeat(5, 1fr)'
+      gap={[2, 0]}
+      templateColumns={['2fr 1fr 1fr', 'repeat(5, 1fr)']}
       width="100%"
       alignItems="center"
       bg={bgColor}
@@ -69,19 +72,21 @@ const Hit = (props: any) => {
       key={node.objectID}
 
     >
-      <GridItem zIndex="docked" height="100%" gridRow={1} colStart={1} colSpan={5}>
-        <Link as={GatsbyLink} to={`/${node.path}`}><Box height="100%" ></Box></Link>
+      <GridItem zIndex="docked" height="100%" gridRow={1} colStart={[1, 1]} colSpan={[3, 5]}>
+        <Link href={`/${node.path}/`}><Box height="100%" ></Box></Link>
       </GridItem>
-      <GridItem colStart={1} gridRow={1} colSpan={2}>
-        <HStack spacing={5}>
-          {node.includeLogo === true ?
-            node.logo
-              ? <Avatar name={node.companyName} src={node.logo.logo.asset.url}></Avatar>
-              : <Avatar color="black" bg="gray.200" name={node.companyName}></Avatar>
-            : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
+      <GridItem colStart={[1, 1]} gridRow={[1, 1]} colSpan={[1, 2]}>
+        <HStack spacing={[3, 5]}>
+          {isLargerThan400 ?
+            node.includeLogo === true ?
+              node.logo
+                ? <Avatar name={node.companyName} src={node.logo.logo.asset.url}></Avatar>
+                : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
+              : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
+            : null
           }
           <VStack spacing={1} align="left">
-            <Heading variant="card" as="h3">
+            <Heading size={['xs', 'sm']} variant="card" as="h3">
               <Highlight attribute="position" hit={props.hit} />
             </Heading>
             {node.diverseOwnership
@@ -92,12 +97,12 @@ const Hit = (props: any) => {
           </VStack>
         </HStack>
       </GridItem>
-      <GridItem colStart={3} gridRow={1} colSpan={1} alignSelf="start">
-        <Text fontSize="sm">
+      <GridItem colStart={[2, 3]} gridRow={1} colSpan={[1]} alignSelf={["start", "start"]}>
+        <Text color="blackAlpha.800" fontSize="sm">
           <Highlight attribute="location" hit={props.hit} />
         </Text>
       </GridItem>
-      <GridItem colStart={4} gridRow={1} colSpan={1} alignSelf="start">
+      <GridItem display={["none", "flex"]} colStart={4} gridRow={1} colSpan={1} alignSelf="start">
         <Wrap align="center">
           {node.tags
             ? node.tags.map((tag: any) =>
@@ -124,7 +129,7 @@ const Hit = (props: any) => {
           }
         </Wrap>
       </GridItem>
-      <GridItem colStart={5} gridRow={1} colSpan={1}>
+      <GridItem colStart={[3, 5]} gridRow={1} colSpan={1}>
         <HStack verticalAlign="center" float="right">
           {time}
           <Link
@@ -135,11 +140,11 @@ const Hit = (props: any) => {
             href={node.applicationLink}
             isExternal
           >
-            <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
+            <Button display={["none", "flex"]} rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
           </Link>
         </HStack>
       </GridItem>
-    </Grid>
+    </Grid >
   )
 }
 
@@ -153,7 +158,7 @@ const Search = () => {
     <InstantSearch
       indexName={indexName}
       searchClient={algolia}
-      routing={false}
+      routing={routing}
     >
       <Box width='100%' my={8}>
         <SearchBoxComponent />

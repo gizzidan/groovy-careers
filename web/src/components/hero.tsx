@@ -1,17 +1,10 @@
 import React from 'react'
-import { GatsbyImage, StaticImage } from 'gatsby-plugin-image'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import {
   Link,
   Flex,
   Button,
   VStack,
-  HStack,
-  Center,
-  Wrap,
-  WrapItem,
-  chakra,
-  Image,
   Text,
   Heading,
   useMediaQuery
@@ -85,7 +78,11 @@ const Hero = () => {
         >
           {HomepageHero.text}
         </Text>
-        <Link as={GatsbyLink} to={`/${HomepageHero.cta.linkUrl}`}>
+        <Link
+          _hover={{
+            textDecoration: "none"
+          }}
+          as={GatsbyLink} to={`/${HomepageHero.cta.linkUrl}`}>
           <Button variant="brand">{HomepageHero.cta.text}</Button>
         </Link>
         <Text

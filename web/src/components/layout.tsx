@@ -19,7 +19,7 @@ const Layout = ({ children }: Props) => {
           as="div"
           margin="0 auto"
           maxWidth="1100px"
-          px="6"
+          px={[1, 6]}
         >
           <Box as="main">{children}</Box>
           <Box as="footer" marginTop="2rem" fontSize="l">

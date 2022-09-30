@@ -6,7 +6,7 @@ import { numDaysBetween } from "../utils/num-days-between";
 
 const algolia = algoliasearch("WCOAAGSNH7", process.env.ALGOLIA_ADMIN_KEY);
 
-export const sanity = sanityClient({
+const sanity = sanityClient({
 	projectId: "6t1tj18u",
 	dataset: "production",
 	// If your dataset is private you need to add a read token.
