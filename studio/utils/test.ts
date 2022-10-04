@@ -22,18 +22,8 @@ const params = { minLength: 0 };
 client.fetch(query, params).then((postings) => {
 	postings.forEach((posting: any) => {
 		const time = numDaysBetween(posting.publishedAt, new Date());
-		time > posting.stickyLength
-			? client
-					.patch(posting._id)
-					.set({ stickyLength: 0 })
-					.commit()
-					.then((updatedPosting) => {
-						console.log("Hurray, the posting is updated! New document:");
-						console.log(updatedPosting);
-					})
-					.catch((err) => {
-						console.error("Oh no, the update failed: ", err.message);
-					})
-			: console.log(`Posting ${posting._id} is still featured.`);
+		console.log(
+			`Created at: ${posting.publishedAt} which is ${time} days ago.`
+		);
 	});
 });
