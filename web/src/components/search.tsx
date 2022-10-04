@@ -19,10 +19,8 @@ import {
   InstantSearch,
   Hits,
   Highlight,
-  Configure,
 } from 'react-instantsearch-hooks-web';
 import { FiExternalLink } from "react-icons/fi"
-import { Link as GatsbyLink } from 'gatsby'
 import algoliasearch from "algoliasearch/lite";
 import TimeAgo from 'react-timeago'
 import enShort from 'react-timeago/lib/language-strings/en-short'
