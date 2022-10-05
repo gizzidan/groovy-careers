@@ -264,6 +264,10 @@ const theme = extendTheme({
 				mono: {
 					fontFamily: "GT-America-Mono",
 				},
+				tip: {
+					color: "blackAlpha.600",
+					fontSize: "sm",
+				},
 			},
 		},
 		Button: {

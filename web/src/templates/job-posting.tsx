@@ -8,7 +8,6 @@ import { blocksToText } from '../utils/blocks-to-text'
 var a = require('indefinite');
 import { numDaysBetween } from '../utils/num-days-between'
 import { formatter } from '../components/search'
-
 import {
   Link,
   Flex,
