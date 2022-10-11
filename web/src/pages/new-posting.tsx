@@ -86,7 +86,7 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
         cache: 'no-cache',
         body: JSON.stringify(data),
         headers: {
-          'content-type': 'application/json; charset=UTF-8',
+          'content-type': 'application/json',
         },
       })
       reset()

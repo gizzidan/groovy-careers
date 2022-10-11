@@ -10,6 +10,10 @@ export default async function handler(
 		res.json({ message: "Bad request" });
 		return;
 	}
+	const company = {
+		name: req.body.companyName,
+		invoiceAddress: req.body.invoiceAddress,
+	};
 	const posting = {
 		_type: "jobPosting",
 		position: req.body.position,
