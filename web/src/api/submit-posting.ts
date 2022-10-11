@@ -19,7 +19,10 @@ export default async function handler(
 		position: req.body.position,
 	};
 
+	console.log(`submitted form`, req.body);
+
 	await sanity.create(posting).then((res) => {
 		console.log(`Job Posting was created, document ID is ${res._id}`);
 	});
+	res.json(`ok`);
 }

@@ -78,22 +78,21 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
   const { register, handleSubmit, setError, reset, formState: { errors, isSubmitting } } = useForm<Inputs>()
 
   const API_ENDPOINT = '/api/submit-posting';
-  const handlePost: SubmitHandler<Inputs> = async data => {
-    try {
-      await fetch(API_ENDPOINT, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        body: JSON.stringify(data),
-        headers: {
-          'content-type': 'application/json',
-        },
+  const handlePost: SubmitHandler<Inputs> = data => {
+    fetch(API_ENDPOINT, {
+      method: `POST`,
+      body: JSON.stringify(data),
+      headers: {
+        "content-type": `application/json`,
+      },
+    })
+      .then(res => res.json())
+      .then(body => {
+        console.log(`response from API:`, body)
       })
-      reset()
-    } catch (error) {
-      console.log(error)
-    }
   }
+
+  console.log({ errors })
 
   const [sliderValue, setSliderValue] = useState([75000, 100000])
   const min = 10000
