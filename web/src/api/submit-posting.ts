@@ -1,7 +1,7 @@
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { sanity } from "./algolia-sanity";
 
-export default async function handler(
+export default function handler(
 	req: GatsbyFunctionRequest,
 	res: GatsbyFunctionResponse
 ) {
@@ -21,7 +21,7 @@ export default async function handler(
 
 	console.log(`submitted form`, req.body);
 
-	await sanity.create(posting).then((res) => {
+	sanity.create(posting).then((res) => {
 		console.log(`Job Posting was created, document ID is ${res._id}`);
 	});
 	res.json(`ok`);
