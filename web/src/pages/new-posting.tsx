@@ -91,6 +91,7 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
       })
       reset()
     } catch (error) {
+      console.log(error)
     }
   }
 
