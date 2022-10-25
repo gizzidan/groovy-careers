@@ -1,8 +1,10 @@
 import React, { ReactNode, useState, useRef } from 'react'
-import { useForm, SubmitHandler, UseFormRegisterReturn } from "react-hook-form"
+import { useForm, SubmitHandler, Controller, UseFormRegisterReturn } from "react-hook-form"
+import { stripHtml } from "string-strip-html";
 import {
   Box,
   Button,
+  Divider,
   ButtonGroup,
   Heading,
   Link,
@@ -33,6 +35,7 @@ import {
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import SEO from '../components/seo'
 import FileUpload from '../components/file-upload'
+import WYSIWYGEditor from '../components/wysiwyg-editor'
 
 type Inputs = {
   position: string,
@@ -75,7 +78,7 @@ type PrimarySkill = {
 }
 
 const NewPostingPage = ({ data }: PrimarySkill) => {
-  const { register, handleSubmit, setError, reset, formState: { errors, isSubmitting } } = useForm<Inputs>()
+  const { register, handleSubmit, control, setError, reset, formState: { errors, isSubmitting } } = useForm<Inputs>()
 
   const API_ENDPOINT = '/api/submit-posting';
   const handlePost: SubmitHandler<Inputs> = data => {
@@ -148,35 +151,64 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
           </FormControl>
           <FormControl isInvalid={errors.position ? true : false}>
             <FormLabel htmlFor="description">Description of Position</FormLabel>
-            <Textarea
-              id="description"
-              placeholder='Description'
-              {...register('description', {
-                required: 'This is required',
-                minLength: { value: 4, message: 'Minimum length should be 4' },
-              })}
+            <Controller
+              render={({ field }) => <WYSIWYGEditor {...field} />}
+              name="description"
+              control={control}
+              defaultValue=""
+              rules={{
+                validate: {
+                  required: (v) =>
+                    (v && stripHtml(v).result.length > 0) ||
+                    "Description is required",
+                  maxLength: (v) =>
+                    (v && stripHtml(v).result.length <= 2000) ||
+                    "Maximum character limit is 2000",
+                },
+              }}
             />
             <FormErrorMessage>
               {errors.description && errors.description.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.companyName ? true : false}>
-            <FormLabel htmlFor='companyName'>Company Name</FormLabel>
-            {showText
-              ? <Input {...register("companyName", { required: "This is required" })} placeholder="Company Name"></Input>
-              : <Select {...register("companyName", { required: "This is required" })} placeholder='Select your company'>
+          {showText
+            ?
+            <>
+              <FormControl isInvalid={errors.companyName ? true : false}>
+                <FormLabel htmlFor='companyName'>Company Name</FormLabel>
+                <Input {...register("companyName", { required: "This is required" })} placeholder="Company Name"></Input>
+
+                <FormErrorMessage>
+                  {errors.companyName && errors.companyName.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={errors.invoiceAddress ? true : false}>
+                <FormLabel htmlFor='invoiceAddress' variant="tip">Invoice Address
+                </FormLabel>
+                <Textarea {...register("invoiceAddress")} placeholder='Invoice Address' />
+                <FormHelperText>
+                  <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleHide}>Choose Company From List</Button>
+                </FormHelperText>
+              </FormControl>
+              <Divider />
+            </>
+            :
+            <FormControl isInvalid={errors.companyName ? true : false}>
+              <FormLabel htmlFor='companyName'>Company Name</FormLabel>
+              <Select {...register("companyName", { required: "This is required" })} placeholder='Select your company'>
                 <option value='option1'>Option 1</option>
                 <option value='option2'>Option 2</option>
-              </Select>}
-            <FormHelperText>
-              {showText
-                ? <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleHide}>Choose From List</Button>
-                : <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleShow}>Add New Company</Button>}
-            </FormHelperText>
-            <FormErrorMessage>
-              {errors.companyName && errors.companyName.message}
-            </FormErrorMessage>
-          </FormControl>
+              </Select>
+              <FormHelperText>
+
+                <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleShow}>Add New Company</Button>
+              </FormHelperText>
+              <FormErrorMessage>
+                {errors.companyName && errors.companyName.message}
+              </FormErrorMessage>
+            </FormControl>}
+
+
           <FormControl isInvalid={errors.skillCategory ? true : false}>
             <FormLabel htmlFor='jobCategory' variant="tip">Job Category</FormLabel>
             <Select
@@ -251,12 +283,6 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
             <FormErrorMessage>
               {errors.email && errors.email.message}
             </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={errors.invoiceAddress ? true : false}>
-            <FormLabel htmlFor='invoiceAddress' variant="tip">Invoice Address
-            </FormLabel>
-            <Textarea {...register("invoiceAddress")} placeholder='Invoice Address' />
-            <FormHelperText>Will be shown on invoices.</FormHelperText>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor='salaryRange' variant="tip">Salary Range

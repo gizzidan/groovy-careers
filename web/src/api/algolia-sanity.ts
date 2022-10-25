@@ -12,6 +12,7 @@ export const sanity = sanityClient({
 	// If your dataset is private you need to add a read token.
 	// You can mint one at https://manage.sanity.io,
 	apiVersion: "2021-03-25",
+	token: process.env.SANITY_UPDATE_TOKEN,
 	useCdn: false,
 });
 
