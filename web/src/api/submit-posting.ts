@@ -34,7 +34,7 @@ export default function handler(
 			_id: "drafts.",
 			_type: "jobPosting",
 			position: req.body.position,
-			description: blockTools.htmlToBlocks(req.body.description),
+			description: blockTools.htmlToBlocks(req.body.description, "block"),
 			primarySkill: {
 				_ref: primarySkill[0]._id,
 				_type: "reference",
