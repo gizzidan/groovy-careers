@@ -57,8 +57,14 @@ type Inputs = {
   file_: FileList
 }
 
-type PrimarySkill = {
+type PopulateList = {
   data: {
+    allSanityCompany: {
+      nodes: {
+        id: string
+        name: string
+      }[]
+    }
     allSanityPrimarySkill: {
       nodes: {
         id: string
@@ -77,7 +83,7 @@ type PrimarySkill = {
   }
 }
 
-const NewPostingPage = ({ data }: PrimarySkill) => {
+const NewPostingPage = ({ data }: PopulateList) => {
   const { register, handleSubmit, control, setError, reset, formState: { errors, isSubmitting } } = useForm<Inputs>()
 
   const API_ENDPOINT = '/api/submit-posting';
@@ -129,6 +135,7 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
 
   const skill = data.allSanityPrimarySkill.nodes
   const category = data.allSanitySkillCategory.nodes
+  const company = data.allSanityCompany.nodes
 
   return (
     <>
@@ -196,8 +203,10 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
             <FormControl isInvalid={errors.companyName ? true : false}>
               <FormLabel htmlFor='companyName'>Company Name</FormLabel>
               <Select {...register("companyName", { required: "This is required" })} placeholder='Select your company'>
-                <option value='option1'>Option 1</option>
-                <option value='option2'>Option 2</option>
+                {company.map((node) =>
+                  <option key={node.id} value={node.name}>{node.name}
+                  </option>
+                )}
               </Select>
               <FormHelperText>
 
@@ -375,6 +384,15 @@ const NewPostingPage = ({ data }: PrimarySkill) => {
 
 export const query = graphql`
   query NewPostingPageQuery {
+    allSanityCompany(sort:
+    {fields: [name],
+    order: [ASC]})
+    {
+      nodes {
+        id
+        name
+      }
+    }
     allSanityPrimarySkill(sort:
     {fields: [skillName],
     order: [ASC]})

@@ -1,5 +1,6 @@
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { sanity } from "./algolia-sanity";
+import blockTools from "@sanity/block-tools";
 
 export default function handler(
 	req: GatsbyFunctionRequest,
@@ -33,6 +34,7 @@ export default function handler(
 			_id: "drafts.",
 			_type: "jobPosting",
 			position: req.body.position,
+			description: blockTools.htmlToBlocks(req.body.description),
 			primarySkill: {
 				_ref: primarySkill[0]._id,
 				_type: "reference",
