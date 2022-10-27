@@ -1,6 +1,7 @@
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { sanity } from "./algolia-sanity";
 import blockTools from "@sanity/block-tools";
+import Schema from "@sanity/schema";
 
 export default function handler(
 	req: GatsbyFunctionRequest,
@@ -29,12 +30,38 @@ export default function handler(
 		sanity.transaction().createIfNotExists(newCompany).commit();
 	});
 
+	const defaultSchema = Schema.compile({
+		name: "myPosting",
+		types: [
+			{
+				type: "object",
+				name: "posting",
+				fields: [
+					{
+						title: "Description",
+						name: "description",
+						type: "array",
+						of: [{ type: "block" }],
+					},
+				],
+			},
+		],
+	});
+
+	const blockContentType = defaultSchema
+		.get("blogPost")
+		.fields.find((field: { name: string }) => field.name === "description")
+		.type;
+
 	sanity.fetch(query, params).then((primarySkill) => {
 		const posting = {
 			_id: "drafts.",
 			_type: "jobPosting",
 			position: req.body.position,
-			description: blockTools.htmlToBlocks(req.body.description, "array"),
+			description: blockTools.htmlToBlocks(
+				req.body.description,
+				blockContentType
+			),
 			primarySkill: {
 				_ref: primarySkill[0]._id,
 				_type: "reference",
