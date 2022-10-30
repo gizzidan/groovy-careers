@@ -48,8 +48,7 @@ type Inputs = {
   applicationLink: string,
   email: string,
   invoiceAddress: string,
-  minSalary: number,
-  maxSalary: number,
+  salaryRange: number[],
   stickyLength: number,
   includeLogo: boolean,
   highlight: boolean,
@@ -162,7 +161,6 @@ const NewPostingPage = ({ data }: PopulateList) => {
               render={({ field }) => <WYSIWYGEditor {...field} />}
               name="description"
               control={control}
-              defaultValue=""
               rules={{
                 validate: {
                   required: (v) =>
@@ -297,28 +295,39 @@ const NewPostingPage = ({ data }: PopulateList) => {
             <FormLabel htmlFor='salaryRange' variant="tip">Salary Range
             </FormLabel>
             <Text pb={2} align="center">${sliderValue[0].toLocaleString("en-US")} - ${sliderValue[1].toLocaleString("en-US")}</Text>
-            <RangeSlider
-              onChange={(val) => setSliderValue(val)}
-              aria-label={[String(min), String(max)]}
-              colorScheme='green'
-              defaultValue={[75000, 100000]}
-              min={min} max={max} step={5000}
-            >
-              <RangeSliderMark color="blackAlpha.800" value={(.25 * max)} mt='1' ml='-2.5' fontSize='sm'>
-                ${(.25 * max).toLocaleString("en-US")}
-              </RangeSliderMark>
-              <RangeSliderMark color="blackAlpha.800" value={(.50 * max)} mt='1' ml='-2.5' fontSize='sm'>
-                ${(.50 * max).toLocaleString("en-US")}
-              </RangeSliderMark>
-              <RangeSliderMark color="blackAlpha.800" value={(.75 * max)} mt='1' ml='-2.5' fontSize='sm'>
-                ${(.75 * max).toLocaleString("en-US")}
-              </RangeSliderMark>
-              <RangeSliderTrack>
-                <RangeSliderFilledTrack />
-              </RangeSliderTrack>
-              <RangeSliderThumb {...register("minSalary")} index={0} />
-              <RangeSliderThumb {...register("maxSalary")} index={1} />
-            </RangeSlider>
+            <Controller
+              control={control}
+              name="salaryRange"
+              defaultValue={[0, 10]}
+              render={({ field }) => (
+                <RangeSlider
+                  {...field}
+                  onChange={(value: any) => {
+                    setSliderValue(value); console.log(value);
+                    field.onChange(value);
+                  }}
+                  aria-label={[String(min), String(max)]}
+                  colorScheme='green'
+                  defaultValue={[75000, 100000]}
+                  min={min} max={max} step={5000}
+                >
+                  <RangeSliderMark color="blackAlpha.800" value={(.25 * max)} mt='1' ml='-2.5' fontSize='sm'>
+                    ${(.25 * max).toLocaleString("en-US")}
+                  </RangeSliderMark>
+                  <RangeSliderMark color="blackAlpha.800" value={(.50 * max)} mt='1' ml='-2.5' fontSize='sm'>
+                    ${(.50 * max).toLocaleString("en-US")}
+                  </RangeSliderMark>
+                  <RangeSliderMark color="blackAlpha.800" value={(.75 * max)} mt='1' ml='-2.5' fontSize='sm'>
+                    ${(.75 * max).toLocaleString("en-US")}
+                  </RangeSliderMark>
+                  <RangeSliderTrack>
+                    <RangeSliderFilledTrack />
+                  </RangeSliderTrack>
+                  <RangeSliderThumb index={0} />
+                  <RangeSliderThumb index={1} />
+                </RangeSlider>
+              )} />
+
           </FormControl>
           <FormControl>
             <FormLabel htmlFor='stickyLength'>Pin your post to the top for:</FormLabel>
