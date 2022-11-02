@@ -1,9 +1,11 @@
-import React, { ReactNode, useState, useRef } from 'react'
+import React, { ReactNode, useState, useEffect, useRef } from 'react'
+import loadable from '@loadable/component'
 import { useForm, SubmitHandler, Controller, UseFormRegisterReturn } from "react-hook-form"
-import { stripHtml } from "string-strip-html";
 import {
   Box,
   Button,
+  CheckboxGroup,
+  Checkbox,
   Divider,
   ButtonGroup,
   Heading,
@@ -35,8 +37,9 @@ import {
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import SEO from '../components/seo'
 import FileUpload from '../components/file-upload'
-import WYSIWYGEditor from '../components/wysiwyg-editor'
+import RichTextEditor from '@mantine/rte';
 
+// Types
 type Inputs = {
   position: string,
   description: string,
@@ -47,6 +50,7 @@ type Inputs = {
   location: string,
   applicationLink: string,
   email: string,
+  diverseOwnership: string[],
   invoiceAddress: string,
   salaryRange: number[],
   stickyLength: number,
@@ -82,8 +86,9 @@ type PopulateList = {
   }
 }
 
-const NewPostingPage = ({ data }: PopulateList) => {
-  const { register, handleSubmit, control, setError, reset, formState: { errors, isSubmitting } } = useForm<Inputs>()
+const NewPostingForm = ({ data }: PopulateList) => {
+
+  const { register, handleSubmit, control, setError, reset, watch, formState: { errors, isSubmitting } } = useForm<Inputs>()
 
   const API_ENDPOINT = '/api/submit-posting';
   const handlePost: SubmitHandler<Inputs> = data => {
@@ -136,6 +141,11 @@ const NewPostingPage = ({ data }: PopulateList) => {
   const category = data.allSanitySkillCategory.nodes
   const company = data.allSanityCompany.nodes
 
+
+  const initialValue =
+    '<p>Your initial <b>html value</b> or an empty string to init editor without value</p>';
+  const [value, onChange] = useState(initialValue);
+
   return (
     <>
       <Heading p={6} textAlign="center" as="h1">Post a Cannabis-Friendly Career</Heading>
@@ -155,22 +165,25 @@ const NewPostingPage = ({ data }: PopulateList) => {
               {errors.position && errors.position.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.position ? true : false}>
+          <FormControl isInvalid={errors.description ? true : false}>
             <FormLabel htmlFor="description">Description of Position</FormLabel>
             <Controller
-              render={({ field }) => <WYSIWYGEditor {...field} />}
-              name="description"
               control={control}
-              rules={{
-                validate: {
-                  required: (v) =>
-                    (v && stripHtml(v).result.length > 0) ||
-                    "Description is required",
-                  maxLength: (v) =>
-                    (v && stripHtml(v).result.length <= 2000) ||
-                    "Maximum character limit is 2000",
-                },
-              }}
+              name="description"
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { isTouched, isDirty, error },
+                formState,
+              }) => (
+                <RichTextEditor
+                  value={value}
+                  onChange={onChange} // send value to hook form
+                  controls={[
+                    ['bold', 'italic', 'underline', 'strike', 'link'],
+                    ['unorderedList', 'orderedList'],
+                  ]}
+                />
+              )}
             />
             <FormErrorMessage>
               {errors.description && errors.description.message}
@@ -182,10 +195,20 @@ const NewPostingPage = ({ data }: PopulateList) => {
               <FormControl isInvalid={errors.companyName ? true : false}>
                 <FormLabel htmlFor='companyName'>Company Name</FormLabel>
                 <Input {...register("companyName", { required: "This is required" })} placeholder="Company Name"></Input>
-
                 <FormErrorMessage>
                   {errors.companyName && errors.companyName.message}
                 </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={errors.diverseOwnership ? true : false}>
+                <FormLabel htmlFor='diverseOwnership'>Diverse Ownership</FormLabel>
+                <CheckboxGroup>
+                  <Stack spacing={[1, 5]} direction={['column', 'row']}>
+                    <Checkbox {...register("diverseOwnership")} value='Black-Owned'>Black-Owned</Checkbox>
+                    <Checkbox {...register("diverseOwnership")} value='Veteran-Owned'>Veteran-Owned</Checkbox>
+                    <Checkbox {...register("diverseOwnership")} value='Women-Owned'>Women-Owned</Checkbox>
+                  </Stack>
+                </CheckboxGroup>
+                <FormHelperText>Is the majority of your business diversely owned? Don't lie.</FormHelperText>
               </FormControl>
               <FormControl isInvalid={errors.invoiceAddress ? true : false}>
                 <FormLabel htmlFor='invoiceAddress' variant="tip">Invoice Address
@@ -207,15 +230,12 @@ const NewPostingPage = ({ data }: PopulateList) => {
                 )}
               </Select>
               <FormHelperText>
-
                 <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleShow}>Add New Company</Button>
               </FormHelperText>
               <FormErrorMessage>
                 {errors.companyName && errors.companyName.message}
               </FormErrorMessage>
             </FormControl>}
-
-
           <FormControl isInvalid={errors.skillCategory ? true : false}>
             <FormLabel htmlFor='jobCategory' variant="tip">Job Category</FormLabel>
             <Select
@@ -298,7 +318,7 @@ const NewPostingPage = ({ data }: PopulateList) => {
             <Controller
               control={control}
               name="salaryRange"
-              defaultValue={[0, 10]}
+              defaultValue={[75000, 100000]}
               render={({ field }) => (
                 <RangeSlider
                   {...field}
@@ -326,7 +346,8 @@ const NewPostingPage = ({ data }: PopulateList) => {
                   <RangeSliderThumb index={0} />
                   <RangeSliderThumb index={1} />
                 </RangeSlider>
-              )} />
+              )}
+            />
 
           </FormControl>
           <FormControl>
@@ -391,43 +412,5 @@ const NewPostingPage = ({ data }: PopulateList) => {
   )
 }
 
-export const query = graphql`
-  query NewPostingPageQuery {
-    allSanityCompany(sort:
-    {fields: [name],
-    order: [ASC]})
-    {
-      nodes {
-        id
-        name
-      }
-    }
-    allSanityPrimarySkill(sort:
-    {fields: [skillName],
-    order: [ASC]})
-    {
-      nodes {
-        id
-        skillName
-        skillCategory {
-          categoryName
-        }
-      }
-    }
-    allSanitySkillCategory(sort:
-    {fields: [categoryName],
-    order: [ASC]}) {
-    nodes {
-      id
-      categoryName
-    }
-  }
-  }
-`
 
-export default NewPostingPage
-
-
-export const Head = () => (
-  <SEO title="Submit a new cannabis job posting" />
-)
+export default NewPostingForm

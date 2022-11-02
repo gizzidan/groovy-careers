@@ -20,11 +20,6 @@ export default {
 			validation: (Rule) => Rule.required(),
 		},
 		{
-			name: "htmlToDescription",
-			title: "HTML to Description",
-			type: "htmlToPortableText",
-		},
-		{
 			name: "description",
 			title: "Description",
 			type: "array",

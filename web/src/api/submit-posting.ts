@@ -1,8 +1,10 @@
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { sanity } from "./algolia-sanity";
-import jobPosting from "../../../studio/schemas/jobPosting.ts";
 import { v4 as uuidv4 } from "uuid";
+import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 export default async function handler(
 	req: GatsbyFunctionRequest,
@@ -51,12 +53,13 @@ export default async function handler(
 			_id: company[0] && company[0]._id ? company[0]._id : `drafts.${id}`,
 			_type: "company",
 			name: req.body.companyName,
+			invoiceAddress: req.body.invoiceAddress,
+			diverseOwnership: req.body.diverseOwnership,
 		};
 		await sanity.transaction().createIfNotExists(newCompany).commit();
 	});
 
 	// Create tag references
-
 	const tagArray: { _ref: any; _type: string }[] = [];
 	tags[0]
 		? await tags.map(async (tag: any) => {
@@ -74,6 +77,60 @@ export default async function handler(
 		  })
 		: null;
 
+	const defaultSchema = Schema.compile({
+		name: "myPosting",
+		types: [
+			{
+				name: "jobPosting",
+				title: "Job Posting",
+				type: "document",
+				fields: [
+					{
+						name: "position",
+						title: "Position",
+						type: "string",
+						validation: (Rule: { required: () => any }) => Rule.required(),
+					},
+					{
+						name: "htmlToDescription",
+						title: "HTML to Description",
+						type: "htmlToPortableText",
+					},
+					{
+						name: "description",
+						title: "Description",
+						type: "array",
+						of: [
+							{
+								type: "block",
+							},
+						],
+						validation: (Rule: { required: () => any }) => Rule.required(),
+					},
+				],
+				initialValue: {
+					stickyLength: 0,
+					highlight: false,
+					paymentStatus: false,
+					includeLogo: false,
+				},
+			},
+		],
+	});
+
+	const blockContentType = defaultSchema
+		.get("jobPosting")
+		.fields.find((field: { name: string }) => field.name === "description")
+		.type;
+
+	const blocks = blockTools.htmlToBlocks(
+		req.body.description,
+		blockContentType,
+		{
+			parseHtml: (html: any) => new JSDOM(html).window.document,
+		}
+	);
+
 	// Create new posting
 	await sanity.fetch(companyQuery, companyParams).then(async (company) => {
 		const companyRef = company[0]._id;
@@ -83,7 +140,8 @@ export default async function handler(
 				_id: `drafts.7BwXuHYVFwl4lfuvbiftvU`,
 				_type: "jobPosting",
 				position: req.body.position,
-				htmlToDescription: req.body.description,
+				description: blocks,
+				diverseOwnership: req.body.diverseOwnership,
 				company: {
 					_ref: companyRef,
 					_type: "reference",
