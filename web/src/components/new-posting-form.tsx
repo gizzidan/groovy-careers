@@ -41,6 +41,7 @@ import RichTextEditor from '@mantine/rte';
 
 // Types
 type Inputs = {
+  [x: string]: any
   position: string,
   description: string,
   companyName: string,
@@ -57,7 +58,7 @@ type Inputs = {
   includeLogo: boolean,
   highlight: boolean,
   couponCode: string,
-  file_: FileList
+  companyLogo: FileList
 }
 
 type PopulateList = {
@@ -92,15 +93,22 @@ const NewPostingForm = ({ data }: PopulateList) => {
 
   const API_ENDPOINT = '/api/submit-posting';
   const handlePost: SubmitHandler<Inputs> = data => {
+    const formData = new FormData();
+
+    for (const key in data) {
+      if (key === 'field') {
+        formData.append(key, data.key[1])
+      } else {
+        formData.append(key, data.key)
+      }
+    }
     fetch(API_ENDPOINT, {
       method: `POST`,
-      body: JSON.stringify(data),
-      headers: {
-        "content-type": `application/json`,
-      },
+      body: formData,
     })
       .then(res => res.json())
       .then(body => {
+        console.log(data)
         console.log(`response from API:`, body)
       })
   }
@@ -362,7 +370,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
               </Stack>
             </RadioGroup>
           </FormControl>
-          <FormControl isInvalid={!!errors.file_} alignItems={"center"}>
+          <FormControl alignItems={"center"}>
             <Flex>
               <FormLabel htmlFor='includeLogo' pb="0" mb="0">Add a logo to your posting (+$29)</FormLabel>
               <Switch
@@ -376,20 +384,13 @@ const NewPostingForm = ({ data }: PopulateList) => {
             {showUpload
               ?
               <Flex py={2}>
-                <FileUpload
-                  accept={'image/*'}
-                  register={register('file_', {
-                    validate: validateFiles
-                  })}
-                >
-                </FileUpload>
-
+                <input type='file' {...register('companyLogo')} />
               </Flex>
               : null
             }
             <FormHelperText>Upload a logo if you're a new company or want to change your logo. PNG/JPG less than 10MB.</FormHelperText>
             <FormErrorMessage>
-              {errors.file_ && errors?.file_.message}
+              {errors.companyLogo && errors?.companyLogo.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl display="flex" alignItems={"center"}>

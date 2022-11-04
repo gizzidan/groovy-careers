@@ -132,7 +132,16 @@ export default async function handler(
 	);
 
 	// Create new posting
+	const logo = req.body.companyLogo[0];
 	await sanity.fetch(companyQuery, companyParams).then(async (company) => {
+		await sanity.assets
+			.upload("image", logo, {
+				contentType: logo.type,
+				filename: logo.name,
+			})
+			.then((document) => {
+				console.log(document);
+			});
 		const companyRef = company[0]._id;
 		await sanity.fetch(query, params).then(async (primarySkill) => {
 			const primarySkillRef = primarySkill[0]._id;
@@ -159,11 +168,25 @@ export default async function handler(
 				stickyLength: parseInt(req.body.stickyLength),
 				includeLogo: req.body.includeLogo,
 				highlight: req.body.highlight,
+				paymentStatus: false,
 				coupon: req.body.couponCode,
+				test: req.body.file_,
+				slug: {
+					_type: "slug",
+					current:
+						req.body.position.toLowerCase().replace(/\s+/g, "-") +
+						"-" +
+						req.body.companyName.toLowerCase().replace(/\s+/g, "-") +
+						"-" +
+						uuidv4().slice(-6),
+				},
 			};
 			console.log(posting);
 			await sanity.transaction().createOrReplace(posting).commit();
 			res.json(`ok`);
 		});
 	});
+}
+function useState(arg0: null): [any, any] {
+	throw new Error("Function not implemented.");
 }
