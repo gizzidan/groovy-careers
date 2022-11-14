@@ -5,10 +5,7 @@ const theme = extendTheme({
 	styles: {
 		global: {
 			p: {},
-			ul: {
-				listStyleType: "none",
-			},
-			ol: {
+			".ais-Hits-list": {
 				listStyleType: "none",
 			},
 			".ais-Highlight-highlighted": {
