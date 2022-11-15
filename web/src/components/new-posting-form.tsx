@@ -32,7 +32,8 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
   RangeSliderMark,
-  Text
+  Text,
+  useToast
 } from '@chakra-ui/react'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import SEO from '../components/seo'
@@ -41,7 +42,6 @@ import RichTextEditor from '@mantine/rte';
 
 // Types
 type Inputs = {
-  [x: string]: any
   position: string,
   description: string,
   companyName: string,
@@ -58,7 +58,7 @@ type Inputs = {
   includeLogo: boolean,
   highlight: boolean,
   couponCode: string,
-  companyLogo: FileList
+  companyLogo: any,
 }
 
 type PopulateList = {
@@ -88,32 +88,33 @@ type PopulateList = {
 }
 
 const NewPostingForm = ({ data }: PopulateList) => {
-
   const { register, handleSubmit, control, setError, reset, watch, formState: { errors, isSubmitting } } = useForm<Inputs>()
-
+  const toast = useToast()
   const API_ENDPOINT = '/api/submit-posting';
-  const handlePost: SubmitHandler<Inputs> = data => {
+  const handlePost: SubmitHandler<Inputs> = async data => {
     const formData = new FormData();
-
-    for (const key in data) {
-      if (key === 'field') {
-        formData.append(key, data.key[1])
-      } else {
-        formData.append(key, data.key)
-      }
+    for (const [key, value] of Object.entries(data)) {
+      key == "companyLogo"
+        ? formData.append(key, value[0], value[0].name)
+        : formData.append(key, value);
     }
-    fetch(API_ENDPOINT, {
+
+    await fetch(API_ENDPOINT, {
       method: `POST`,
       body: formData,
     })
       .then(res => res.json())
       .then(body => {
-        console.log(data)
         console.log(`response from API:`, body)
+        toast({
+          title: "Submitted!",
+          position: "top",
+          status: "success",
+          duration: 3000,
+          isClosable: true
+        });
       })
   }
-
-  console.log({ errors })
 
   const [sliderValue, setSliderValue] = useState([75000, 100000])
   const min = 10000
@@ -178,12 +179,14 @@ const NewPostingForm = ({ data }: PopulateList) => {
             <Controller
               control={control}
               name="description"
+              rules={{ required: true }}
               render={({
                 field: { onChange, onBlur, value, name, ref },
                 fieldState: { isTouched, isDirty, error },
                 formState,
               }) => (
                 <RichTextEditor
+                  sx={{ background: "transparent", fontFamily: "GT-America", fontSize: "16px" }}
                   value={value}
                   onChange={onChange} // send value to hook form
                   controls={[
@@ -221,7 +224,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
               <FormControl isInvalid={errors.invoiceAddress ? true : false}>
                 <FormLabel htmlFor='invoiceAddress' variant="tip">Invoice Address
                 </FormLabel>
-                <Textarea {...register("invoiceAddress")} placeholder='Invoice Address' />
+                <Textarea {...register("invoiceAddress", { required: "This is required" })} placeholder='Invoice Address' />
                 <FormHelperText>
                   <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleHide}>Choose Company From List</Button>
                 </FormHelperText>
@@ -300,12 +303,12 @@ const NewPostingForm = ({ data }: PopulateList) => {
           </FormControl>
           <FormControl isInvalid={errors.location ? true : false}>
             <FormLabel htmlFor='location'>Location</FormLabel>
-            <Input {...register("location")} placeholder='City, State (or Country) or Remote' />
+            <Input {...register("location", { required: "This is required" })} placeholder='City, State (or Country) or Remote' />
           </FormControl>
           <FormControl isInvalid={errors.applicationLink ? true : false}>
             <FormLabel htmlFor='applicationLink' variant="tip">Application Link
             </FormLabel>
-            <Input {...register("applicationLink", { pattern: { value: /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/, message: "Invalid URL" } })} placeholder='https://www.company.com/application' />
+            <Input {...register("applicationLink", { pattern: { value: /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/, message: "Invalid URL" }, required: "This is required" })} placeholder='https://www.company.com/application' />
           </FormControl>
           <FormControl isInvalid={errors.email ? true : false}>
             <FormLabel htmlFor='email' variant="tip">Email Address
@@ -384,13 +387,12 @@ const NewPostingForm = ({ data }: PopulateList) => {
             {showUpload
               ?
               <Flex py={2}>
-                <input type='file' {...register('companyLogo')} />
+                <input type='file' accept="image/*" {...register('companyLogo')} />
               </Flex>
               : null
             }
             <FormHelperText>Upload a logo if you're a new company or want to change your logo. PNG/JPG less than 10MB.</FormHelperText>
             <FormErrorMessage>
-              {errors.companyLogo && errors?.companyLogo.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl display="flex" alignItems={"center"}>

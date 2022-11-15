@@ -10,12 +10,17 @@ export default async function handler(
 	req: GatsbyFunctionRequest,
 	res: GatsbyFunctionResponse
 ) {
-	if (req.headers["content-type"] !== "application/json") {
+	if (req.method !== `POST`) {
 		res.status(400);
 		res.json({ message: "Bad request" });
 		return;
 	}
 
+	interface ExtRequest extends GatsbyFunctionRequest {
+		files: any;
+	}
+
+	console.log(req.body);
 	const query = '*[_type == "primarySkill" && skillName == $skillName] {_id}';
 	const params = { skillName: req.body.primarySkill };
 
@@ -57,6 +62,37 @@ export default async function handler(
 			diverseOwnership: req.body.diverseOwnership,
 		};
 		await sanity.transaction().createIfNotExists(newCompany).commit();
+	});
+
+	// Update company logo
+	await sanity.fetch(companyQuery, companyParams).then(async (company) => {
+		const companyRef = company[0]._id;
+		(req as ExtRequest).files && (req as ExtRequest).files[0]
+			? await sanity.assets
+					.upload("image", (req as ExtRequest).files[0].buffer)
+					.then((imageAsset) => {
+						// Here you can decide what to do with the returned asset document.
+						// If you want to set a specific asset field you can to the following:
+						return sanity
+							.patch(companyRef)
+							.set({
+								logo: {
+									_type: "image",
+									asset: {
+										_type: "reference",
+										_ref: imageAsset._id,
+									},
+								},
+							})
+							.commit();
+					})
+					.then(() => {
+						console.log("Logo updated!");
+					})
+					.catch((error) => {
+						console.error("Upload failed:", error.message);
+					})
+			: console.log("No uploaded files");
 	});
 
 	// Create tag references
@@ -132,16 +168,10 @@ export default async function handler(
 	);
 
 	// Create new posting
-	const logo = req.body.companyLogo[0];
+	const salaryRange = req.body.salaryRange.split(",");
+	const highlight = JSON.parse(req.body.highlight);
+	const includeLogo = JSON.parse(req.body.includeLogo);
 	await sanity.fetch(companyQuery, companyParams).then(async (company) => {
-		await sanity.assets
-			.upload("image", logo, {
-				contentType: logo.type,
-				filename: logo.name,
-			})
-			.then((document) => {
-				console.log(document);
-			});
 		const companyRef = company[0]._id;
 		await sanity.fetch(query, params).then(async (primarySkill) => {
 			const primarySkillRef = primarySkill[0]._id;
@@ -162,15 +192,15 @@ export default async function handler(
 				tags: tags[0] ? tagArray : undefined,
 				location: req.body.location,
 				applicationLink: req.body.applicationLink,
-				minAnnualSalary: req.body.salaryRange[0],
-				maxAnnualSalary: req.body.salaryRange[1],
+				minAnnualSalary: parseInt(salaryRange[0]),
+				maxAnnualSalary: parseInt(salaryRange[1]),
 				email: req.body.email,
 				stickyLength: parseInt(req.body.stickyLength),
-				includeLogo: req.body.includeLogo,
-				highlight: req.body.highlight,
+				includeLogo: includeLogo,
+				highlight: highlight,
 				paymentStatus: false,
 				coupon: req.body.couponCode,
-				test: req.body.file_,
+				test: req.body.companyLogo,
 				slug: {
 					_type: "slug",
 					current:
@@ -181,12 +211,8 @@ export default async function handler(
 						uuidv4().slice(-6),
 				},
 			};
-			console.log(posting);
 			await sanity.transaction().createOrReplace(posting).commit();
 			res.json(`ok`);
 		});
 	});
-}
-function useState(arg0: null): [any, any] {
-	throw new Error("Function not implemented.");
 }

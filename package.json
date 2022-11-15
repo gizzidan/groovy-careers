@@ -26,6 +26,7 @@
 		"rimraf": "^2.6.3"
 	},
 	"dependencies": {
-		"@sanity/block-tools": "^2.35.0"
+		"@sanity/block-tools": "^2.35.0",
+		"stripe": "^10.17.0"
 	}
 }
