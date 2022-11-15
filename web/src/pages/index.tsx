@@ -22,7 +22,9 @@ const IndexPage = () => {
   return (
     <>
       <Hero />
-      <Search />
+      <Box bg="#f3f3f3">
+        <Search />
+      </Box>
     </>
   )
 }

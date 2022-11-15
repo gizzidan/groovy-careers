@@ -10,16 +10,16 @@ const Logo = (props: any) => {
 			<Link
 				as={GatsbyLink}
 				to="/"
-				color="black"
+				color="white"
 				mb={["1", "0"]}
 				lineHeight="0"
 				fontSize={["4xl", "3xl"]}
-				fontFamily="PicnicFont"
+				fontFamily="Gulax"
 				_hover={{
 					textDecoration: "none",
 				}}
 			>
-				{isLargerThan600 ? 'CFC' : 'Cannabis Friendly Careers'}
+				{isLargerThan600 ? 'GROOVY' : 'GROOVY CAREERS'}
 			</Link>
 		</Box>
 	)

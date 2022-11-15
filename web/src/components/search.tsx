@@ -158,7 +158,8 @@ const Search = () => {
       searchClient={algolia}
       routing={routing}
     >
-      <Box width='100%' my={8}>
+      <Box maxWidth="1100px"
+        my={8} mx={"auto"} >
         <SearchBoxComponent />
         <Hits hitComponent={Hit} />
         <PaginationNav />

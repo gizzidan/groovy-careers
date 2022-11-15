@@ -209,6 +209,18 @@ const theme = extendTheme({
 			800: "#22272b",
 			900: "#050e15",
 		},
+		purple: {
+			"50": "#F4E5FF",
+			"100": "#E0B8FF",
+			"200": "#CC8AFF",
+			"300": "#B85CFF",
+			"400": "#A52EFF",
+			"500": "#9100FF",
+			"600": "#7400CC",
+			"700": "#570099",
+			"800": "#3A0066",
+			"900": "#1D0033",
+		},
 		blackOutline: {
 			50: "#738290",
 			100: "#738290",
@@ -289,7 +301,7 @@ const theme = extendTheme({
 					fontWeight: 500,
 				}),
 				brand: {
-					bg: "#F05D23",
+					bg: "#ff4200",
 					color: "white",
 					_hover: {
 						bg: "orange.600",
