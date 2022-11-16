@@ -69,7 +69,7 @@ const SearchBoxComponent = () => {
 
   return (
     <VStack spacing={[3, 6]} pb={6}>
-      <SearchBox placeholder='Search for cannabis-friendly careers' />
+      <SearchBox placeholder="Search for your dream job" />
       <VStack>
         <TagMenu attribute="tags.tagName" limit={25} sortBy={['count:desc', 'name:asc']} />
       </VStack>
@@ -79,7 +79,7 @@ const SearchBoxComponent = () => {
             sortBy={['count:desc', 'name:asc']} />
         </VStack>
       </HStack>
-    </VStack>
+    </VStack >
   )
 }
 

@@ -3,19 +3,45 @@ import Logo from './brand-logo'
 import MenuToggle from './menu-toggle'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import {
+  useDisclosure,
   Link,
   List,
   Flex,
   HStack,
   Button,
+  Text,
   Wrap,
-  chakra
+  chakra,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger
 } from '@chakra-ui/react'
+import AnnouncementBar from './announcement-bar'
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import PopoverMenu from './popover-menu'
 
 
 const Header = () => {
   const data = useStaticQuery(graphql`
     query Header {
+      sanityNavItemGroup(name: {in: ""}) {
+        name
+        navItems {
+          href {
+            linkUrl
+            externalContent
+          }
+          text
+        }
+      }
       sanityLayout {
         header {
           id
@@ -46,9 +72,20 @@ const Header = () => {
   const { navItemsGroup, cta } = data.sanityLayout.header
   const [show, setShow] = React.useState(false)
   const toggleMenu = () => setShow(!show)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initRef = React.useRef()
+  const companyLinks = {
+    link: [
+      {
+        text: "Testing",
+        href: "/"
+      }
+    ]
+  }
 
   return (
     <chakra.header id="header">
+      <AnnouncementBar />
       <Flex
         as="nav"
         bg="transparent"

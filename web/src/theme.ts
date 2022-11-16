@@ -145,7 +145,7 @@ const theme = extendTheme({
 		body: "GT-America",
 	},
 	colors: {
-		black: "#273C2C",
+		black: "#131516",
 		mantis: {
 			50: "#ebfbe4",
 			100: "#d1eec1",
@@ -169,18 +169,6 @@ const theme = extendTheme({
 			700: "#344d3a",
 			800: "#1e2e22",
 			900: "#051007",
-		},
-		yellow: {
-			50: "#fcffde",
-			100: "#f7fcb2",
-			200: "#f2f984",
-			300: "#edf755",
-			400: "#e7f528",
-			500: "#cedb11",
-			600: "#a0aa08",
-			700: "#727a03",
-			800: "#454900",
-			900: "#171900",
 		},
 		accent: {
 			50: "#dafdff",
@@ -206,18 +194,7 @@ const theme = extendTheme({
 			800: "#22272b",
 			900: "#050e15",
 		},
-		purple: {
-			"50": "#F4E5FF",
-			"100": "#E0B8FF",
-			"200": "#CC8AFF",
-			"300": "#B85CFF",
-			"400": "#A52EFF",
-			"500": "#9100FF",
-			"600": "#7400CC",
-			"700": "#570099",
-			"800": "#3A0066",
-			"900": "#1D0033",
-		},
+
 		blackOutline: {
 			50: "#738290",
 			100: "#738290",
@@ -298,10 +275,11 @@ const theme = extendTheme({
 					fontWeight: 500,
 				}),
 				brand: {
-					bg: "#ff4200",
-					color: "white",
+					bg: "mantis.300",
+					color: "black",
+					border: "3px solid black",
 					_hover: {
-						bg: "orange.600",
+						bg: "mantis.500",
 						textDecoration: "none",
 					},
 				},
@@ -315,7 +293,7 @@ const theme = extendTheme({
 				},
 			},
 			defaultProps: {
-				colorScheme: "mantis",
+				colorScheme: "purple",
 				fontFamily: "GT-America-Extended",
 				fontWeight: 500,
 			},

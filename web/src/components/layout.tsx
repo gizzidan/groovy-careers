@@ -12,8 +12,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Box
-        bg="#9BE564"
-      >
+        bg="#D0C4DF"      >
         <Header />
         <Box
           as="div"
@@ -21,7 +20,7 @@ const Layout = ({ children }: Props) => {
         >
           <Box as="main">{children}</Box>
           <Box as="footer" marginTop="2rem" fontSize="l">
-            © {new Date().getFullYear()}, Cannabis Friendly Jobs
+            © {new Date().getFullYear()}, Groovy Careers from The CFC Company
           </Box>
         </Box>
       </Box>

@@ -10,7 +10,7 @@ const ClearSearch = (props: UseClearRefinementsProps) => {
 
   return (
     canRefine ?
-      <Button rightIcon={<FiX />} colorScheme="blackAlpha" variant="outline" size="xs" onClick={() => refine()}>Clear Filters</Button >
+      <Button rightIcon={<FiX />} colorScheme="black" variant="outline" size="xs" onClick={() => refine()}>Clear All</Button >
       : null
   )
 }

@@ -45,14 +45,14 @@ const PaginationNav = ({ props }: any) => {
                 borderRightWidth={0}
                 leftIcon={<FiArrowLeft />}
                 variant="outline"
-                colorScheme="blackOutine"
+                colorScheme="black"
                 isDisabled={true}>
                 Prev
               </Button>
               <Button
                 borderRadius={0}
                 variant="outline"
-                colorScheme="blackOutine"
+                colorScheme="black"
                 isActive={true} >
                 {currentPage + 1}
               </Button>
@@ -70,7 +70,7 @@ const PaginationNav = ({ props }: any) => {
                   borderLeftWidth={0}
                   rightIcon={<FiArrowRight />}
                   variant="outline"
-                  colorScheme="blackOutine"
+                  colorScheme="black"
                   isDisabled={nextDisplay}>
                   Next
                 </Button>
@@ -93,7 +93,7 @@ const PaginationNav = ({ props }: any) => {
                     borderRightWidth={0}
                     leftIcon={<FiArrowLeft />}
                     variant="outline"
-                    colorScheme="blackOutine"
+                    colorScheme="black"
                   >
                     Prev
                   </Button>
@@ -101,7 +101,7 @@ const PaginationNav = ({ props }: any) => {
                 <Button
                   borderRadius={0}
                   variant="outline"
-                  colorScheme="blackOutine"
+                  colorScheme="black"
                   isActive={true} >
                   {currentPage + 1}
                 </Button>
@@ -110,7 +110,7 @@ const PaginationNav = ({ props }: any) => {
                   borderLeftWidth={0}
                   rightIcon={<FiArrowRight />}
                   variant="outline"
-                  colorScheme="blackOutine"
+                  colorScheme="black"
                   isDisabled={true}>
                   Next
                 </Button>
@@ -132,7 +132,7 @@ const PaginationNav = ({ props }: any) => {
                     borderRightWidth={0}
                     leftIcon={<FiArrowLeft />}
                     variant="outline"
-                    colorScheme="blackOutine"
+                    colorScheme="black"
                     isDisabled={prevDisplay}>
                     Prev
                   </Button>
@@ -140,7 +140,7 @@ const PaginationNav = ({ props }: any) => {
                 <Button
                   borderRadius={0}
                   variant="outline"
-                  colorScheme="blackOutine"
+                  colorScheme="black"
                   isActive={true} >
                   {currentPage + 1}
                 </Button>
@@ -158,7 +158,7 @@ const PaginationNav = ({ props }: any) => {
                     borderLeftWidth={0}
                     rightIcon={<FiArrowRight />}
                     variant="outline"
-                    colorScheme="blackOutine"
+                    colorScheme="black"
                   >
                     Next
                   </Button>

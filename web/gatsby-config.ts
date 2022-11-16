@@ -5,8 +5,8 @@ require("dotenv").config({
 
 const config: GatsbyConfig = {
 	siteMetadata: {
-		title: `Cannabis Friendly Careers`,
-		description: `Find cannabis friendly careers.`,
+		title: `Groovy Careers`,
+		description: `A job board tailored for innovative industries unfairly stigmatized.`,
 		author: `WDG`,
 		image: ``,
 		siteUrl: `https://www.yourdomain.tld`,

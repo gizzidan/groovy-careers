@@ -42,13 +42,13 @@ const Hit = (props: any) => {
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "olive.50" : "whiteAlpha.200"
+    "yellow.100" : "whiteAlpha.200"
   const bgHover = node.highlight === true ?
-    "olive.100" : "blackAlpha.50"
+    "yellow.200" : "blackAlpha.50"
   const border = node.highlight === true ?
     "5px solid" : "5px solid"
   const borderColor = node.highlight === true ?
-    "olive.500" : "transparent"
+    "yellow.300" : "transparent"
   const buttonVariant = node.highlight == true ? "black" : "outline"
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>

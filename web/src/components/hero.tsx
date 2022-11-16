@@ -6,10 +6,13 @@ import {
   Button,
   VStack,
   Text,
+  Box,
+  Image,
   Heading,
   useMediaQuery
 } from '@chakra-ui/react'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
+import heroImage from "../images/tokyo-magnifier-web-search-with-elements.png"
 
 
 const Hero = () => {
@@ -47,8 +50,8 @@ const Hero = () => {
       align="center"
       minH="25vh"
       px={8}
-      mt={20}
-      mb={4}
+      mt={10}
+      mb={10}
     >
       <VStack
         spacing={6}
@@ -59,7 +62,8 @@ const Hero = () => {
           as="h1"
           size="2xl"
           textAlign="center"
-          fontFamily="PicnicFont"
+          fontFamily="Gulax"
+          textTransform="uppercase"
           fontWeight="normal"
           color="black"
           whiteSpace="pre-wrap"
@@ -72,7 +76,8 @@ const Hero = () => {
         </Heading>
         <Text
           size="md"
-          opacity="0.8"
+          opacity="1"
+          color="black"
           variant="body"
           textAlign="center"
         >
@@ -82,15 +87,15 @@ const Hero = () => {
           _hover={{
             textDecoration: "none"
           }}
-          as={GatsbyLink} to={`/${HomepageHero.cta.linkUrl}`}>
+          href={`/${HomepageHero.cta.href.linkUrl}`}>
           <Button variant="brand">{HomepageHero.cta.text}</Button>
         </Link>
         <Text
           fontSize="xs"
           mt={2}
           textAlign="center"
-          color="primary.800"
-          opacity="0.6"
+          color="black"
+          opacity="1"
         >
           {HomepageHero.kicker}
         </Text>
