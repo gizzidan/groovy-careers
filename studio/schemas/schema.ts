@@ -10,6 +10,8 @@ import primarySkill from "./primarySkill";
 import skillCategory from "./skillCategory";
 import jobTag from "./jobTag";
 import company from "./company";
+import faq from "./faq";
+import questionAnswer from "./questionAnswer";
 
 import homepage from "./homepage";
 import homepageHero from "./homepageHero";
@@ -50,5 +52,7 @@ export default createSchema({
 		layoutFooter,
 		// HTML page
 		page,
+		faq,
+		questionAnswer,
 	]),
 });

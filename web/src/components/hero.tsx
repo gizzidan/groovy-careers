@@ -75,7 +75,7 @@ const Hero = () => {
           <Cursor />
         </Heading>
         <Text
-          size="md"
+          fontSize="md"
           opacity="1"
           color="black"
           variant="body"

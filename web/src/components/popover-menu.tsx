@@ -1,16 +1,21 @@
 import { Popover, Link, PopoverTrigger, Button, PopoverContent, PopoverBody } from "@chakra-ui/react";
 import { Link as GatsbyLink } from 'gatsby'
 import React from "react";
-import { FiChevronUp, FiChevronDown } from "react-icons/fi";
+import { GoChevronUp, GoChevronDown } from "react-icons/go";
 
 type TypeLink = {
-  link: {
-    text: string
-    href: string
-  }[]
+  text: string,
+  href: string
 }
 
-const PopoverMenu = (title: string, links: TypeLink) => {
+type TypeLinkSet = {
+  linkSet: {
+    title: string
+    links: TypeLink[]
+  }
+}
+
+const PopoverMenu = ({ linkSet }: TypeLinkSet) => {
   return (
     <Popover trigger='hover'>
       {({ isOpen, onClose }) => (
@@ -23,15 +28,18 @@ const PopoverMenu = (title: string, links: TypeLink) => {
               variant="link"
               colorScheme={"black"}
               iconSpacing={1}
-              rightIcon={isOpen ? <FiChevronUp /> : <FiChevronDown />}
+              rightIcon={isOpen ? <GoChevronUp /> : <GoChevronDown />}
             >
-              {title}
+              {linkSet.title}
             </Button>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverBody>
-              {links.link.map((link) =>
+              {linkSet.links.map((link: any) =>
                 <Link
+                  fontFamily="GT-America-Extended"
+                  p={2}
+                  key={link.text}
                   as={GatsbyLink}
                   to={link.href}>
                   {link.text}

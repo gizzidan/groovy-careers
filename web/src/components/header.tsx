@@ -74,13 +74,23 @@ const Header = () => {
   const toggleMenu = () => setShow(!show)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initRef = React.useRef()
-  const companyLinks = {
-    link: [
-      {
-        text: "Testing",
-        href: "/"
-      }
-    ]
+
+  const companyLinks =
+  {
+    title: "For Companies",
+    links:
+      [
+        { text: "FAQ - Companies", href: "/" }
+      ]
+  }
+
+  const applicantLinks =
+  {
+    title: "For Applicants",
+    links:
+      [
+        { text: "FAQ - Applicants", href: "/faq-applicants" }
+      ]
   }
 
   return (
@@ -102,6 +112,8 @@ const Header = () => {
           <Logo />
         </Flex>
         <HStack float="right" spacing={5}>
+          <PopoverMenu linkSet={companyLinks} />
+          <PopoverMenu linkSet={applicantLinks} />
           {navItemsGroup.map((node: { navItems: any[] }) => (
             <React.Fragment key={node.navItems.toString()}>
               {node.navItems ? (
@@ -122,6 +134,8 @@ const Header = () => {
               ) : null}
             </React.Fragment>
           ))}
+
+
           <Link
             _hover={{
               textDecoration: "none"
