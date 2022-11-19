@@ -22,6 +22,7 @@ const params = { minLength: 0 };
 client.fetch(query, params).then((postings) => {
 	postings.forEach((posting: any) => {
 		const time = numDaysBetween(posting.publishedAt, new Date());
+		console.log(time);
 		time > posting.stickyLength
 			? client
 					.patch(posting._id)

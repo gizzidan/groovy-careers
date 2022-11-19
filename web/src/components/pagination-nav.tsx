@@ -58,7 +58,8 @@ const PaginationNav = ({ props }: any) => {
               </Button>
               <Link
                 _hover={{
-                  textDecoration: "none"
+                  textDecoration: "none",
+
                 }}
                 href="#"
                 onClick={(event) => {
@@ -66,6 +67,9 @@ const PaginationNav = ({ props }: any) => {
                   refine(currentPage + 1);
                 }}>
                 <Button
+                  _hover={{
+                    bg: "blackAlpha.200",
+                  }}
                   borderLeftRadius={0}
                   borderLeftWidth={0}
                   rightIcon={<FiArrowRight />}
@@ -89,6 +93,9 @@ const PaginationNav = ({ props }: any) => {
                     refine(currentPage - 1);
                   }}>
                   <Button
+                    _hover={{
+                      bg: "blackAlpha.200",
+                    }}
                     borderRightRadius={0}
                     borderRightWidth={0}
                     leftIcon={<FiArrowLeft />}
@@ -128,6 +135,9 @@ const PaginationNav = ({ props }: any) => {
                     refine(currentPage - 1);
                   }}>
                   <Button
+                    _hover={{
+                      bg: "blackAlpha.200",
+                    }}
                     borderRightRadius={0}
                     borderRightWidth={0}
                     leftIcon={<FiArrowLeft />}
@@ -154,6 +164,9 @@ const PaginationNav = ({ props }: any) => {
                     refine(currentPage + 1);
                   }}>
                   <Button
+                    _hover={{
+                      bg: "blackAlpha.200",
+                    }}
                     borderLeftRadius={0}
                     borderLeftWidth={0}
                     rightIcon={<FiArrowRight />}

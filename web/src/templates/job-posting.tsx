@@ -143,10 +143,11 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
 
   return (
     <VStack
-      p={[3, 10]}
-      maxWidth={["100%", "700px"]}
+      p={[3, "50px"]}
+      maxWidth={["100%", "900px"]}
       m="auto"
       spacing={5}
+      bg="white"
     >
       {posting.includeLogo ?
         posting.company.logo

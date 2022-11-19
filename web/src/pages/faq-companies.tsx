@@ -35,31 +35,9 @@ import {
 } from '@chakra-ui/react'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import SEO from '../components/seo'
+import { Faq } from './faq-applicants';
 
-export const Faq = ({ q, a }: any) => {
-  return (
-    <VStack
-      align="left"
-    >
-      <Heading
-        fontFamily="GT-America"
-        fontWeight="bold"
-        textAlign="left"
-        as="h2"
-        size="md"
-      >
-        {q}
-      </Heading>
-      <Text
-        fontSize="lg"
-      >
-        {a}
-      </Text>
-    </VStack>
-  )
-}
-
-const FaqApplicants = (data: any) => {
+const FaqCompanies = (data: any) => {
   const faq = data.data.sanityFaq
 
   return (
@@ -104,8 +82,8 @@ const FaqApplicants = (data: any) => {
 }
 
 export const query = graphql`
-  query FaqApplicantsQuery {
-    sanityFaq(audience: {eq: "Applicants"}) {
+  query FaqCompaniesQuery {
+    sanityFaq(audience: {eq: "Companies"}) {
       audience
       faqList {
         answer
@@ -115,4 +93,4 @@ export const query = graphql`
   }
 `
 
-export default FaqApplicants
+export default FaqCompanies

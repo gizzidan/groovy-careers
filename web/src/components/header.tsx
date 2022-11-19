@@ -80,7 +80,7 @@ const Header = () => {
     title: "For Companies",
     links:
       [
-        { text: "FAQ - Companies", href: "/" }
+        { text: "FAQ - Companies", href: "/faq-companies" }
       ]
   }
 

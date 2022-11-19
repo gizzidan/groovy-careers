@@ -71,7 +71,7 @@ const Hit = (props: any) => {
 
     >
       <GridItem zIndex="docked" height="100%" gridRow={1} colStart={[1, 1]} colSpan={[3, 5]}>
-        <Link href={`/${node.path}/`}><Box height="100%" ></Box></Link>
+        <Link target="_blank" rel="noreferrer noopener" href={`/${node.path}/`}><Box height="100%" ></Box></Link>
       </GridItem>
       <GridItem colStart={[1, 1]} gridRow={[1, 1]} colSpan={[1, 2]}>
         <HStack spacing={[3, 5]}>
