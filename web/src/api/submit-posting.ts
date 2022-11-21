@@ -1,5 +1,6 @@
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { sanity } from "./algolia-sanity";
+import { Client, Environment, ApiError } from "square";
 import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
@@ -215,4 +216,33 @@ export default async function handler(
 			res.json(`ok`);
 		});
 	});
+
+	// Square API code
+	const square = new Client({
+		accessToken: process.env.SQUARE_ACCESS_TOKEN,
+		environment: Environment.Sandbox,
+	});
+
+	const ordersApi = square.ordersApi;
+	const checkoutApi = square.checkoutApi;
+
+	try {
+		const response = await checkoutApi.createPaymentLink({
+			idempotencyKey: "42b5a91c-21a1-452d-a668-9b076e4480f5",
+			order: {
+				locationId: "LKA24FR5PZCZV",
+				lineItems: [
+					{
+						quantity: "1",
+						catalogObjectId: "WPOCQUDYD3IPHJRDQ4BXOZCC",
+						itemType: "ITEM",
+					},
+				],
+			},
+		});
+
+		console.log(response.result);
+	} catch (error) {
+		console.log(error);
+	}
 }
