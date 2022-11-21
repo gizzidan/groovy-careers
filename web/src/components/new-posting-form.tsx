@@ -105,7 +105,8 @@ const NewPostingForm = ({ data }: PopulateList) => {
     })
       .then(res => res.json())
       .then(body => {
-        console.log(`response from API:`, body)
+        console.log("response: ", body)
+        window.location.replace(body)
         toast({
           title: "Submitted!",
           position: "top",

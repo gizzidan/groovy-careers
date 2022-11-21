@@ -47,6 +47,7 @@
 		"indefinite": "^2.4.1",
 		"instantsearch.css": "^7.4.5",
 		"jsdom": "^20.0.2",
+		"json-bigint": "^1.0.0",
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",
 		"react-hook-form": "^7.36.1",

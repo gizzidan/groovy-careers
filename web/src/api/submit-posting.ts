@@ -6,6 +6,7 @@ import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+import JSONBig from "json-bigint";
 
 export default async function handler(
 	req: GatsbyFunctionRequest,
@@ -213,7 +214,6 @@ export default async function handler(
 				},
 			};
 			await sanity.transaction().createOrReplace(posting).commit();
-			res.json(`ok`);
 		});
 	});
 
@@ -228,7 +228,7 @@ export default async function handler(
 
 	try {
 		const response = await checkoutApi.createPaymentLink({
-			idempotencyKey: "42b5a91c-21a1-452d-a668-9b076e4480f5",
+			idempotencyKey: uuidv4(),
 			order: {
 				locationId: "LKA24FR5PZCZV",
 				lineItems: [
@@ -242,6 +242,10 @@ export default async function handler(
 		});
 
 		console.log(response.result);
+		const linkParsed = JSONBig.parse(
+			JSONBig.stringify(response.result.paymentLink?.url!)
+		);
+		res.status(200).json(linkParsed);
 	} catch (error) {
 		console.log(error);
 	}
