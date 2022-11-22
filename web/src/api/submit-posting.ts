@@ -4,7 +4,7 @@ import { Client, Environment, ApiError } from "square";
 import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
-const jsdom = require("jsdom");
+import jsdom from "jsdom";
 const { JSDOM } = jsdom;
 import JSONBig from "json-bigint";
 
@@ -241,7 +241,15 @@ export default async function handler(
 				? "B7QOSIEBCM4OBXOTV6LIVH4B"
 				: "5MYAZGJT4UNEQZ45WYQW7N2D",
 	};
-	const modifierList = [pinModifier, highlightModifier];
+
+	const logoModifier = {
+		catalogObjectId:
+			req.body.includeLogo == "true"
+				? "NRSQDZM5EJSWPD6YOO4EWY6T"
+				: "IJYKNKUNYR442QGIXQTS6NJQ",
+	};
+
+	const modifierList = [pinModifier, highlightModifier, logoModifier];
 
 	try {
 		const response = await checkoutApi.createPaymentLink({
