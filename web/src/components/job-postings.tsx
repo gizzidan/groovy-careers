@@ -36,8 +36,8 @@ interface Props {
   slug: {
     current: URL
   }
-  primarySkill: {
-    skillName: string
+  category: {
+    categoryName: string
   }
   tags: {
     id: string

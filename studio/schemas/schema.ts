@@ -6,8 +6,7 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 
 import blogPost from "./blogPost";
 import jobPosting from "./jobPosting";
-import primarySkill from "./primarySkill";
-import skillCategory from "./skillCategory";
+import category from "./category";
 import jobTag from "./jobTag";
 import company from "./company";
 import faq from "./faq";
@@ -35,8 +34,7 @@ export default createSchema({
 		// things
 		blogPost,
 		jobPosting,
-		primarySkill,
-		skillCategory,
+		category,
 		jobTag,
 		company,
 		// homepage

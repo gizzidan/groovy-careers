@@ -1,6 +1,6 @@
 export default {
-	name: "skillCategory",
-	title: "Skill Category",
+	name: "category",
+	title: "Category",
 	type: "document",
 	fields: [
 		{

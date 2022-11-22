@@ -18,19 +18,16 @@ type PopulateList = {
         name: string
       }[]
     }
-    allSanityPrimarySkill: {
-      nodes: {
-        id: string
-        skillName: string
-        skillCategory: {
-          categoryName: string
-        }
-      }[]
-    }
-    allSanitySkillCategory: {
+    allSanityCategory: {
       nodes: {
         id: string
         categoryName: string
+      }[]
+    }
+    allSanityJobTag: {
+      nodes: {
+        id: string
+        tagName: string
       }[]
     }
   }
@@ -54,26 +51,22 @@ export const query = graphql`
         name
       }
     }
-    allSanityPrimarySkill(sort:
-    {fields: [skillName],
+    allSanityCategory(sort:
+    {fields: [categoryName],
     order: [ASC]})
     {
       nodes {
         id
-        skillName
-        skillCategory {
-          categoryName
-        }
+        categoryName
       }
     }
-    allSanitySkillCategory(sort:
-    {fields: [categoryName],
-    order: [ASC]}) {
-    nodes {
-      id
-      categoryName
+    allSanityJobTag(sort:{fields: [tagName], order: [ASC]})
+    {
+      nodes {
+        id
+        tagName
+      }
     }
-  }
   }
 `
 

@@ -66,8 +66,8 @@ interface Props {
       minAnnualSalary: number
       maxAnnualSalary: number
       location: string
-      primarySkill: {
-        skillName: string
+      category: {
+        categoryName: string
       }
       tags: {
         id: string
@@ -111,8 +111,8 @@ export const query = graphql`
       minAnnualSalary
       maxAnnualSalary
       location
-      primarySkill {
-        skillName
+      category {
+        categoryName
       }
       tags {
         id

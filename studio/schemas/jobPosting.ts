@@ -42,12 +42,12 @@ export default {
 			validation: (Rule) => Rule.required(),
 		},
 		{
-			name: "primarySkill",
-			title: "Primary Skill",
+			name: "category",
+			title: "Category",
 			type: "reference",
 			to: [
 				{
-					type: "primarySkill",
+					type: "category",
 				},
 			],
 			disableNew: true,

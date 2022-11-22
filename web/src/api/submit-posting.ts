@@ -23,8 +23,8 @@ export default async function handler(
 	}
 
 	console.log(req.body);
-	const query = '*[_type == "primarySkill" && skillName == $skillName] {_id}';
-	const params = { skillName: req.body.primarySkill };
+	const query = '*[_type == "category" && categoryName == $categoryName] {_id}';
+	const params = { categoryName: req.body.category };
 
 	const id = req.body.companyName.replace(/\s+/g, "-");
 
@@ -175,8 +175,8 @@ export default async function handler(
 	const includeLogo = JSON.parse(req.body.includeLogo);
 	await sanity.fetch(companyQuery, companyParams).then(async (company) => {
 		const companyRef = company[0]._id;
-		await sanity.fetch(query, params).then(async (primarySkill) => {
-			const primarySkillRef = primarySkill[0]._id;
+		await sanity.fetch(query, params).then(async (category) => {
+			const categoryRef = category[0]._id;
 			const posting = {
 				_id: `drafts.7BwXuHYVFwl4lfuvbiftvU`,
 				_type: "jobPosting",
@@ -187,8 +187,8 @@ export default async function handler(
 					_ref: companyRef,
 					_type: "reference",
 				},
-				primarySkill: {
-					_ref: primarySkillRef,
+				category: {
+					_ref: categoryRef,
 					_type: "reference",
 				},
 				tags: tags[0] ? tagArray : undefined,
@@ -226,6 +226,23 @@ export default async function handler(
 	const ordersApi = square.ordersApi;
 	const checkoutApi = square.checkoutApi;
 
+	const pinModifier = {
+		catalogObjectId:
+			req.body.stickyLength == "1"
+				? "FPCUAMKX7IFMBN6VXVUHHW7P"
+				: req.body.stickyLength == "7"
+				? "XQLHYEUJOBVHAFGMHEGEPFNJ"
+				: "3EKJX2IIJLEBFN2LTRB6XOAM",
+	};
+
+	const highlightModifier = {
+		catalogObjectId:
+			req.body.highlight == "true"
+				? "B7QOSIEBCM4OBXOTV6LIVH4B"
+				: "5MYAZGJT4UNEQZ45WYQW7N2D",
+	};
+	const modifierList = [pinModifier, highlightModifier];
+
 	try {
 		const response = await checkoutApi.createPaymentLink({
 			idempotencyKey: uuidv4(),
@@ -236,6 +253,7 @@ export default async function handler(
 						quantity: "1",
 						catalogObjectId: "WPOCQUDYD3IPHJRDQ4BXOZCC",
 						itemType: "ITEM",
+						modifiers: modifierList,
 					},
 				],
 			},

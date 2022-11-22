@@ -35,10 +35,18 @@ import {
   Text,
   useToast
 } from '@chakra-ui/react'
-import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import SEO from '../components/seo'
 import FileUpload from '../components/file-upload'
 import RichTextEditor from '@mantine/rte';
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+  AutoCompleteTag,
+  AutoCompleteCreatable
+} from "@choc-ui/chakra-autocomplete";
+
 
 // Types
 type Inputs = {
@@ -46,8 +54,8 @@ type Inputs = {
   description: string,
   companyName: string,
   skillCategory: string,
-  primarySkill: string,
-  tags: string,
+  category: string,
+  tags: string[],
   location: string,
   applicationLink: string,
   email: string,
@@ -69,19 +77,16 @@ type PopulateList = {
         name: string
       }[]
     }
-    allSanityPrimarySkill: {
-      nodes: {
-        id: string
-        skillName: string
-        skillCategory: {
-          categoryName: string
-        }
-      }[]
-    }
-    allSanitySkillCategory: {
+    allSanityCategory: {
       nodes: {
         id: string
         categoryName: string
+      }[]
+    }
+    allSanityJobTag: {
+      nodes: {
+        id: string
+        tagName: string
       }[]
     }
   }
@@ -106,7 +111,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
       .then(res => res.json())
       .then(body => {
         console.log("response: ", body)
-        window.location.replace(body)
+        window.open(body, "_blank")
         toast({
           title: "Submitted!",
           position: "top",
@@ -147,14 +152,14 @@ const NewPostingForm = ({ data }: PopulateList) => {
     return true
   }
 
-  const skill = data.allSanityPrimarySkill.nodes
-  const category = data.allSanitySkillCategory.nodes
+  const category = data.allSanityCategory.nodes
   const company = data.allSanityCompany.nodes
+  const tag = data.allSanityJobTag.nodes
 
+  const options = tag.map((tag) => tag.tagName)
 
   const initialValue =
     '<p>Your initial <b>html value</b> or an empty string to init editor without value</p>';
-  const [value, onChange] = useState(initialValue);
 
   return (
     <>
@@ -249,46 +254,74 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   {errors.companyName && errors.companyName.message}
                 </FormErrorMessage>
               </FormControl>}
-            <FormControl isInvalid={errors.skillCategory ? true : false}>
-              <FormLabel htmlFor='jobCategory' variant="tip">Job Category</FormLabel>
+
+            <FormControl
+              isInvalid={errors.category ? true : false}
+
+            >
+              <FormLabel htmlFor='category' variant="tip">Category</FormLabel>
+
               <Select
-                id="jobCategory"
-                placeholder='Select one job category'
-                {...register('skillCategory', {
-                  onChange: changeSelectOptionHandler,
+                id="category"
+                placeholder='Select one category for this position'
+                {...register('category', {
                   required: 'This is required',
                 })}
               >
                 {category.map((node) =>
                   <option key={node.id} value={node.categoryName}>{node.categoryName}
-                  </option>
-                )}
+                  </option>)}
               </Select>
               <FormErrorMessage>
-                {errors.skillCategory && errors.skillCategory.message}
+                {errors.category && errors.category.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl
-              isInvalid={errors.primarySkill ? true : false}
-              isDisabled={selected ? false : true}
-            >
-              <FormLabel htmlFor='primarySkill' variant="tip">Primary Skill</FormLabel>
-
-              <Select
-                id="primarySkill"
-                placeholder='Select one primary skill'
-                {...register('primarySkill', {
-                  required: 'This is required',
-                })}
-              >
-                {skill.map((node) =>
-                  node.skillCategory.categoryName === selected ?
-                    <option key={node.id} value={node.skillName}>{node.skillName}
-                    </option> : null)}
-              </Select>
-              <FormErrorMessage>
-                {errors.primarySkill && errors.primarySkill.message}
-              </FormErrorMessage>
+            <FormControl>
+              <FormLabel htmlFor='tags' variant="tip">Tags</FormLabel>
+              <Controller
+                control={control}
+                name="tags"
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <AutoComplete
+                    maxSelections={5} creatable openOnFocus multiple
+                    onChange={onChange}
+                    value={value}
+                  >
+                    <AutoCompleteInput variant="outline">
+                      {({ tags }) =>
+                        tags.map((tag, tid) => (
+                          <AutoCompleteTag
+                            key={tid}
+                            label={tag.label}
+                            colorScheme="purple"
+                            onRemove={tag.onRemove}
+                          />
+                        ))
+                      }
+                    </AutoCompleteInput>
+                    <AutoCompleteList>
+                      {options.map((tags, cid) => (
+                        <AutoCompleteItem
+                          key={`option-${cid}`}
+                          value={tags}
+                          textTransform="capitalize"
+                          _selected={{ bg: "blackAlpha.50" }}
+                          _focus={{ bg: "blackAlpha.100" }}
+                        >
+                          {tags}
+                        </AutoCompleteItem>
+                      ))}
+                      <AutoCompleteCreatable p={0} m={0} color="purple.600">
+                        {({ value }) => <Text p={2} h="100%" w="100%" bg="whiteAlpha.800">+ Add {value} to List</Text>}
+                      </AutoCompleteCreatable>
+                    </AutoCompleteList>
+                  </AutoComplete>
+                )}
+              />
             </FormControl>
             <FormControl isInvalid={errors.tags ? true : false} >
               <FormLabel htmlFor='tags' variant="tip">Tags</FormLabel>
