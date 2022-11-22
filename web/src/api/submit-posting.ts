@@ -4,8 +4,6 @@ import { Client, Environment, ApiError } from "square";
 import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
-import jsdom from "jsdom";
-const { JSDOM } = jsdom;
 import JSONBig from "json-bigint";
 
 export default async function handler(
@@ -163,10 +161,7 @@ export default async function handler(
 
 	const blocks = blockTools.htmlToBlocks(
 		req.body.description,
-		blockContentType,
-		{
-			parseHtml: (html: any) => new JSDOM(html).window.document,
-		}
+		blockContentType
 	);
 
 	// Create new posting
