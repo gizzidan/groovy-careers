@@ -163,10 +163,7 @@ export default async function handler(
 
 	const blocks = blockTools.htmlToBlocks(
 		req.body.description,
-		blockContentType,
-		{
-			parseHtml: (html: any) => new JSDOM(html).window.document,
-		}
+		blockContentType
 	);
 
 	// Create new posting
@@ -241,7 +238,15 @@ export default async function handler(
 				? "B7QOSIEBCM4OBXOTV6LIVH4B"
 				: "5MYAZGJT4UNEQZ45WYQW7N2D",
 	};
-	const modifierList = [pinModifier, highlightModifier];
+
+	const logoModifier = {
+		catalogObjectId:
+			req.body.includeLogo == "true"
+				? "NRSQDZM5EJSWPD6YOO4EWY6T"
+				: "IJYKNKUNYR442QGIXQTS6NJQ",
+	};
+
+	const modifierList = [pinModifier, highlightModifier, logoModifier];
 
 	try {
 		const response = await checkoutApi.createPaymentLink({
