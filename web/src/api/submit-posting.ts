@@ -4,7 +4,7 @@ import { Client, Environment, ApiError } from "square";
 import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
-const jsdom = require("jsdom");
+import jsdom from "jsdom";
 const { JSDOM } = jsdom;
 import JSONBig from "json-bigint";
 
