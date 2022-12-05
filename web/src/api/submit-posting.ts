@@ -4,9 +4,10 @@ import { Client, Environment, ApiError } from "square";
 import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
+import JSONBig from "json-bigint";
+import parse5 from "parse5";
 import jsdom from "jsdom";
 const { JSDOM } = jsdom;
-import JSONBig from "json-bigint";
 
 export default async function handler(
 	req: GatsbyFunctionRequest,
@@ -163,8 +164,13 @@ export default async function handler(
 
 	const blocks = blockTools.htmlToBlocks(
 		req.body.description,
-		blockContentType
+		blockContentType,
+		{
+			parseHtml: (html: any) => new JSDOM(html).window.document,
+		}
 	);
+
+	console.log(blocks);
 
 	// Create new posting
 	const salaryRange = req.body.salaryRange.split(",");

@@ -99,7 +99,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
   const handlePost: SubmitHandler<Inputs> = async data => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-      key == "companyLogo"
+      key == "companyLogo" && value[0]
         ? formData.append(key, value[0], value[0].name)
         : formData.append(key, value);
     }
