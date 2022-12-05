@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
 import JSONBig from "json-bigint";
-import parse5 from "parse5";
 import jsdom from "jsdom";
 const { JSDOM } = jsdom;
 
