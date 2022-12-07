@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"author": "WDG",
 	"engines": {
-		"node": "16.x"
+		"node": "18.x"
 	},
 	"scripts": {
 		"clean": "lerna clean",
@@ -24,9 +24,5 @@
 	"devDependencies": {
 		"lerna": "^3.14.1",
 		"rimraf": "^2.6.3"
-	},
-	"dependencies": {
-		"@sanity/block-tools": "^2.35.0",
-		"stripe": "^10.17.0"
 	}
 }
