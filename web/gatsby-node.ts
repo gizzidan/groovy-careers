@@ -10,7 +10,14 @@ exports.onCreateWebpackConfig = ({
 }: any) => {
 	if (stage === "build-html") {
 		actions.setWebpackConfig({
-			externals: ["canvas"],
+			module: {
+				rules: [
+					{
+						test: /canvas/,
+						use: loaders.null(),
+					},
+				],
+			},
 		});
 	}
 };

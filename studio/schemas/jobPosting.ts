@@ -20,6 +20,17 @@ export default {
 			validation: (Rule) => Rule.required(),
 		},
 		{
+			name: "descriptionPaste",
+			title: "Description Paste",
+			type: "text",
+			readOnly: true,
+		},
+		{
+			name: "htmltoDescription",
+			title: "HTML to Description",
+			type: "htmlToPortableText",
+		},
+		{
 			name: "description",
 			title: "Description",
 			type: "array",

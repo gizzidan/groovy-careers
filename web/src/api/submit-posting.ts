@@ -5,8 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import blockTools from "@sanity/block-tools";
 import JSONBig from "json-bigint";
-import jsdom from "jsdom";
-const { JSDOM } = jsdom;
 
 export default async function handler(
 	req: GatsbyFunctionRequest,
@@ -161,16 +159,6 @@ export default async function handler(
 		.fields.find((field: { name: string }) => field.name === "description")
 		.type;
 
-	const blocks = blockTools.htmlToBlocks(
-		req.body.description,
-		blockContentType,
-		{
-			parseHtml: (html: any) => new JSDOM(html).window.document,
-		}
-	);
-
-	console.log(blocks);
-
 	// Create new posting
 	const salaryRange = req.body.salaryRange.split(",");
 	const highlight = JSON.parse(req.body.highlight);
@@ -183,7 +171,7 @@ export default async function handler(
 				_id: `drafts.7BwXuHYVFwl4lfuvbiftvU`,
 				_type: "jobPosting",
 				position: req.body.position,
-				description: blocks,
+				descriptionPaste: req.body.description,
 				diverseOwnership: req.body.diverseOwnership,
 				company: {
 					_ref: companyRef,
@@ -225,7 +213,6 @@ export default async function handler(
 		environment: Environment.Sandbox,
 	});
 
-	const ordersApi = square.ordersApi;
 	const checkoutApi = square.checkoutApi;
 
 	const pinModifier = {

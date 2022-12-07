@@ -7,7 +7,7 @@ import SEO from '../components/seo'
 import FileUpload from '../components/file-upload'
 import RichText from '../components/rich-text-editor'
 
-const NewPostingForm = loadable(() => import('../components/new-posting-form'))
+const NewPostingForm = loadable(() => import('../components/new-posting-form.tsx'))
 
 // Types
 type PopulateList = {
