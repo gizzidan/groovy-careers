@@ -1,11 +1,7 @@
-import React, { ReactNode, useState, useEffect, useRef } from 'react'
+import React from 'react'
 import loadable from '@loadable/component'
-import { useForm } from '@mantine/form';
-import { TextInput, Checkbox, Group } from '@mantine/core';
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import SEO from '../components/seo'
-import FileUpload from '../components/file-upload'
-import RichText from '../components/rich-text-editor'
 
 const NewPostingForm = loadable(() => import('../components/new-posting-form.tsx'))
 

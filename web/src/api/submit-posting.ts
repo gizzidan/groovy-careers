@@ -3,7 +3,6 @@ import { sanity } from "./algolia-sanity";
 import { Client, Environment, ApiError } from "square";
 import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
-import blockTools from "@sanity/block-tools";
 import JSONBig from "json-bigint";
 
 export default async function handler(
