@@ -25,19 +25,11 @@ export default async function removeSticky(
 		return;
 	}
 
-	const cronhooksSignature = req.headers["cronhooks-signature"]; // req.headers['Cronhooks-Signature']
-
-	let body = req.body.toString();
-
-	const expectedSignature = crypto
-		.createHmac("sha256", process.env.CRONHOOKS_SECRET)
-		.update(body)
-		.digest("hex");
-
-	if (cronhooksSignature !== expectedSignature) {
-		res.status(401);
-		res.json({ message: "Unauthorized" });
-		return;
+	if (req.headers.CRONHOOK_PASSWORD !== process.env.CRONHOOK_PASSWORD) {
+		return res.status(401).json({
+			error: "unauthorized",
+			error_description: "The Cronhook web hook password is not correct",
+		});
 	}
 	res.status(200);
 	const query =
