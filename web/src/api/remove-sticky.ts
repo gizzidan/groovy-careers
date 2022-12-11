@@ -27,7 +27,7 @@ export default async function removeSticky(
 
 	const cronhooksSignature = req.headers["cronhooks-signature"]; // req.headers['Cronhooks-Signature']
 
-	let body = req.body;
+	let body = req.body.toString();
 
 	const expectedSignature = crypto
 		.createHmac("sha256", process.env.CRONHOOKS_SECRET)
