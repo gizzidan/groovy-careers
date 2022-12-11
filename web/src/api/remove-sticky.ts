@@ -1,10 +1,19 @@
 import { sanity } from "./algolia-sanity";
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
+import crypto from "crypto";
 
 function numDaysBetween(d1: any, d2: any) {
 	var diff = Math.abs(new Date(d1).getTime() - new Date(d2).getTime());
 	return diff / (1000 * 60 * 60 * 24);
 }
+
+export const config = {
+	bodyParser: {
+		raw: {
+			type: `*/*`,
+		},
+	},
+};
 
 export default async function removeSticky(
 	req: GatsbyFunctionRequest,
@@ -16,17 +25,20 @@ export default async function removeSticky(
 		return;
 	}
 
-	const userpass = Buffer.from(
-		(req.headers.authorization || "").split(" ")[1] || "",
-		"base64"
-	).toString();
-	if (userpass !== process.env.CFC_USERNAME + ":" + process.env.CFC_PASSWORD) {
-		res.writeHead(401, { "WWW-Authenticate": 'Basic realm="nope"' });
-		res.end("HTTP Error 401 Unauthorized: Access is denied");
+	const cronhooksSignature = req.headers["cronhooks-signature"]; // req.headers['Cronhooks-Signature']
+
+	let body = req.body;
+
+	const expectedSignature = crypto
+		.createHmac("sha256", process.env.CRONHOOKS_SECRET)
+		.update(body)
+		.digest("hex");
+
+	if (cronhooksSignature !== expectedSignature) {
+		res.status(401);
+		res.json({ message: "Unauthorized" });
 		return;
 	}
-	res.end("You are in! Yay!!");
-
 	res.status(200);
 	const query =
 		'*[_type == "jobPosting" && stickyLength >= $minLength] {_id, publishedAt, stickyLength}';
