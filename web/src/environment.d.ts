@@ -5,7 +5,7 @@ declare global {
 		interface ProcessEnv {
 			ALGOLIA_ADMIN_KEY: string;
 			GATSBY_ALGOLIA_SEARCH_KEY: string;
-			CRONHOOKS_SECRET: string;
+			CRONHOOKS_PASSWORD: string;
 		}
 	}
 }
