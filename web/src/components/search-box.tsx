@@ -8,11 +8,25 @@ import {
   TagLabel,
   TagCloseButton,
 } from '@chakra-ui/react'
+import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react'
 import { SearchBox, RefinementList, useMenu, UseMenuProps } from 'react-instantsearch-hooks-web';
 import ClearSearch from './clear-search';
 
 const TagMenu = (props: UseMenuProps) => {
+  const data = useStaticQuery(graphql`
+    query SearchBoxQuery {
+      allSanityCategory(sort:
+      {fields: [categoryName],
+      order: [ASC]})
+      {
+        nodes {
+          id
+          categoryName
+        }
+      }
+    }
+  `)
   const {
     items,
     createURL,
@@ -24,9 +38,13 @@ const TagMenu = (props: UseMenuProps) => {
     sendEvent,
   } = useMenu(props)
 
+  const categories = ['']
+  data.allSanityCategory.nodes.map((node: any) =>
+    categories.push(node.categoryName)
+  )
+
   return (
     <VStack spacing={[6]}>
-      <ClearSearch />
       <Wrap
         spacing={3}
         justify="center"
@@ -45,6 +63,7 @@ const TagMenu = (props: UseMenuProps) => {
               }}
             >
               <Tag
+                colorScheme='blackAlpha'
                 fontFamily="GT-America-Mono"
                 _hover={{
                   bg: "blackAlpha.600",
@@ -52,7 +71,7 @@ const TagMenu = (props: UseMenuProps) => {
                 }}
                 variant={item.isRefined ? "solid" : "subtle"}
               >
-                <TagLabel>{item.label}</TagLabel>
+                <TagLabel>{categories.indexOf(item.label) > -1 ? item.label.toUpperCase() : item.label}</TagLabel>
                 {item.isRefined ?
                   <TagCloseButton />
                   : null}
@@ -69,8 +88,11 @@ const SearchBoxComponent = () => {
 
   return (
     <VStack spacing={[3, 6]} pb={6}>
-      <SearchBox placeholder="Search for your dream job" />
+      <SearchBox placeholder="Search for your dream job" />\
+      <ClearSearch />
+
       <VStack>
+        <TagMenu attribute="category" limit={25} sortBy={['count:desc', 'name:asc']} />
         <TagMenu attribute="tags.tagName" limit={25} sortBy={['count:desc', 'name:asc']} />
       </VStack>
       <HStack>

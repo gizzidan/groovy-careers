@@ -32,7 +32,7 @@ export default async function handler(
 		? await tags.map((tag: any) => {
 				const tagQuery = '*[_type == "jobTag" && tagName == $tagName] {_id}';
 				const tagParams = { tagName: tag };
-				const tagName = tag;
+				const tagName = tag.replace(/\s+/g, "-").toLowerCase();
 				sanity.fetch(tagQuery, tagParams).then(async (tag) => {
 					const slug = {
 						_type: "slug",
@@ -167,7 +167,7 @@ export default async function handler(
 		await sanity.fetch(query, params).then(async (category) => {
 			const categoryRef = category[0]._id;
 			const posting = {
-				_id: `drafts.7BwXuHYVFwl4lfuvbiftvU`,
+				_id: `drafts.`,
 				_type: "jobPosting",
 				position: req.body.position,
 				descriptionPaste: req.body.description,

@@ -5,14 +5,29 @@ import {
   Flex,
   Button,
   VStack,
+  HStack,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuOptionGroup,
+  MenuItemOption,
   Box,
   Image,
   Heading,
-  useMediaQuery
+  useMediaQuery,
+  MenuDivider,
+  Input,
+  Stack,
+  Grid,
+  GridItem,
+  Portal,
+  IconButton,
+  Tooltip
 } from '@chakra-ui/react'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
-import heroImage from "../images/tokyo-magnifier-web-search-with-elements.png"
+import { FiChevronDown, FiSettings, FiSliders } from "react-icons/fi"
+import NewsletterSignup from './newsletter-signup'
 
 
 const Hero = () => {
@@ -32,8 +47,18 @@ const Hero = () => {
           }
         }
       }
+      allSanityCategory(sort:
+      {fields: [categoryName],
+      order: [ASC]})
+      {
+        nodes {
+          id
+          categoryName
+        }
+      }
     }
   `)
+
   const [isLargerThan600] = useMediaQuery('(max-width: 600px)')
   const HomepageHero = data.sanityHomepageHero
   const words = HomepageHero.typewriter.slice(0)
@@ -75,7 +100,7 @@ const Hero = () => {
           <Cursor />
         </Heading>
         <Text
-          fontSize="md"
+          fontSize="lg"
           opacity="1"
           color="black"
           variant="body"
@@ -83,13 +108,7 @@ const Hero = () => {
         >
           {HomepageHero.text}
         </Text>
-        <Link
-          _hover={{
-            textDecoration: "none"
-          }}
-          href={`/${HomepageHero.cta.href.linkUrl}`}>
-          <Button variant="brand">{HomepageHero.cta.text}</Button>
-        </Link>
+        <NewsletterSignup />
         <Text
           fontSize="xs"
           mt={2}
@@ -99,8 +118,8 @@ const Hero = () => {
         >
           {HomepageHero.kicker}
         </Text>
-      </VStack>
-    </Flex>
+      </VStack >
+    </Flex >
   )
 }
 

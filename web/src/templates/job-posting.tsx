@@ -158,7 +158,8 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
       <DiversityTags label={null} diverseOwnership={posting.company.diverseOwnership} />
       <Heading
         as="h1"
-        fontFamily="GT-America"
+        size="lg"
+        fontFamily="GT-America-Extended"
         textAlign="center"
         fontWeight="500"
         whiteSpace="pre-wrap"
@@ -178,28 +179,43 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
       <Button variant="solid">Apply Now</Button>
       <Grid
         pt={10}
+        px={"12px"}
         templateColumns='repeat(3, 1fr)'
         width="100%"
         gap={5}
         alignItems={"center"}
         textAlign={"center"}
       >
-        <GridItem>
-          <Text><TimeAgo date={posting._createdAt} formatter={formatter} /></Text>
+        <GridItem alignSelf={"left"}>
+          <Text align="left" ><TimeAgo date={posting._createdAt} formatter={formatter} /></Text>
         </GridItem>
         <GridItem>
           <Text whiteSpace={"pre-wrap"}>View more jobs at
-            < br />{posting.company.name}</Text>
+            < br /><Link
+              textDecoration="underline"
+              href={`/?query=${posting.company.name}`}
+            >{posting.company.name}</Link></Text>
         </GridItem>
         <GridItem>
           <Wrap align="center">
             {posting.tags.map((tag) =>
-              <Tag
-                key={tag.id}
-                fontFamily="GT-America-Mono"
+              <Link
+                _hover={{
+                  textDecoration: "none",
+                }}
+                href={`/?tag=${tag.tagName}`}
+                key={tag.slug.current}
               >
-                {tag.tagName}
-              </Tag>
+                <Tag
+                  fontFamily="GT-America-Mono"
+                  _hover={{
+                    bg: "blackAlpha.600",
+                    color: "white"
+                  }}
+                >
+                  {tag.tagName}
+                </Tag>
+              </Link>
             )}
           </Wrap>
         </GridItem>

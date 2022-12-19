@@ -93,7 +93,13 @@ type PopulateList = {
 }
 
 const NewPostingForm = ({ data }: PopulateList) => {
-  const { register, handleSubmit, control, setError, reset, watch, formState: { errors, isSubmitting } } = useForm<Inputs>()
+  const { register, handleSubmit, control, setError, reset, watch, formState, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<Inputs>()
+  React.useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
+
   const toast = useToast()
   const API_ENDPOINT = '/api/submit-posting';
   const handlePost: SubmitHandler<Inputs> = async data => {
@@ -116,7 +122,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
           title: "Submitted!",
           position: "top",
           status: "success",
-          duration: 3000,
+          duration: 6000,
           isClosable: true
         });
       })
@@ -276,7 +282,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                 {errors.category && errors.category.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={errors.tags ? true : false}>
               <FormLabel htmlFor='tags' variant="tip">Tags</FormLabel>
               <Controller
                 control={control}
@@ -287,7 +293,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   formState,
                 }) => (
                   <AutoComplete
-                    maxSelections={5} creatable openOnFocus multiple
+                    maxSelections={4} openOnFocus multiple
                     onChange={onChange}
                     value={value}
                   >
@@ -315,26 +321,11 @@ const NewPostingForm = ({ data }: PopulateList) => {
                           {tags}
                         </AutoCompleteItem>
                       ))}
-                      <AutoCompleteCreatable p={0} m={0} color="purple.600">
-                        {({ value }) => <Text p={2} h="100%" w="100%" bg="whiteAlpha.800">+ Add {value} to List</Text>}
-                      </AutoCompleteCreatable>
                     </AutoCompleteList>
                   </AutoComplete>
                 )}
               />
-            </FormControl>
-            <FormControl isInvalid={errors.tags ? true : false} >
-              <FormLabel htmlFor='tags' variant="tip">Tags</FormLabel>
-              <Input {...register("tags", {
-                pattern: {
-                  value: /^[a-zA-Z0-9-\S]+(?:[,]+[a-zA-Z0-9-]+){0,4}$/,
-                  message: "Invalid tag"
-                }
-              })} placeholder='cultivation,retail,front-end' />
-              <FormHelperText>List relevant tags separated with a comma and no spaces (max five).</FormHelperText>
-              <FormErrorMessage>
-                {errors.tags && errors.tags.message}
-              </FormErrorMessage>
+              <FormHelperText>Max four tags.</FormHelperText>
             </FormControl>
             <FormControl isInvalid={errors.location ? true : false}>
               <FormLabel htmlFor='location'>Location</FormLabel>

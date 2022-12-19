@@ -25,7 +25,6 @@ import {
   PopoverTrigger
 } from '@chakra-ui/react'
 import AnnouncementBar from './announcement-bar'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import PopoverMenu from './popover-menu'
 
 

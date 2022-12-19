@@ -19,6 +19,7 @@ import {
   InstantSearch,
   Hits,
   Highlight,
+  Configure,
 } from 'react-instantsearch-hooks-web';
 import { FiExternalLink } from "react-icons/fi"
 import algoliasearch from "algoliasearch/lite";
@@ -34,7 +35,6 @@ const indexName = "dev_cannabisfriendly"
 const routing = getRouting(indexName)
 
 export const formatter = buildFormatter(enShort)
-
 
 const Hit = (props: any) => {
   const [isLargerThan400] = useMediaQuery('(min-width: 400px)')
@@ -102,6 +102,23 @@ const Hit = (props: any) => {
       </GridItem>
       <GridItem display={["none", "flex"]} colStart={4} gridRow={1} colSpan={1} alignSelf="start">
         <Wrap align="center">
+          <Link
+            zIndex="sticky"
+            _hover={{
+              textDecoration: "none",
+            }}
+            href={`/?category=${node.category}`}
+          >
+            <Tag
+              fontFamily="GT-America-Mono"
+              _hover={{
+                bg: "blackAlpha.600",
+                color: "white"
+              }}
+            >
+              {node.category.toUpperCase()}
+            </Tag>
+          </Link>
           {node.tags
             ? node.tags.map((tag: any) =>
               <Link
@@ -109,7 +126,7 @@ const Hit = (props: any) => {
                 _hover={{
                   textDecoration: "none",
                 }}
-                href={`/?tags=${tag.tagName}`}
+                href={`/?tag=${tag.tagName}`}
                 key={tag.slug.current}
               >
                 <Tag
@@ -130,16 +147,19 @@ const Hit = (props: any) => {
       <GridItem colStart={[3, 5]} gridRow={1} colSpan={1}>
         <HStack verticalAlign="center" float="right">
           {time}
-          <Link
-            _hover={{
-              textDecoration: "none"
-            }}
-            zIndex="sticky"
-            href={node.applicationLink}
-            isExternal
-          >
-            <Button display={["none", "flex"]} rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
-          </Link>
+          <VStack>
+            <Link
+              _hover={{
+                textDecoration: "none"
+              }}
+              zIndex="sticky"
+              href={node.applicationLink}
+              isExternal
+            >
+              <Button display={["none", "flex"]} rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
+            </Link>
+            <Text color="blackAlpha.700" fontSize="sm" >Via Glassdoor</Text>
+          </VStack>
         </HStack>
       </GridItem>
     </Grid >
@@ -147,6 +167,10 @@ const Hit = (props: any) => {
 }
 
 const Search = () => {
+  const d = new Date()
+  const timeBetween = Math.floor(d.setDate(d.getDate() - 900) / 1000)
+  console.log(timeBetween)
+
   const algolia = algoliasearch(
     "WCOAAGSNH7",
     process.env.GATSBY_ALGOLIA_SEARCH_KEY
@@ -157,7 +181,10 @@ const Search = () => {
       indexName={indexName}
       searchClient={algolia}
       routing={routing}
+
     >
+      <Configure
+        filters={`publishedAt>${timeBetween}`} />
       <Box maxWidth="1100px"
         my={8} mx={"auto"} >
         <SearchBoxComponent />

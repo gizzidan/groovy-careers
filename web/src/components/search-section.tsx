@@ -29,10 +29,18 @@ const SearchSection = () => {
           }
         }
       }
+    allSanityCategory(sort: {order: ASC, fields: categoryName}) {
+      nodes {
+        id
+        categoryName
+        }
+      }
     }
   `)
 
   const jobTag = data.allSanityJobTag.nodes
+  const category = data.allSanityCategory.nodes
+
 
   return (
     <VStack spacing={6}>
@@ -74,6 +82,7 @@ const SearchSection = () => {
             </Link>
           </WrapItem>
         ))}
+
       </Wrap>
     </VStack>
   )

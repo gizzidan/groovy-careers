@@ -162,16 +162,19 @@ const JobPostings = ({ data }: { data: { allSanityJobPosting: { nodes: any } } }
                 <GridItem colStart={5} gridRow={1} colSpan={1}>
                   <HStack verticalAlign="center" float="right">
                     {time}
-                    <Link
-                      _hover={{
-                        textDecoration: "none"
-                      }}
-                      zIndex="sticky"
-                      href={node.applicationLink}
-                      isExternal
-                    >
-                      <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
-                    </Link>
+                    <VStack>
+                      <Link
+                        _hover={{
+                          textDecoration: "none"
+                        }}
+                        zIndex="sticky"
+                        href={node.applicationLink}
+                        isExternal
+                      >
+                        <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
+                      </Link>
+                      <Text fontStyle="italic">Via Glassdoor</Text>
+                    </VStack>
                   </HStack>
                 </GridItem>
               </Grid >

@@ -26,12 +26,14 @@ type RouteState = {
   query?: string
   page?: string
   tag?: string
+  category?: string
   diverse?: string[]
 }
 
 const routeStateDefaultValues: RouteState = {
   query: '',
   page: '1',
+  category: '',
   tag: '',
   diverse: undefined,
 }
@@ -45,17 +47,26 @@ const dateString = month + ' ' + year
 const router = history<RouteState>({
   windowTitle(routeState) {
     const indexState = routeState || {}
-    if (indexState.tag && indexState.diverse) {
-      return `${cap(indexState.tag)} Cannabis Careers at ${indexState.diverse} Companies - ${dateString}`
+    if (indexState.tag && indexState.category && indexState.diverse) {
+      return `${cap(indexState.category)} ${cap(indexState.tag)} Careers at ${indexState.diverse} Companies - ${dateString}`
+    }
+    else if (indexState.tag && indexState.category) {
+      return `${cap(indexState.tag)} Careers in ${cap(indexState.category)} - ${dateString}`
+    }
+    else if (indexState.category && indexState.diverse) {
+      return `${cap(indexState.category)} Careers at ${indexState.diverse} Companies - ${dateString}`
     }
     else if (indexState.tag) {
-      return `${cap(indexState.tag)} Cannabis Careers - ${dateString}`
+      return `${cap(indexState.tag)} Careers - ${dateString}`
     }
-    else if (indexState.diverse) {
-      return `Cannabis Careers at ${indexState.diverse} Companies - ${dateString}`
+    else if (indexState.category) {
+      return `${cap(indexState.category)} Careers - ${dateString}`
+    }
+    else if (indexState.diverse && indexState.diverse[0]) {
+      return `Careers at ${indexState.diverse} Companies - ${dateString}`
     }
 
-    return 'Cannabis Friendly Careers'
+    return ''
   },
   createURL({ qsModule, routeState, location }): string {
     const { protocol, hostname, port = '', pathname, hash } = location;
@@ -72,6 +83,12 @@ const router = history<RouteState>({
       routeState.tag !== routeStateDefaultValues.tag
     ) {
       queryParameters.tag = encodeURIComponent(routeState.tag);
+    }
+    if (
+      routeState.category &&
+      routeState.category !== routeStateDefaultValues.category
+    ) {
+      queryParameters.category = encodeURIComponent(routeState.category);
     }
     if (
       routeState.diverse &&
@@ -105,12 +122,14 @@ const router = history<RouteState>({
       query = '',
       page = 1,
       diverse = [],
+      category = '',
       tag = ''
     } = queryParameters
     const allDiverse = (
       Array.isArray(diverse) ? diverse : [diverse].filter(Boolean)
     ) as string[]
     return {
+      category,
       tag,
       diverse: allDiverse.map(decodeURIComponent),
       query: decodeURIComponent(query as string),
@@ -123,6 +142,7 @@ const getStateMapping = ({ indexName }: any) => ({
     const indexUiState = uiState[indexName]
     return {
       query: indexUiState.query,
+      category: indexUiState.menu?.["category"],
       tag: indexUiState.menu?.["tags.tagName"],
       diverse: indexUiState.refinementList?.["diverseOwnership.diverseOwnership"],
       page: (indexUiState.page && String(indexUiState.page)) || undefined,
@@ -132,6 +152,9 @@ const getStateMapping = ({ indexName }: any) => ({
     const menu: { [key: string]: string } = {};
     if (routeState.tag) {
       menu["tags.tagName"] = routeState.tag;
+    }
+    if (routeState.category) {
+      menu["category"] = routeState.category;
     }
     const refinementList: { [key: string]: string[] } = {};
     if (routeState.diverse) {

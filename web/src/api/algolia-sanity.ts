@@ -50,6 +50,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
           position,
           highlight,
           email,
+					source,
           includeLogo,
           minAnnualSalary,
           maxAnnualSalary,
@@ -75,6 +76,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 					return {
 						publishedAt: Date.parse(document.publishedAt),
 						publishedAt_str: document.publishedAt,
+						source: document.source,
 						applicationLink: document.applicationLink,
 						position: document.position,
 						highlight: document.highlight,

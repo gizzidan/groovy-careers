@@ -1,12 +1,5 @@
 import {
   Box,
-  Button,
-  ButtonGroup,
-  Heading,
-  Link,
-  List,
-  ListItem,
-  Text
 } from '@chakra-ui/react'
 import React from 'react'
 import SEO from '../components/seo'
@@ -18,7 +11,7 @@ const IndexPage = () => {
   return (
     <>
       <Hero />
-      <Box py={2} bg="#f3f3f3">
+      <Box py={2} bg="#f2f2f2">
         <Search />
       </Box>
     </>

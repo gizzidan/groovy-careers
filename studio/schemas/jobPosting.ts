@@ -166,6 +166,13 @@ export default {
 			title: "Published At",
 			type: "datetime",
 			description: "Start date for displaying on website.",
+			validation: (Rule) => Rule.required(),
+		},
+		{
+			name: "source",
+			title: "Source",
+			type: "string",
+			description: "Job original source (only required when aggregating).",
 		},
 		{
 			name: "slug",
