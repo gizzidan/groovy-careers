@@ -42,13 +42,13 @@ const Hit = (props: any) => {
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "yellow.100" : "whiteAlpha.200"
+    "pink.100" : "whiteAlpha.200"
   const bgHover = node.highlight === true ?
-    "yellow.200" : "blackAlpha.50"
+    "pink.200" : "blackAlpha.50"
   const border = node.highlight === true ?
     "5px solid" : "5px solid"
   const borderColor = node.highlight === true ?
-    "yellow.300" : "transparent"
+    "pink.400" : "transparent"
   const buttonVariant = node.highlight == true ? "black" : "outline"
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
@@ -146,19 +146,21 @@ const Hit = (props: any) => {
       </GridItem>
       <GridItem colStart={[3, 5]} gridRow={1} colSpan={1}>
         <HStack verticalAlign="center" float="right">
-          {time}
-          <VStack>
-            <Link
-              _hover={{
-                textDecoration: "none"
-              }}
-              zIndex="sticky"
-              href={node.applicationLink}
-              isExternal
-            >
-              <Button display={["none", "flex"]} rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
-            </Link>
-            <Text color="blackAlpha.700" fontSize="sm" >Via Glassdoor</Text>
+          <VStack align="right">
+            <HStack>
+              {time}
+              <Link
+                _hover={{
+                  textDecoration: "none"
+                }}
+                zIndex="sticky"
+                href={node.applicationLink}
+                isExternal
+              >
+                <Button display={["none", "flex"]} rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
+              </Link>
+            </HStack>
+            {node.source ? <Text align="right" pr="2px" color="blackAlpha.700" fontSize="sm" >Via {node.source}</Text> : null}
           </VStack>
         </HStack>
       </GridItem>
