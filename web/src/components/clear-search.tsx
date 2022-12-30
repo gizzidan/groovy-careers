@@ -3,6 +3,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { UseClearRefinementsProps, useClearRefinements } from 'react-instantsearch-hooks-web';
+import { Link } from 'gatsby'
 import { FiX } from "react-icons/fi"
 
 const ClearSearch = (props: UseClearRefinementsProps) => {
@@ -10,7 +11,11 @@ const ClearSearch = (props: UseClearRefinementsProps) => {
 
   return (
     canRefine ?
-      <Button rightIcon={<FiX />} colorScheme="black" variant="outline" size="xs" onClick={() => refine()}>Clear All</Button >
+      <Link
+        to="/"
+      >
+        <Button rightIcon={<FiX />} colorScheme="black" variant="outline" size="xs" onClick={() => refine()}>Clear All</Button >
+      </Link>
       : null
   )
 }

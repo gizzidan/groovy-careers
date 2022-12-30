@@ -21,7 +21,8 @@ import {
   Avatar,
   UnorderedList,
   Grid,
-  GridItem
+  GridItem,
+  OrderedList
 } from '@chakra-ui/react'
 import DiversityTags from '../components/diversity-tags'
 
@@ -43,10 +44,12 @@ const components: Partial<PortableTextReactComponents> = {
     normal: ({ children }) => <Text justifyItems="left" fontSize={"lg"} > {children}</Text>,
   },
   list: {
-    bullet: ({ children }) => <UnorderedList pl={"7%"} fontSize={"lg"}>{children}</UnorderedList>
+    bullet: ({ children }) => <UnorderedList pl={"7%"} fontSize={"lg"}>{children}</UnorderedList>,
+    number: ({ children }) => <OrderedList pl={"7%"} fontSize={"lg"}>{children}</OrderedList>
   },
   listItem: {
-    bullet: ({ children }) => <ListItem>{children}</ListItem>
+    bullet: ({ children }) => <ListItem>{children}</ListItem>,
+    number: ({ children }) => <ListItem>{children}</ListItem>
   }
 };
 
@@ -166,14 +169,16 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
       >{posting.company.name} is hiring {a(posting.position, { articleOnly: true })}
         <br /><strong>{posting.position}</strong>
       </Heading>
-      <Text variant="mono">
-        Compensation: {minSalary} - {maxSalary}
-      </Text>
+      {posting.minAnnualSalary > 0
+        ? <Text variant="mono">
+          Compensation: {minSalary} - {maxSalary}
+        </Text>
+        : null}
       <Text variant="mono">
         {posting.location}
       </Text>
       <Button variant="solid">Apply Now</Button>
-      <VStack align={"left"}>
+      <VStack pt="12px" align={"left"}>
         <PortableText value={posting._rawDescription} components={components} />
       </VStack>
       <Button variant="solid">Apply Now</Button>

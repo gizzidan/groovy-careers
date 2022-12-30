@@ -42,13 +42,13 @@ const Hit = (props: any) => {
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "pink.100" : "whiteAlpha.200"
+    "orange.100" : "whiteAlpha.200"
   const bgHover = node.highlight === true ?
-    "pink.200" : "blackAlpha.50"
+    "yellow.200" : "blackAlpha.50"
   const border = node.highlight === true ?
     "5px solid" : "5px solid"
   const borderColor = node.highlight === true ?
-    "pink.400" : "transparent"
+    "yellow.400" : "transparent"
   const buttonVariant = node.highlight == true ? "black" : "outline"
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
@@ -91,7 +91,9 @@ const Hit = (props: any) => {
               ? <DiversityTags label={node.companyName} node={node}
                 diverseOwnership={node.diverseOwnership.diverseOwnership} />
               : null}
-            <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
+            {node.minAnnualSalary > 0 ?
+              <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
+              : null}
           </VStack>
         </HStack>
       </GridItem>

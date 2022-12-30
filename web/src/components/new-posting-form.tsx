@@ -2,6 +2,7 @@ import React, { ReactNode, useState, useEffect, useRef } from 'react'
 import loadable from '@loadable/component'
 import { useForm, SubmitHandler, Controller, UseFormRegisterReturn } from "react-hook-form"
 import {
+  Avatar,
   Box,
   Button,
   CheckboxGroup,
@@ -163,6 +164,8 @@ const NewPostingForm = ({ data }: PopulateList) => {
   const tag = data.allSanityJobTag.nodes
 
   const options = tag.map((tag) => tag.tagName)
+  const companyOptions = company.map((company) => company.name)
+
 
   const initialValue =
     '<p>Your initial <b>html value</b> or an empty string to init editor without value</p>';
@@ -227,7 +230,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   <FormLabel htmlFor='diverseOwnership'>Diverse Ownership</FormLabel>
                   <CheckboxGroup>
                     <Stack spacing={[1, 5]} direction={['column', 'row']}>
-                      <Checkbox {...register("diverseOwnership")} value='Black-Owned'>Black-Owned</Checkbox>
+                      <Checkbox {...register("diverseOwnership")} value='Minority-Owned'>Minority-Owned</Checkbox>
                       <Checkbox {...register("diverseOwnership")} value='Veteran-Owned'>Veteran-Owned</Checkbox>
                       <Checkbox {...register("diverseOwnership")} value='Women-Owned'>Women-Owned</Checkbox>
                     </Stack>
@@ -247,12 +250,37 @@ const NewPostingForm = ({ data }: PopulateList) => {
               :
               <FormControl isInvalid={errors.companyName ? true : false}>
                 <FormLabel htmlFor='companyName'>Company Name</FormLabel>
-                <Select {...register("companyName", { required: "This is required" })} placeholder='Select your company'>
-                  {company.map((node) =>
-                    <option key={node.id} value={node.name}>{node.name}
-                    </option>
+                <Controller
+                  control={control}
+                  name="companyName"
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                    fieldState: { isTouched, isDirty, error },
+                    formState,
+                  }) => (
+                    <AutoComplete
+                      openOnFocus
+                      onChange={onChange}
+                      value={value}
+                    >
+                      <AutoCompleteInput variant="outline">
+                      </AutoCompleteInput>
+                      <AutoCompleteList>
+                        {companyOptions.map((company, cid) => (
+                          <AutoCompleteItem
+                            key={`option-${cid}`}
+                            value={company}
+                            textTransform="capitalize"
+                            _selected={{ bg: "blackAlpha.50" }}
+                            _focus={{ bg: "blackAlpha.100" }}
+                          >
+                            {company}
+                          </AutoCompleteItem>
+                        ))}
+                      </AutoCompleteList>
+                    </AutoComplete>
                   )}
-                </Select>
+                />
                 <FormHelperText>
                   <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleShow}>Add New Company</Button>
                 </FormHelperText>
@@ -413,11 +441,12 @@ const NewPostingForm = ({ data }: PopulateList) => {
               {showUpload
                 ?
                 <Flex py={2}>
+
                   <input type='file' accept="image/*" {...register('companyLogo')} />
                 </Flex>
                 : null
               }
-              <FormHelperText>Upload a logo if you're a new company or want to change your logo. PNG/JPG less than 10MB.</FormHelperText>
+              <FormHelperText>Upload a logo if you're a new company or want to change your current logo. PNG/JPG less than 10MB.</FormHelperText>
               <FormErrorMessage>
               </FormErrorMessage>
             </FormControl>

@@ -45,6 +45,11 @@ export const query = graphql`
       nodes {
         id
         name
+        logo {
+          asset {
+            url
+          }
+        }
       }
     }
     allSanityCategory(sort:
