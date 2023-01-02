@@ -208,8 +208,8 @@ export default async function handler(
 
 	// Square API code
 	const square = new Client({
-		accessToken: process.env.SQUARE_ACCESS_TOKEN,
-		environment: Environment.Sandbox,
+		accessToken: process.env.SQUARE_PRODUCTION_TOKEN,
+		environment: Environment.Production,
 	});
 
 	const checkoutApi = square.checkoutApi;
@@ -217,24 +217,24 @@ export default async function handler(
 	const pinModifier = {
 		catalogObjectId:
 			req.body.stickyLength == "1"
-				? "FPCUAMKX7IFMBN6VXVUHHW7P"
+				? "H5J746E25CQIZV2ZORCHRTMD"
 				: req.body.stickyLength == "7"
-				? "XQLHYEUJOBVHAFGMHEGEPFNJ"
-				: "3EKJX2IIJLEBFN2LTRB6XOAM",
+				? "Z4VTAU6DQ6GFV3NHKCJNHY4O"
+				: "UYNLQUZV4DPROBY4OTWZWK5M",
 	};
 
 	const highlightModifier = {
 		catalogObjectId:
 			req.body.highlight == "true"
-				? "B7QOSIEBCM4OBXOTV6LIVH4B"
-				: "5MYAZGJT4UNEQZ45WYQW7N2D",
+				? "5G2LSNEQQ43U6RK4TBTVHREE"
+				: "7PP6ATIEGWW7HBUZEBSHK6NA",
 	};
 
 	const logoModifier = {
 		catalogObjectId:
 			req.body.includeLogo == "true"
-				? "NRSQDZM5EJSWPD6YOO4EWY6T"
-				: "IJYKNKUNYR442QGIXQTS6NJQ",
+				? "FICFMAA75ULELU2KQMZFNJ4Q"
+				: "ABNURN26DL77T2UCY6IKQ6SH",
 	};
 
 	const modifierList = [pinModifier, highlightModifier, logoModifier];
@@ -243,11 +243,11 @@ export default async function handler(
 		const response = await checkoutApi.createPaymentLink({
 			idempotencyKey: uuidv4(),
 			order: {
-				locationId: "LKA24FR5PZCZV",
+				locationId: "L9FNRE58BK4DX",
 				lineItems: [
 					{
 						quantity: "1",
-						catalogObjectId: "WPOCQUDYD3IPHJRDQ4BXOZCC",
+						catalogObjectId: "CXGRZTQXLWSZK5YNJG7JWY4E",
 						itemType: "ITEM",
 						modifiers: modifierList,
 					},

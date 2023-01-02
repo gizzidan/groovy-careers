@@ -88,3 +88,7 @@ export const query = graphql`
 `
 
 export default FaqApplicants
+
+export const Head = () => (
+  <SEO title="Applicant FAQ - Groovy Careers" />
+)
