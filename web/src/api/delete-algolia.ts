@@ -1,16 +1,8 @@
-import indexer from "sanity-algolia";
 import algoliasearch from "algoliasearch";
-import sanityClient, { SanityDocumentStub } from "@sanity/client";
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import sanity from "./algolia-sanity";
 
 const algolia = algoliasearch("WCOAAGSNH7", process.env.ALGOLIA_ADMIN_KEY);
-
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-};
 
 async function readBody(readable: any) {
 	const chunks = [];
@@ -35,10 +27,10 @@ const handler = async (
 
 	// Configure this to match an existing Algolia index name
 	const body = await req.body; // Read the body into a string
+	console.log(body);
 	const algoliaIndex = algolia.initIndex("dev_cannabisfriendly");
 
-	const jsonBody = JSON.parse(body);
-	const deleteResponse = await algoliaIndex.deleteObject(jsonBody._id);
+	const deleteResponse = await algoliaIndex.deleteObject(body._id);
 	return res.status(200).json({ deleteResponse });
 };
 
