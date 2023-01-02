@@ -34,7 +34,7 @@ const handler = async (
 	}
 
 	// Configure this to match an existing Algolia index name
-	const body = await readBody(req); // Read the body into a string
+	const body = await req.body; // Read the body into a string
 	const algoliaIndex = algolia.initIndex("dev_cannabisfriendly");
 
 	const jsonBody = JSON.parse(body);

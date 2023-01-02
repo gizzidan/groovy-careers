@@ -315,6 +315,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
               <Controller
                 control={control}
                 name="tags"
+                defaultValue={['']}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
                   fieldState: { isTouched, isDirty, error },
