@@ -37,7 +37,7 @@ const PopoverMenu = ({ linkSet }: TypeLinkSet) => {
             <PopoverBody>
               {linkSet.links.map((link: any) =>
                 <Link
-                  fontFamily="GT-America-Extended"
+                  fontFamily="GT-America"
                   p={2}
                   key={link.text}
                   as={GatsbyLink}

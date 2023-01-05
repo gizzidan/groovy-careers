@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from './brand-logo'
 import MenuToggle from './menu-toggle'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
+import { FiX, FiMenu } from "react-icons/fi"
 import {
   useDisclosure,
   Link,
@@ -22,7 +23,15 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
-  PopoverTrigger
+  PopoverTrigger,
+  IconButton,
+  Box,
+  VStack,
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
+  AccordionIcon
 } from '@chakra-ui/react'
 import AnnouncementBar from './announcement-bar'
 import PopoverMenu from './popover-menu'
@@ -91,17 +100,18 @@ const Header = () => {
         { text: "FAQ - Applicants", href: "/faq-applicants" }
       ]
   }
-
+  const [display, changeDisplay] = useState('none')
   return (
     <chakra.header id="header">
       <AnnouncementBar />
       <Flex
+        display={['none', 'none', 'flex', 'flex']}
         as="nav"
         bg="transparent"
         w="100%"
         maxW="1200px"
-        px={["2", "5"]}
-        py={["2", "5"]}
+        px={["3", "5"]}
+        py={["3", "5"]}
         m="auto"
         align="center"
         position="relative"
@@ -143,7 +153,140 @@ const Header = () => {
             <Button variant="brand">{cta.text}</Button>
           </Link>
         </HStack>
+
       </Flex>
+      <Flex
+        display={['flex', 'flex', 'none', 'none']}
+        px={2}
+        py={2}
+        position="relative"
+        justify="space-between"
+        align="center"
+      >
+        <Logo />
+        <IconButton
+          aria-label="Open Menu"
+          size="lg"
+          icon={<FiMenu />}
+          variant="ghost"
+          bg="whiteAlpha.400"
+          onClick={() => changeDisplay('flex')} // added line
+        />
+
+        <Flex
+          w="100vw"
+          display={display}
+          bgColor="purple.50"
+          zIndex={20}
+          h="100vh"
+          pos="fixed"
+          top="0"
+          left="0"
+          overflowY="auto"
+          flexDir="column"
+        >
+          <VStack>
+            <Box w="100%">
+              <AnnouncementBar />
+            </Box>
+            <Flex
+              w="100%"
+              px={2}
+              position="relative"
+              justify="space-between"
+              align="center"
+            >
+              <Logo />
+              <IconButton
+                aria-label="Open Menu"
+                size="lg"
+                icon={<FiX />}
+                onClick={() => changeDisplay('none')} // added line
+              />
+            </Flex>
+            <Accordion w="100%" defaultIndex={[2]} allowMultiple>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton fontFamily="GT-America-Extended">
+                    <Box as="span" flex='1' textAlign='left'>
+                      {applicantLinks.title}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                {applicantLinks.links.map((link: any) =>
+                  <AccordionPanel key={link.text} pb={4}>
+                    <Link
+                      onClick={() => changeDisplay('none')}
+                      fontFamily="GT-America"
+                      py={2}
+                      as={GatsbyLink}
+                      to={link.href}>
+                      {link.text}
+                    </Link>
+                  </AccordionPanel>
+                )}
+              </AccordionItem>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton fontFamily="GT-America-Extended">
+                    <Box as="span" flex='1' textAlign='left'>
+                      {companyLinks.title}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                {companyLinks.links.map((link: any) =>
+                  <AccordionPanel key={link.text} pb={4}>
+                    <Link
+                      onClick={() => changeDisplay('none')}
+                      fontFamily="GT-America"
+                      py={2}
+                      as={GatsbyLink}
+                      to={link.href}>
+                      {link.text}
+                    </Link>
+                  </AccordionPanel>
+                )}
+              </AccordionItem>
+            </Accordion>
+            {navItemsGroup.map((node: { navItems: any[] }) => (
+              <React.Fragment key={node.navItems.toString()}>
+                {node.navItems ? (
+                  <Wrap
+                    px={4}
+                    display="block"
+                    spacing='30px'
+                    w="100%"
+                  >
+                    {node.navItems.map((navItems) => (
+                      <List fontFamily="GT-America" key={navItems.id}>
+                        {navItems.href.externalContent ? (
+                          <a onClick={() => changeDisplay('none')} href={navItems.href.linkUrl} target='_blank' rel='noopener noreferer'>{navItems.text}</a>
+                        )
+                          : <Link onClick={() => changeDisplay('none')} as={GatsbyLink} to={`/${navItems.href.linkUrl}`}>{navItems.text}</Link>
+                        }
+                      </List>
+                    ))}
+                  </Wrap>
+                ) : null}
+              </React.Fragment>
+            ))}
+            <Link
+              onClick={() => changeDisplay('none')}
+              pt={3}
+              _hover={{
+                textDecoration: "none"
+              }}
+              as={GatsbyLink}
+              to={`/${cta.href.linkUrl}`}
+            >
+              <Button variant="brand">{cta.text}</Button>
+            </Link>
+          </VStack>
+        </Flex>
+      </Flex>
+
     </chakra.header>
   )
 }

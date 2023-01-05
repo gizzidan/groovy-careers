@@ -19,8 +19,8 @@ const Layout = ({ children }: Props) => {
           margin="0 auto"
         >
           <Box as="main">{children}</Box>
-          <Box as="footer" marginTop="2rem" fontSize="l">
-            © {new Date().getFullYear()}, Groovy Careers from The CFC Company
+          <Box textAlign="center" p={10} as="footer" fontSize="l">
+            © {new Date().getFullYear()}, Groovy Careers
           </Box>
         </Box>
       </Box>

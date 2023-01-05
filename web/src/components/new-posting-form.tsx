@@ -166,13 +166,9 @@ const NewPostingForm = ({ data }: PopulateList) => {
   const options = tag.map((tag) => tag.tagName)
   const companyOptions = company.map((company) => company.name)
 
-
-  const initialValue =
-    '<p>Your initial <b>html value</b> or an empty string to init editor without value</p>';
-
   return (
     <>
-      <Box bg="white" py={12}>
+      <Box bg="white" py={12} px={4}>
         <Heading pb={6} textAlign="center" as="h1">Submit a new job posting</Heading>
         <form onSubmit={handleSubmit(handlePost)} method="post">
           <VStack spacing={8} maxW="700px" m="auto">
@@ -315,7 +311,6 @@ const NewPostingForm = ({ data }: PopulateList) => {
               <Controller
                 control={control}
                 name="tags"
-                defaultValue={['']}
                 render={({
                   field: { onChange, onBlur, value, name, ref },
                   fieldState: { isTouched, isDirty, error },

@@ -42,7 +42,7 @@ const Hit = (props: any) => {
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "orange.100" : "whiteAlpha.200"
+    "orange.100" : ["whiteAlpha.50", "whiteAlpha.200"]
   const bgHover = node.highlight === true ?
     "yellow.200" : "blackAlpha.50"
   const border = node.highlight === true ?
@@ -53,6 +53,8 @@ const Hit = (props: any) => {
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
     : <Text><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
+
+  console.log(node.publishedAt)
   return (
     < Grid
       p={[2, 3]}
@@ -147,13 +149,13 @@ const Hit = (props: any) => {
         </Wrap>
       </GridItem>
       <GridItem colStart={[3, 5]} gridRow={1} colSpan={1}>
-        <HStack verticalAlign="center" float="right">
-          <VStack align="right">
+        <HStack verticalAlign="center" float={['left', 'right']}>
+          <VStack align={['left', 'right']}>
             <HStack>
               {time}
               <Link
                 _hover={{
-                  textDecoration: "none"
+                  textDecoration: "none",
                 }}
                 zIndex="sticky"
                 href={node.applicationLink}
@@ -162,7 +164,7 @@ const Hit = (props: any) => {
                 <Button display={["none", "flex"]} rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
               </Link>
             </HStack>
-            {node.source ? <Text align="right" pr="2px" color="blackAlpha.700" fontSize="sm" >Via {node.source}</Text> : null}
+            {node.source ? <Text align={['left', 'right']} pr="2px" color="blackAlpha.700" fontSize="sm" >Via {node.source}</Text> : null}
           </VStack>
         </HStack>
       </GridItem>
@@ -172,7 +174,7 @@ const Hit = (props: any) => {
 
 const Search = () => {
   const d = new Date()
-  const timeBetween = Math.floor(d.setDate(d.getDate() - 900) / 1000)
+  const timeBetween = Math.floor(d.setDate(d.getDate() - 60))
   console.log(timeBetween)
 
   const algolia = algoliasearch(
@@ -188,7 +190,7 @@ const Search = () => {
 
     >
       <Configure
-        filters={`publishedAt>${timeBetween}`} />
+        filters={`publishedAt > ${timeBetween}`} />
       <Box maxWidth="1100px"
         my={8} mx={"auto"} >
         <SearchBoxComponent />

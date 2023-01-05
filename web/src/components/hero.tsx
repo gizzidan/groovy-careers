@@ -75,8 +75,8 @@ const Hero = () => {
       align="center"
       minH="25vh"
       px={8}
-      mt={10}
-      mb={10}
+      mt={7}
+      mb={7}
     >
       <VStack
         spacing={6}
@@ -85,7 +85,7 @@ const Hero = () => {
       >
         <Heading
           as="h1"
-          size="2xl"
+          size={['xl', '2xl']}
           textAlign="center"
           fontFamily="Gulax"
           textTransform="uppercase"
@@ -100,7 +100,7 @@ const Hero = () => {
           <Cursor />
         </Heading>
         <Text
-          fontSize="lg"
+          fontSize={['lg', 'lg']}
           opacity="1"
           color="black"
           variant="body"
@@ -110,10 +110,10 @@ const Hero = () => {
         </Text>
         <NewsletterSignup />
         <Text
-          fontSize="xs"
+          fontSize="sm"
           mt={2}
           textAlign="center"
-          color="black"
+          color="blackAlpha.700"
           opacity="1"
         >
           {HomepageHero.kicker}

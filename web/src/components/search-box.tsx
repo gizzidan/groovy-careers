@@ -7,6 +7,7 @@ import {
   HStack,
   TagLabel,
   TagCloseButton,
+  Box,
 } from '@chakra-ui/react'
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react'
@@ -48,7 +49,7 @@ const TagMenu = (props: UseMenuProps) => {
       <Wrap
         spacing={3}
         justify="center"
-        display={["none", "block"]}
+        display={["block", "block"]}
       >
         {items.map((item) => (
           <WrapItem key={item.value}>
@@ -93,7 +94,9 @@ const SearchBoxComponent = () => {
 
       <VStack>
         <TagMenu attribute="category" limit={25} sortBy={['count:desc', 'name:asc']} />
-        <TagMenu attribute="tags.tagName" limit={25} sortBy={['count:desc', 'name:asc']} />
+        <Box display={['none', 'block']} >
+          <TagMenu attribute="tags.tagName" limit={25} sortBy={['count:desc', 'name:asc']} />
+        </Box>
       </VStack>
       <HStack>
         <VStack>

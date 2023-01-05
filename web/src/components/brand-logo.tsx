@@ -13,7 +13,7 @@ const Logo = (props: any) => {
 				color="purple.700"
 				mb={["0", "0"]}
 				lineHeight="0"
-				fontSize={["4xl", "3xl"]}
+				fontSize={["3xl", "3xl"]}
 				fontFamily="Gulax"
 				_hover={{
 					textDecoration: "none",

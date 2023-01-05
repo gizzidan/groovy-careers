@@ -6,7 +6,7 @@ const AnnouncementBar = () => {
 
   return (
     <Center py={1} bg="black">
-      <Text color="white" fontFamily="GT-America-Mono">Get 50% off with code GROOVYBETA</Text>
+      <Text color="white" fontFamily="GT-America-Mono">Get 69% off with code GROOVYBETA</Text>
     </Center>
   )
 }

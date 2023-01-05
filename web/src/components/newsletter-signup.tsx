@@ -62,17 +62,17 @@ const NewsletterSignup = () => {
         p={1}
         my={3}
         gap={1}
-        templateColumns={'2fr .25fr 1fr'}
+        templateColumns={['repeat(4, 1fr)', '2fr .25fr 1fr']}
         alignItems="center"
-        width="500px"
+        width={['80vw', '500px']}
 
       >
-        <GridItem>
+        <GridItem colSpan={[3, 1]}>
           <FormControl isInvalid={errors.email ? true : false}>
-            <Input placeholder="Email address" bg="whiteAlpha.700" {...register("email", { required: true, pattern: /^\S+@\S+$/i })}></Input>
+            <Input placeholder="Email address" borderColor={"blackAlpha.200"} bg="whiteAlpha.700" {...register("email", { required: true, pattern: /^\S+@\S+$/i })}></Input>
           </FormControl>
         </GridItem>
-        <GridItem>
+        <GridItem >
           <Menu closeOnSelect={false}>
             <Tooltip label="Change frequency and categories" aria-label='A tooltip'>
               <MenuButton
@@ -139,8 +139,8 @@ const NewsletterSignup = () => {
             </MenuList>
           </Menu>
         </GridItem>
-        <GridItem>
-          <Button isLoading={isSubmitting} type="submit" colorScheme={"pink"}>Subscribe</Button>
+        <GridItem colSpan={[4, 1]}>
+          <Button w="100%" isLoading={isSubmitting} type="submit" colorScheme={"pink"}>Subscribe</Button>
         </GridItem>
       </Grid>
     </form >

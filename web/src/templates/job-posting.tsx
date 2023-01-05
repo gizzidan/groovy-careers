@@ -25,6 +25,7 @@ import {
   OrderedList
 } from '@chakra-ui/react'
 import DiversityTags from '../components/diversity-tags'
+import { FiExternalLink } from 'react-icons/fi'
 
 type Block = {
   _key: string;
@@ -60,7 +61,7 @@ interface Props {
   data: {
     sanityJobPosting: {
       _createdAt: any
-      applicationLink: URL
+      applicationLink: string
       position: string
       description: BlockDefault
       _rawDescription: any
@@ -146,8 +147,9 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
 
   return (
     <VStack
-      p={[3, "50px"]}
-      maxWidth={["100%", "900px"]}
+      p={[7, "50px"]}
+      px={[4, "200px"]}
+      maxWidth={["100%", "1165px"]}
       m="auto"
       spacing={5}
       bg="white"
@@ -158,7 +160,7 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
           : <Avatar color="black" bg="blackAlpha.300" size="lg" name={posting.company.name}></Avatar>
         : <Avatar color="black" bg="blackAlpha.300" size="lg" name={posting.company.name}></Avatar>
       }
-      <DiversityTags label={null} diverseOwnership={posting.company.diverseOwnership} />
+      {posting.company.diverseOwnership.length > 0 ? <DiversityTags label={null} diverseOwnership={posting.company.diverseOwnership} /> : null}
       <Heading
         as="h1"
         size="lg"
@@ -177,11 +179,27 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
       <Text variant="mono">
         {posting.location}
       </Text>
-      <Button variant="solid">Apply Now</Button>
+      <Link
+        _hover={{
+          textDecoration: "none",
+        }}
+        href={posting.applicationLink}
+        isExternal
+      >
+        <Button rightIcon={<FiExternalLink />} variant="solid">Apply Now</Button>
+      </Link>
       <VStack pt="12px" align={"left"}>
         <PortableText value={posting._rawDescription} components={components} />
       </VStack>
-      <Button variant="solid">Apply Now</Button>
+      <Link
+        _hover={{
+          textDecoration: "none",
+        }}
+        href={posting.applicationLink}
+        isExternal
+      >
+        <Button rightIcon={<FiExternalLink />} variant="solid">Apply Now</Button>
+      </Link>
       <Grid
         pt={10}
         px={"12px"}
@@ -191,7 +209,7 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
         alignItems={"center"}
         textAlign={"center"}
       >
-        <GridItem alignSelf={"left"}>
+        <GridItem>
           <Text align="left" ><TimeAgo date={posting._createdAt} formatter={formatter} /></Text>
         </GridItem>
         <GridItem>
@@ -202,7 +220,7 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
             >{posting.company.name}</Link></Text>
         </GridItem>
         <GridItem>
-          <Wrap align="center">
+          <Wrap justify="right">
             {posting.tags.map((tag) =>
               <Link
                 _hover={{
