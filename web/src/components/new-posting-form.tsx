@@ -76,6 +76,11 @@ type PopulateList = {
       nodes: {
         id: string
         name: string
+        logo: {
+          asset: {
+            url: string
+          }
+        }
       }[]
     }
     allSanityCategory: {
@@ -164,7 +169,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
   const tag = data.allSanityJobTag.nodes
 
   const options = tag.map((tag) => tag.tagName)
-  const companyOptions = company.map((company) => company.name)
+  const companyOptions = company.map((company) => [company.name, company.logo?.asset.url])
 
   return (
     <>
@@ -218,6 +223,9 @@ const NewPostingForm = ({ data }: PopulateList) => {
                 <FormControl isInvalid={errors.companyName ? true : false}>
                   <FormLabel htmlFor='companyName'>Company Name</FormLabel>
                   <Input {...register("companyName", { required: "This is required" })} placeholder="Company Name"></Input>
+                  <FormHelperText>
+                    <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleHide}>Choose Company From List</Button>
+                  </FormHelperText>
                   <FormErrorMessage>
                     {errors.companyName && errors.companyName.message}
                   </FormErrorMessage>
@@ -233,13 +241,11 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   </CheckboxGroup>
                   <FormHelperText>Is the majority of your business diversely owned? Don't lie.</FormHelperText>
                 </FormControl>
-                <FormControl isInvalid={errors.invoiceAddress ? true : false}>
-                  <FormLabel htmlFor='invoiceAddress' variant="tip">Invoice Address
-                  </FormLabel>
-                  <Textarea {...register("invoiceAddress", { required: "This is required" })} placeholder='Invoice Address' />
-                  <FormHelperText>
-                    <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleHide}>Choose Company From List</Button>
-                  </FormHelperText>
+                <FormControl>
+                  <FormLabel htmlFor='companyLogo'>Company Logo</FormLabel>
+                  <Flex py={2}>
+                    <input type='file' accept="image/*" {...register('companyLogo')} />
+                  </Flex>
                 </FormControl>
                 <Divider />
               </>
@@ -265,12 +271,16 @@ const NewPostingForm = ({ data }: PopulateList) => {
                         {companyOptions.map((company, cid) => (
                           <AutoCompleteItem
                             key={`option-${cid}`}
-                            value={company}
+                            value={company[0]}
                             textTransform="capitalize"
                             _selected={{ bg: "blackAlpha.50" }}
                             _focus={{ bg: "blackAlpha.100" }}
                           >
-                            {company}
+                            <HStack justify="center">
+                              <Avatar size="md" name={company[0]} src={company[1]}>
+                              </Avatar>
+                              <Text>{company[0]}</Text>
+                            </HStack>
                           </AutoCompleteItem>
                         ))}
                       </AutoCompleteList>
@@ -434,15 +444,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   mb="0"
                 />
               </Flex>
-              {showUpload
-                ?
-                <Flex py={2}>
-
-                  <input type='file' accept="image/*" {...register('companyLogo')} />
-                </Flex>
-                : null
-              }
-              <FormHelperText>Upload a logo if you're a new company or want to change your current logo. PNG/JPG less than 10MB.</FormHelperText>
+              <FormHelperText>Add your uploaded company logo to the posting.</FormHelperText>
               <FormErrorMessage>
               </FormErrorMessage>
             </FormControl>

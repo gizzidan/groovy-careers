@@ -39,10 +39,10 @@ const FaqApplicants = (data: any) => {
       bg="white"
       align="center"
       px={8}
-      py={10}
+      py={[10, 20]}
     >
       <VStack
-        spacing={12}
+        spacing={8}
         m="auto"
         w="xl"
       >

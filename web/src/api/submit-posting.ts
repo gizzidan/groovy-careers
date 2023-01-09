@@ -54,11 +54,13 @@ export default async function handler(
 	const companyParams = { companyName: req.body.companyName };
 	await sanity.fetch(companyQuery, companyParams).then(async (company) => {
 		const newCompany = {
-			_id: company[0] && company[0]._id ? company[0]._id : `drafts.${id}`,
+			_id: company[0] && company[0]._id ? company[0]._id : id,
 			_type: "company",
 			name: req.body.companyName,
-			invoiceAddress: req.body.invoiceAddress,
-			diverseOwnership: req.body.diverseOwnership,
+			diverseOwnership:
+				req.body.diverseOwnership == "false"
+					? undefined
+					: req.body.diverseOwnership,
 		};
 		await sanity.transaction().createIfNotExists(newCompany).commit();
 	});
@@ -171,7 +173,6 @@ export default async function handler(
 				_type: "jobPosting",
 				position: req.body.position,
 				descriptionPaste: req.body.description,
-				diverseOwnership: req.body.diverseOwnership,
 				company: {
 					_ref: companyRef,
 					_type: "reference",

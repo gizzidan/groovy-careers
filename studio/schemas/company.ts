@@ -19,7 +19,6 @@ export default {
 			title: "Invoice Address",
 			type: "text",
 			description: "Address for receiving invoices.",
-			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: "diverseOwnership",

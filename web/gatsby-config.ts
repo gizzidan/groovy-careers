@@ -6,10 +6,10 @@ require("dotenv").config({
 const config: GatsbyConfig = {
 	siteMetadata: {
 		title: `Groovy Careers`,
-		description: `A job board tailored for innovative industries unfairly stigmatized.`,
-		author: `WDG`,
+		description: `A job board tailored for socially innovative and culturally disruptive companies.`,
+		author: `Groovy Careers`,
 		image: ``,
-		siteUrl: `https://www.yourdomain.tld`,
+		siteUrl: `https://groovy.careers`,
 	},
 	// More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
 	// If you use VSCode you can also use the GraphQL plugin

@@ -42,7 +42,7 @@ const Hit = (props: any) => {
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "orange.100" : ["whiteAlpha.50", "whiteAlpha.200"]
+    "orange.100" : ["white", "whiteAlpha.200"]
   const bgHover = node.highlight === true ?
     "yellow.200" : "blackAlpha.50"
   const border = node.highlight === true ?
@@ -59,7 +59,7 @@ const Hit = (props: any) => {
     < Grid
       p={[2, 3]}
       my={3}
-      gap={[2, 0]}
+      gap={[2, 2]}
       templateColumns={['2fr 1fr 1fr', 'repeat(5, 1fr)']}
       width="100%"
       alignItems="center"
