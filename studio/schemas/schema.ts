@@ -15,6 +15,7 @@ import questionAnswer from "./questionAnswer";
 import homepage from "./homepage";
 import homepageHero from "./homepageHero";
 
+import announcement from "./announcement";
 import link from "./link";
 import navItem from "./navItem";
 import navItemGroup from "./navItemGroup";
@@ -41,6 +42,7 @@ export default createSchema({
 		homepage,
 		homepageHero,
 		// layout
+		announcement,
 		link,
 		navItem,
 		navItemGroup,

@@ -8,7 +8,7 @@ const config: GatsbyConfig = {
 		title: `Groovy Careers`,
 		description: `A job board tailored for socially innovative and culturally disruptive companies.`,
 		author: `Groovy Careers`,
-		image: ``,
+		image: `src/images/icon.png`,
 		siteUrl: `https://groovy.careers`,
 	},
 	// More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
