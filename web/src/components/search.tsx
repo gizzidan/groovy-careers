@@ -36,15 +36,16 @@ const routing = getRouting(indexName)
 
 export const formatter = buildFormatter(enShort)
 
+
 const Hit = (props: any) => {
   const [isLargerThan400] = useMediaQuery('(min-width: 400px)')
   const node = props.hit
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "orange.100" : ["white", "whiteAlpha.200"]
+    "orange.100" : ["whiteAlpha.400", "whiteAlpha.400"]
   const bgHover = node.highlight === true ?
-    "yellow.200" : "blackAlpha.50"
+    "yellow.200" : ["whiteAlpha.500", "whiteAlpha.900"]
   const border = node.highlight === true ?
     "5px solid" : "5px solid"
   const borderColor = node.highlight === true ?
@@ -181,18 +182,17 @@ const Search = () => {
     "WCOAAGSNH7",
     process.env.GATSBY_ALGOLIA_SEARCH_KEY
   );
-
   return (
     <InstantSearch
       indexName={indexName}
       searchClient={algolia}
       routing={routing}
-
     >
+
       <Configure
         filters={`publishedAt > ${timeBetween}`} />
       <Box maxWidth="1100px"
-        my={8} mx={"auto"} >
+        my={8} mx={"auto"}>
         <SearchBoxComponent />
         <Hits hitComponent={Hit} />
         <PaginationNav />

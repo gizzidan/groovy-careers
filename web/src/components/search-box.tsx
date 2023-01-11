@@ -50,6 +50,7 @@ const TagMenu = (props: UseMenuProps) => {
         spacing={3}
         justify="center"
         display={["block", "block"]}
+        p={3}
       >
         {items.map((item) => (
           <WrapItem key={item.value}>

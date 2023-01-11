@@ -8,12 +8,11 @@ import NewsletterSignup from './newsletter-signup'
 interface Props {
   children?: any
 }
-
 const Layout = ({ children }: Props) => {
   return (
     <>
       <Box
-        bg="#D0C4DF"      >
+        bgGradient='linear(to-r, purple.100, pink.100, mantis.100)'>
         <Header />
         <Box
           as="div"

@@ -27,6 +27,7 @@ const config: GatsbyConfig = {
 			},
 		},
 		"gatsby-plugin-image",
+		"gatsby-plugin-smoothscroll",
 		"gatsby-plugin-sitemap",
 		{
 			resolve: "gatsby-plugin-manifest",
