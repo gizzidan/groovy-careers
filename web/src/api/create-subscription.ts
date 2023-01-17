@@ -6,18 +6,13 @@ import {
 } from "gatsby";
 import { request } from "http";
 import { Client, Environment, ApiError } from "square";
-const { Console } = require("console");
-const crypto = require("crypto");
-const http = require("http");
-
-const square = new Client({
-	accessToken: process.env.SQUARE_SANDBOX_TOKEN,
-	environment: Environment.Sandbox,
-});
+import { Console } from "console";
+import crypto from "crypto";
+import http from "http";
 
 // The URL where event notifications are sent.
 const NOTIFICATION_URL =
-	"https://fbf1-173-2-140-251.ngrok.io/api/create-subscription";
+	"https://2177-173-2-140-251.ngrok.io/api/create-subscription";
 
 // The signature key defined for the subscription.
 const SIGNATURE_KEY = "UouhTrYjqO7u_f9mYotBLg";
@@ -31,7 +26,7 @@ function isFromSquare(signature: any, body: any) {
 	return hash === signature;
 }
 
-export default function mailchimpSignup(
+export default function createSubscription(
 	req: GatsbyFunctionRequest,
 	res: GatsbyFunctionResponse
 ) {
@@ -46,13 +41,14 @@ export default function mailchimpSignup(
 		const signature = req.headers["x-square-hmacsha256-signature"];
 		if (isFromSquare(signature, body)) {
 			// Signature is valid. Return 200 OK.
-			res.writeHead(200);
+			res.writeHead(200, "Ok");
 			console.info("Request body: " + body);
+			console.log("ok");
 		} else {
 			// Signature is invalid. Return 403 Forbidden.
-			res.writeHead(403);
+			res.writeHead(403, "Forbidden");
+			console.log("Not ok");
 		}
 		res.end();
 	});
-	console.log(req.body);
 }
