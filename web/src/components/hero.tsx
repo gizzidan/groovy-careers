@@ -73,8 +73,8 @@ const Hero = () => {
   return (
     <Flex
       align="center"
-      minH="25vh"
-      px={8}
+      minH="20vh"
+      px={[5, 8]}
       mt={7}
       mb={7}
     >
@@ -85,7 +85,7 @@ const Hero = () => {
       >
         <Heading
           as="h1"
-          size={['xl', '2xl']}
+          size={['2xl', '2xl']}
           textAlign="center"
           fontFamily="Gulax"
           textTransform="uppercase"
@@ -109,15 +109,6 @@ const Hero = () => {
           {HomepageHero.text}
         </Text>
         <NewsletterSignup />
-        <Text
-          fontSize="sm"
-          mt={2}
-          textAlign="center"
-          color="blackAlpha.700"
-          opacity="1"
-        >
-          {HomepageHero.kicker}
-        </Text>
       </VStack >
     </Flex >
   )

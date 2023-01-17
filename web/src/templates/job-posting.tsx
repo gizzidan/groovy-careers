@@ -16,6 +16,7 @@ import {
   VStack,
   ListItem,
   Tag,
+  Box,
   Text,
   Heading,
   Avatar,
@@ -70,6 +71,7 @@ interface Props {
       minAnnualSalary: number
       maxAnnualSalary: number
       location: string
+      source: string
       category: {
         categoryName: string
       }
@@ -100,6 +102,7 @@ export const query = graphql`
       _createdAt
       applicationLink
       position
+      source
       description {
         _key
         _type
@@ -137,7 +140,6 @@ export const query = graphql`
     }
   }
 `
-
 
 const JobPostingTemplate = ({ pageContext, data }: Props) => {
   const { id } = pageContext
@@ -179,27 +181,35 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
       <Text variant="mono">
         {posting.location}
       </Text>
-      <Link
-        _hover={{
-          textDecoration: "none",
-        }}
-        href={posting.applicationLink}
-        isExternal
-      >
-        <Button rightIcon={<FiExternalLink />} variant="solid">Apply Now</Button>
-      </Link>
+      <Box>
+        <Link
+          _hover={{
+            textDecoration: "none",
+          }}
+          href={posting.applicationLink}
+          isExternal
+        >
+          <Button rightIcon={<FiExternalLink />} variant="solid">Apply Now</Button>
+        </Link>
+        {posting.source ? <Text pt={2} fontSize={["sm", "md"]} align="center" fontStyle="italic" color="black" >Via {posting.source}</Text> : null
+        }
+      </Box>
       <VStack pt="12px" align={"left"}>
         <PortableText value={posting._rawDescription} components={components} />
       </VStack>
-      <Link
-        _hover={{
-          textDecoration: "none",
-        }}
-        href={posting.applicationLink}
-        isExternal
-      >
-        <Button rightIcon={<FiExternalLink />} variant="solid">Apply Now</Button>
-      </Link>
+      <Box>
+        <Link
+          _hover={{
+            textDecoration: "none",
+          }}
+          href={posting.applicationLink}
+          isExternal
+        >
+          <Button rightIcon={<FiExternalLink />} variant="solid">Apply Now</Button>
+        </Link>
+        {posting.source ? <Text pt={2} fontSize={["sm", "md"]} align="center" fontStyle="italic" color="black" >Via {posting.source}</Text> : null
+        }
+      </Box>
       <Grid
         pt={10}
         px={"12px"}
@@ -243,7 +253,7 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
           </Wrap>
         </GridItem>
       </Grid>
-    </VStack>
+    </VStack >
   )
 }
 

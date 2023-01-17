@@ -88,7 +88,9 @@ const Header = () => {
     title: "For Companies",
     links:
       [
-        { text: "FAQ - Companies", href: "/faq-companies" }
+        { text: "FAQ - Companies", href: "/faq-companies" },
+        { text: "Subscription Plans", href: "/subscriptions" },
+        { text: "Resume Database - Coming Soon", href: "#" }
       ]
   }
 
@@ -163,15 +165,30 @@ const Header = () => {
         justify="space-between"
         align="center"
       >
-        <Logo />
-        <IconButton
-          aria-label="Open Menu"
-          size="lg"
-          icon={<FiMenu />}
-          variant="ghost"
-          bg="whiteAlpha.400"
-          onClick={() => changeDisplay('flex')} // added line
-        />
+        <HStack>
+          <IconButton
+            aria-label="Open Menu"
+            size="lg"
+            icon={<FiMenu />}
+            variant="ghost"
+            float="left"
+            bg="whiteAlpha.400"
+            mr={1}
+            onClick={() => changeDisplay('flex')} // added line
+          />
+          <Logo />
+        </HStack>
+        <Link
+          onClick={() => changeDisplay('none')}
+          float="right"
+          _hover={{
+            textDecoration: "none"
+          }}
+          as={GatsbyLink}
+          to={`/${cta.href.linkUrl}`}
+        >
+          <Button variant="brand">Post $49</Button>
+        </Link>
 
         <Flex
           w="100vw"
@@ -193,16 +210,18 @@ const Header = () => {
               w="100%"
               px={2}
               position="relative"
-              justify="space-between"
+              justify="left"
               align="center"
             >
-              <Logo />
+
               <IconButton
                 aria-label="Open Menu"
                 size="lg"
                 icon={<FiX />}
                 onClick={() => changeDisplay('none')} // added line
               />
+              <Logo />
+
             </Flex>
             <Accordion w="100%" defaultIndex={[2]} allowMultiple>
               <AccordionItem>

@@ -43,7 +43,7 @@ const Hit = (props: any) => {
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
   const bgColor = node.highlight === true ?
-    "orange.100" : ["whiteAlpha.400", "whiteAlpha.400"]
+    "orange.100" : ["whiteAlpha.500", "whiteAlpha.500"]
   const bgHover = node.highlight === true ?
     "yellow.200" : ["whiteAlpha.500", "whiteAlpha.900"]
   const border = node.highlight === true ?
@@ -53,7 +53,7 @@ const Hit = (props: any) => {
   const buttonVariant = node.highlight == true ? "black" : "outline"
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
-    : <Text><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
+    : <Text fontSize={["sm", "md"]}><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
 
   console.log(node.publishedAt)
   return (
@@ -61,7 +61,7 @@ const Hit = (props: any) => {
       p={[2, 3]}
       my={3}
       gap={[2, 2]}
-      templateColumns={['2fr 1fr 1fr', 'repeat(5, 1fr)']}
+      templateColumns={['6fr 2fr 1fr', 'repeat(5, 1fr)']}
       width="100%"
       alignItems="center"
       bg={bgColor}
@@ -100,7 +100,7 @@ const Hit = (props: any) => {
           </VStack>
         </HStack>
       </GridItem>
-      <GridItem colStart={[2, 3]} gridRow={1} colSpan={[1]} alignSelf={["start", "start"]}>
+      <GridItem colStart={[2, 3]} gridRow={1} colSpan={[1]} alignSelf={["middle", "start"]}>
         <Text color="blackAlpha.800" fontSize="sm">
           <Highlight attribute="location" hit={props.hit} />
         </Text>
@@ -150,8 +150,8 @@ const Hit = (props: any) => {
         </Wrap>
       </GridItem>
       <GridItem colStart={[3, 5]} gridRow={1} colSpan={1}>
-        <HStack verticalAlign="center" float={['left', 'right']}>
-          <VStack align={['left', 'right']}>
+        <HStack verticalAlign="center" float={['right', 'right']}>
+          <VStack align={['right', 'right']}>
             <HStack>
               {time}
               <Link
@@ -159,13 +159,14 @@ const Hit = (props: any) => {
                   textDecoration: "none",
                 }}
                 zIndex="sticky"
+                display={["none", "flex"]}
                 href={node.applicationLink}
                 isExternal
               >
-                <Button display={["none", "flex"]} rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
+                <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
               </Link>
             </HStack>
-            {node.source ? <Text align={['left', 'right']} pr="2px" color="blackAlpha.700" fontSize="sm" >Via {node.source}</Text> : null}
+            {node.source ? <Text display={["none", "block"]} fontStyle="italic" fontSize={["sm", "md"]} align={['left', 'right']} pr="2px" color="black" >Via {node.source}</Text> : null}
           </VStack>
         </HStack>
       </GridItem>

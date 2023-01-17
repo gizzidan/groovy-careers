@@ -1,4 +1,4 @@
-import { Popover, Link, PopoverTrigger, Button, PopoverContent, PopoverBody } from "@chakra-ui/react";
+import { Popover, Link, PopoverTrigger, Button, VStack, PopoverContent, PopoverBody } from "@chakra-ui/react";
 import { Link as GatsbyLink } from 'gatsby'
 import React from "react";
 import { GoChevronUp, GoChevronDown } from "react-icons/go";
@@ -35,17 +35,18 @@ const PopoverMenu = ({ linkSet }: TypeLinkSet) => {
           </PopoverTrigger>
           <PopoverContent>
             <PopoverBody>
-              {linkSet.links.map((link: any) =>
-                <Link
-                  fontFamily="GT-America"
-                  p={2}
-                  key={link.text}
-                  as={GatsbyLink}
-                  to={link.href}>
-                  {link.text}
-                </Link>
-              )}
-
+              <VStack spacing={0} align="left">
+                {linkSet.links.map((link: any) =>
+                  <Link
+                    fontFamily="GT-America"
+                    p={1}
+                    key={link.text}
+                    as={GatsbyLink}
+                    to={link.href}>
+                    {link.text}
+                  </Link>
+                )}
+              </VStack>
             </PopoverBody>
           </PopoverContent>
         </>

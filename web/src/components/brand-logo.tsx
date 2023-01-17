@@ -6,7 +6,8 @@ import { Link as GatsbyLink } from 'gatsby'
 const Logo = (props: any) => {
 	const [isLargerThan600] = useMediaQuery('(max-width: 600px)')
 	return (
-		<Box {...props} mb="-10px">
+		<Box {...props}
+		>
 			<Link
 				as={GatsbyLink}
 				to="/"
@@ -19,9 +20,10 @@ const Logo = (props: any) => {
 					textDecoration: "none",
 				}}
 			>
-				{isLargerThan600 ? 'GROOVY' : 'GROOVY CAREERS'}
+				<Text display={['none', 'block']}>GROOVY CAREERS</Text>
+				<Text display={['block', 'none']}>GROOVY</Text>
 			</Link>
-			<Badge ml={2} mb={6} fontSize="10px" variant="solid" colorScheme="pink" transform="rotate(-15deg)">Beta</Badge>
+
 		</Box>
 	)
 }

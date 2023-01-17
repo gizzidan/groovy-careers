@@ -47,6 +47,8 @@ import {
   AutoCompleteTag,
   AutoCompleteCreatable
 } from "@choc-ui/chakra-autocomplete";
+import { Link as GatsbyLink } from 'gatsby'
+
 
 
 // Types
@@ -173,8 +175,21 @@ const NewPostingForm = ({ data }: PopulateList) => {
 
   return (
     <>
-      <Box bg="white" py={12} px={4}>
-        <Heading pb={6} textAlign="center" as="h1">Submit a new job posting</Heading>
+      <Box bg="white" py={20} px={4}>
+        <Box m="auto" w="2xl">
+          <Heading
+            pb={4}
+            size={['2xl', '2xl']}
+            textTransform="uppercase"
+            fontFamily="Gulax"
+            fontWeight="normal"
+            textAlign="center"
+            as="h1">
+            Submit a new job posting
+          </Heading>
+          <Text pb={7} fontSize="lg" textAlign="center">Use the form below to submit a single job posting. Looking for bulk pricing? View our <Link color="purple.500" as={GatsbyLink} to="/subscriptions">subscription plans</Link> for companies looking to post multiple jobs or hire ongoing.</Text>
+        </Box>
+
         <form onSubmit={handleSubmit(handlePost)} method="post">
           <VStack spacing={8} maxW="700px" m="auto">
             <FormControl isInvalid={errors.position ? true : false}>
@@ -265,7 +280,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                       onChange={onChange}
                       value={value}
                     >
-                      <AutoCompleteInput variant="outline">
+                      <AutoCompleteInput placeholder="Search..." variant="outline">
                       </AutoCompleteInput>
                       <AutoCompleteList>
                         {companyOptions.map((company, cid) => (
@@ -288,7 +303,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   )}
                 />
                 <FormHelperText>
-                  <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleShow}>Add New Company</Button>
+                  <Button fontFamily="GT-America" size="sm" colorScheme="purple" variant="link" onClick={handleShow}>Add New Company</Button>
                 </FormHelperText>
                 <FormErrorMessage>
                   {errors.companyName && errors.companyName.message}
@@ -428,8 +443,8 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   <Radio {...register("stickyLength")} value='0'>
                     No pin
                   </Radio>
-                  <Radio {...register("stickyLength")} value='1'>24 hours (+$49)</Radio>
-                  <Radio {...register("stickyLength")} value='7'>7 days (+$99)</Radio>
+                  <Radio {...register("stickyLength")} value='1'>24 hours (+$19)</Radio>
+                  <Radio {...register("stickyLength")} value='7'>7 days (+$49)</Radio>
                 </Stack>
               </RadioGroup>
             </FormControl>
