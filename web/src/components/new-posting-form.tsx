@@ -4,6 +4,7 @@ import { useForm, SubmitHandler, Controller, UseFormRegisterReturn } from "react
 import {
   Avatar,
   Box,
+  Badge,
   Button,
   CheckboxGroup,
   Checkbox,
@@ -48,7 +49,7 @@ import {
   AutoCompleteCreatable
 } from "@choc-ui/chakra-autocomplete";
 import { Link as GatsbyLink } from 'gatsby'
-
+import Logo from './brand-logo'
 
 
 // Types
@@ -97,23 +98,41 @@ type PopulateList = {
         tagName: string
       }[]
     }
+    allSanitySubscription: {
+      nodes: {
+        status: string
+        subscriptionName: string
+        postingCount: number
+        couponCode: {
+          current: string
+        }
+      }[]
+    }
   }
 }
 
+
 const NewPostingForm = ({ data }: PopulateList) => {
-  const { register, handleSubmit, control, setError, reset, watch, formState, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<Inputs>()
-  React.useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset();
-    }
-  }, [formState, reset]);
+  const { register, handleSubmit, control, setError, resetField, reset, watch, formState, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<Inputs>()
+
+  const resetForm = () => {
+    resetField('couponCode', { defaultValue: "" })
+    resetField('position')
+    resetField('description')
+    resetField('applicationLink')
+    resetField('companyLogo')
+    resetField('salaryRange', { defaultValue: [75000, 100000] })
+    setCoupon('')
+    setUpdated('')
+    setSliderValue([75000, 100000])
+  }
 
   const toast = useToast()
   const API_ENDPOINT = '/api/submit-posting';
   const handlePost: SubmitHandler<Inputs> = async data => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-      key == "companyLogo" && value[0]
+      key == "companyLogo" && value && value[0]
         ? formData.append(key, value[0], value[0].name)
         : formData.append(key, value);
     }
@@ -124,21 +143,88 @@ const NewPostingForm = ({ data }: PopulateList) => {
     })
       .then(res => res.json())
       .then(body => {
-        console.log("response: ", body)
-        window.open(body, "_blank")
-        toast({
-          title: "Submitted!",
-          position: "top",
-          status: "success",
-          duration: 6000,
-          isClosable: true
-        });
+        if (body == "Pass") {
+          resetForm()
+          toast({
+            title: "Submitted!",
+            position: "top",
+            status: "success",
+            duration: 6000,
+            isClosable: true
+          });
+        } else {
+          resetForm()
+          window.open(body, "_blank")
+          toast({
+            title: "Submitted!",
+            position: "top",
+            status: "success",
+            duration: 6000,
+            isClosable: true
+          });
+        }
+
       })
   }
 
   const [sliderValue, setSliderValue] = useState([75000, 100000])
   const min = 10000
   const max = 300000
+
+  const [value, setValue] = useState('0')
+  const [logoState, setLogoState] = useState(false)
+  const handleLogo = () => setLogoState(logoState ? false : true)
+
+  const [highlightState, setHighlightState] = useState(false)
+  const handleHighlight = () => setHighlightState(highlightState ? false : true)
+
+  const [coupon, setCoupon] = useState('')
+  const [updated, setUpdated] = useState(coupon)
+  const [postingsCount, setPostingsCount] = useState(0)
+
+  const handleCoupon = (event: { target: { value: any } }) => {
+    setCoupon(event.target.value);
+  }
+
+
+  const subscription = data.allSanitySubscription.nodes
+
+
+  const handleUpdated = () => {
+    for (const sub of subscription) {
+      if (sub.couponCode.current == coupon) {
+        if (sub.status == "ACTIVE") {
+          console.log("Coupon is active")
+          setUpdated(sub.subscriptionName)
+          setPostingsCount(sub.postingCount)
+          toast({
+            title: "Code successfully applied",
+            position: "bottom",
+            status: "success",
+            duration: 3000,
+            isClosable: true
+          });
+          return
+        } else {
+          console.log("IS NOT ACTIVE")
+          return
+        }
+      } else {
+        setUpdated('')
+        setPostingsCount(0)
+      }
+    }
+
+    toast({
+      title: "Code is not valid!",
+      position: "bottom",
+      status: "error",
+      duration: 3000,
+      isClosable: true
+    });
+  }
+
+
 
   const [showText, setShowText] = useState(false)
   const handleShow = () => setShowText(true)
@@ -151,6 +237,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
   const changeSelectOptionHandler = (event: any) => {
     setSelected(event.target.value)
   }
+
 
   const validateFiles = (value: FileList) => {
     if (value.length < 1) {
@@ -192,6 +279,19 @@ const NewPostingForm = ({ data }: PopulateList) => {
 
         <form onSubmit={handleSubmit(handlePost)} method="post">
           <VStack spacing={8} maxW="700px" m="auto">
+            <FormControl>
+              <FormLabel htmlFor='coupon'>Subscription Code</FormLabel>
+              {updated != ''
+                ? <Badge mb={2} colorScheme="green">Postings Remaining: {postingsCount}</Badge>
+                : null}
+              <HStack>
+                <Input defaultValue={''} value={coupon} {...register('couponCode', {
+                  onChange: (e) => { handleCoupon(e) },
+                })} placeholder='Coupon Code' />
+                <Button px={6} onClick={handleUpdated}>Apply</Button>
+              </HStack>
+              <FormHelperText>If you have a subscription plan enter your code here.</FormHelperText>
+            </FormControl>
             <FormControl isInvalid={errors.position ? true : false}>
               <FormLabel htmlFor='position'>Position Title</FormLabel>
               <Input
@@ -239,7 +339,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   <FormLabel htmlFor='companyName'>Company Name</FormLabel>
                   <Input {...register("companyName", { required: "This is required" })} placeholder="Company Name"></Input>
                   <FormHelperText>
-                    <Button fontFamily="GT-America" size="sm" colorScheme="blue" variant="link" onClick={handleHide}>Choose Company From List</Button>
+                    <Button fontFamily="GT-America" size="sm" colorScheme="purple" variant="link" onClick={handleHide}>Choose Company From List</Button>
                   </FormHelperText>
                   <FormErrorMessage>
                     {errors.companyName && errors.companyName.message}
@@ -270,6 +370,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                 <Controller
                   control={control}
                   name="companyName"
+                  defaultValue={undefined}
                   render={({
                     field: { onChange, onBlur, value, name, ref },
                     fieldState: { isTouched, isDirty, error },
@@ -345,6 +446,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                     maxSelections={4} openOnFocus multiple
                     onChange={onChange}
                     value={value}
+                    placeholder="Enter tags"
                   >
                     <AutoCompleteInput variant="outline">
                       {({ tags }) =>
@@ -409,7 +511,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   <RangeSlider
                     {...field}
                     onChange={(value: any) => {
-                      setSliderValue(value); console.log(value);
+                      setSliderValue(value);
                       field.onChange(value);
                     }}
                     aria-label={[String(min), String(max)]}
@@ -438,12 +540,21 @@ const NewPostingForm = ({ data }: PopulateList) => {
             </FormControl>
             <FormControl>
               <FormLabel htmlFor='stickyLength'>Pin your post to the top for:</FormLabel>
-              <RadioGroup w="100%" defaultValue='1'>
+              <RadioGroup
+                w="100%"
+                value={(updated == "Iridium" || updated == "Rhodium") ? '1' : updated == "Cesium" ? '7' : value}
+                onChange={setValue}
+                isDisabled={updated != "" ? true : false}
+              >
                 <Stack>
                   <Radio {...register("stickyLength")} value='0'>
                     No pin
                   </Radio>
-                  <Radio {...register("stickyLength")} value='1'>24 hours (+$19)</Radio>
+                  <Radio {...register("stickyLength")}
+                    value='1'
+                  >
+                    24 hours (+$19)
+                  </Radio>
                   <Radio {...register("stickyLength")} value='7'>7 days (+$49)</Radio>
                 </Stack>
               </RadioGroup>
@@ -453,10 +564,12 @@ const NewPostingForm = ({ data }: PopulateList) => {
                 <FormLabel htmlFor='includeLogo' pb="0" mb="0">Add a logo to your posting (+$29)</FormLabel>
                 <Switch
                   {...register('includeLogo', {
-                    onChange: handleUpload,
+                    onChange: handleLogo,
                   })}
                   pb="0"
                   mb="0"
+                  isDisabled={updated != "" ? true : false}
+                  isChecked={updated != "" ? true : logoState}
                 />
               </Flex>
               <FormHelperText>Add your uploaded company logo to the posting.</FormHelperText>
@@ -466,15 +579,14 @@ const NewPostingForm = ({ data }: PopulateList) => {
             <FormControl display="flex" alignItems={"center"}>
               <FormLabel htmlFor='highlight' pb="0" mb="0">Highlight your posting (+$49)</FormLabel>
               <Switch
-                {...register('highlight')}
+                {...register('highlight', {
+                  onChange: handleHighlight,
+                })}
                 pb="0"
                 mb="0"
+                isDisabled={(updated == "Rhodium" || updated == "Cesium") ? true : false}
+                isChecked={(updated == "Rhodium" || updated == "Cesium") ? true : highlightState}
               />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor='coupon'>Coupon Code</FormLabel>
-              <Input {...register('couponCode')} placeholder='Coupon Code' />
-              <FormHelperText>If you pre-purchased listings, enter a code here.</FormHelperText>
             </FormControl>
             <Button isLoading={isSubmitting} type="submit">Submit</Button>
           </VStack >
@@ -486,3 +598,4 @@ const NewPostingForm = ({ data }: PopulateList) => {
 
 
 export default NewPostingForm
+

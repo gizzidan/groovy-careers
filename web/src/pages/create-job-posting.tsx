@@ -68,6 +68,16 @@ export const query = graphql`
         tagName
       }
     }
+    allSanitySubscription {
+      nodes {
+        status
+        subscriptionName
+        postingCount
+        couponCode {
+          current
+        }
+      }
+    }
   }
 `
 

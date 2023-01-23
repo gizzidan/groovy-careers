@@ -11,6 +11,7 @@ import jobTag from "./jobTag";
 import company from "./company";
 import faq from "./faq";
 import questionAnswer from "./questionAnswer";
+import subscription from "./subscription";
 
 import homepage from "./homepage";
 import homepageHero from "./homepageHero";
@@ -38,6 +39,7 @@ export default createSchema({
 		category,
 		jobTag,
 		company,
+		subscription,
 		// homepage
 		homepage,
 		homepageHero,

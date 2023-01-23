@@ -1,9 +1,10 @@
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { sanity } from "./algolia-sanity";
-import { Client, Environment, ApiError } from "square";
+import { Client, Environment } from "square";
 import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import JSONBig from "json-bigint";
+import delay from "delay";
 
 export default async function handler(
 	req: GatsbyFunctionRequest,
@@ -20,15 +21,23 @@ export default async function handler(
 	}
 
 	console.log(req.body);
+
+	// Query params
 	const query = '*[_type == "category" && categoryName == $categoryName] {_id}';
 	const params = { categoryName: req.body.category };
+	const companyQuery = '*[_type == "company" && name == $companyName] {_id}';
+	const companyParams = { companyName: req.body.companyName };
+	const couponQuery =
+		'*[_type == "subscription" && couponCode.current == $couponCode] {_id, subscriptionName}';
+	const couponParams = { couponCode: req.body.couponCode };
 
 	const id = req.body.companyName.replace(/\s+/g, "-");
 
 	const tags = req.body.tags.split(",");
+	const diversity = req.body.diverseOwnership.split(",");
 
 	// Create new tags if they don't exist
-	tags[0]
+	tags[0] && tags[0] != "undefined"
 		? await tags.map((tag: any) => {
 				const tagQuery = '*[_type == "jobTag" && tagName == $tagName] {_id}';
 				const tagParams = { tagName: tag };
@@ -50,17 +59,13 @@ export default async function handler(
 		: null;
 
 	// Create new company if it doesn't exist
-	const companyQuery = '*[_type == "company" && name == $companyName] {_id}';
-	const companyParams = { companyName: req.body.companyName };
 	await sanity.fetch(companyQuery, companyParams).then(async (company) => {
 		const newCompany = {
 			_id: company[0] && company[0]._id ? company[0]._id : id,
 			_type: "company",
 			name: req.body.companyName,
 			diverseOwnership:
-				req.body.diverseOwnership == "false"
-					? undefined
-					: req.body.diverseOwnership,
+				req.body.diverseOwnership == "false" ? undefined : diversity,
 		};
 		await sanity.transaction().createIfNotExists(newCompany).commit();
 	});
@@ -103,7 +108,6 @@ export default async function handler(
 				const tagQuery = '*[_type == "jobTag" && tagName == $tagName] {_id}';
 				const tagParams = { tagName: tag };
 				await sanity.fetch(tagQuery, tagParams).then((tag) => {
-					console.log(tag);
 					const tagReference = {
 						_key: uuidv4(),
 						_ref: tag[0]?._id,
@@ -168,42 +172,76 @@ export default async function handler(
 		const companyRef = company[0]._id;
 		await sanity.fetch(query, params).then(async (category) => {
 			const categoryRef = category[0]._id;
-			const posting = {
-				_id: `drafts.`,
-				_type: "jobPosting",
-				position: req.body.position,
-				descriptionPaste: req.body.description,
-				company: {
-					_ref: companyRef,
-					_type: "reference",
-				},
-				category: {
-					_ref: categoryRef,
-					_type: "reference",
-				},
-				tags: tags[0] ? tagArray : undefined,
-				location: req.body.location,
-				applicationLink: req.body.applicationLink,
-				minAnnualSalary: parseInt(salaryRange[0]),
-				maxAnnualSalary: parseInt(salaryRange[1]),
-				email: req.body.email,
-				stickyLength: parseInt(req.body.stickyLength),
-				includeLogo: includeLogo,
-				highlight: highlight,
-				paymentStatus: false,
-				coupon: req.body.couponCode,
-				test: req.body.companyLogo,
-				slug: {
-					_type: "slug",
-					current:
-						req.body.position.toLowerCase().replace(/\s+/g, "-") +
-						"-" +
-						req.body.companyName.toLowerCase().replace(/\s+/g, "-") +
-						"-" +
-						uuidv4().slice(-6),
-				},
-			};
-			await sanity.transaction().createOrReplace(posting).commit();
+			await sanity.fetch(couponQuery, couponParams).then(async (coupon) => {
+				console.log(coupon);
+				const logo =
+					coupon[0] &&
+					coupon[0].subscriptionName &&
+					["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
+						? true
+						: includeLogo;
+
+				const sticky =
+					coupon[0] &&
+					coupon[0].subscriptionName &&
+					["Iridium", "Rhodium"].includes(coupon[0].subscriptionName)
+						? 1
+						: coupon[0] &&
+						  coupon[0].subscriptionName &&
+						  coupon[0].subscriptionName == "Cesium"
+						? 7
+						: parseInt(req.body.stickyLength);
+
+				const high =
+					coupon[0] &&
+					coupon[0].subscriptionName &&
+					["Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
+						? true
+						: highlight;
+
+				const payment =
+					coupon[0] &&
+					coupon[0].subscriptionName &&
+					["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
+						? true
+						: false;
+
+				const posting = {
+					_id: `drafts.`,
+					_type: "jobPosting",
+					position: req.body.position,
+					descriptionPaste: req.body.description,
+					company: {
+						_ref: companyRef,
+						_type: "reference",
+					},
+					category: {
+						_ref: categoryRef,
+						_type: "reference",
+					},
+					tags: tags[0] && tags[0] != "undefined" ? tagArray : undefined,
+					location: req.body.location,
+					applicationLink: req.body.applicationLink,
+					minAnnualSalary: parseInt(salaryRange[0]),
+					maxAnnualSalary: parseInt(salaryRange[1]),
+					email: req.body.email,
+					stickyLength: sticky,
+					includeLogo: logo,
+					highlight: high,
+					paymentStatus: payment,
+					coupon: req.body.couponCode,
+					slug: {
+						_type: "slug",
+						current:
+							req.body.position.toLowerCase().replace(/\s+/g, "-") +
+							"-" +
+							req.body.companyName.toLowerCase().replace(/\s+/g, "-") +
+							"-" +
+							uuidv4().slice(-6),
+					},
+				};
+				await sanity.transaction().createOrReplace(posting).commit();
+			});
 		});
 	});
 
@@ -240,28 +278,39 @@ export default async function handler(
 
 	const modifierList = [pinModifier, highlightModifier, logoModifier];
 
-	try {
-		const response = await checkoutApi.createPaymentLink({
-			idempotencyKey: uuidv4(),
-			order: {
-				locationId: "L9FNRE58BK4DX",
-				lineItems: [
-					{
-						quantity: "1",
-						catalogObjectId: "CXGRZTQXLWSZK5YNJG7JWY4E",
-						itemType: "ITEM",
-						modifiers: modifierList,
+	await sanity.fetch(couponQuery, couponParams).then(async (coupon) => {
+		if (
+			coupon[0] &&
+			coupon[0].subscriptionName &&
+			["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
+		) {
+			res.status(200).json("Pass");
+		} else {
+			try {
+				const response = await checkoutApi.createPaymentLink({
+					idempotencyKey: uuidv4(),
+					order: {
+						locationId: "L9FNRE58BK4DX",
+						lineItems: [
+							{
+								quantity: "1",
+								catalogObjectId: "CXGRZTQXLWSZK5YNJG7JWY4E",
+								itemType: "ITEM",
+								modifiers: modifierList,
+							},
+						],
 					},
-				],
-			},
-		});
+				});
 
-		console.log(response.result);
-		const linkParsed = JSONBig.parse(
-			JSONBig.stringify(response.result.paymentLink?.url!)
-		);
-		res.status(200).json(linkParsed);
-	} catch (error) {
-		console.log(error);
-	}
+				console.log(response.result);
+				const linkParsed = JSONBig.parse(
+					JSONBig.stringify(response.result.paymentLink?.url!)
+				);
+				await delay(1000);
+				res.status(200).json(linkParsed);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	});
 }
