@@ -87,7 +87,7 @@ const theme = extendTheme({
 			},
 			".ais-RefinementList-checkbox, .ais-GeoSearch-input": {
 				appearance: "none",
-				backgroundColor: "whiteAlpha.50",
+				backgroundColor: "whiteAlpha.800",
 				backgroundPosition: "50%",
 				backgroundSize: "180%",
 				border: "1px solid currentcolor",

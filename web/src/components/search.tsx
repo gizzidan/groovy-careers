@@ -31,7 +31,7 @@ import PaginationNav from './pagination-nav';
 import SearchBoxComponent from './search-box';
 import getRouting from './routing';
 import ColorContrastChecker from 'color-contrast-checker'
-
+import { colord } from "colord"
 const indexName = "dev_cannabisfriendly"
 const routing = getRouting(indexName)
 
@@ -45,25 +45,65 @@ const Hit = (props: any) => {
   // Color Checker
   var ccc = new ColorContrastChecker()
   const color1 = "#000000"
-  const customColor = node.customHighlightColor ? node.customHighlightColor : "#fff"
-
-  const contrast = ccc.isLevelAAA(color1, customColor, 15) ? "good" : "bad"
-  const textColor = contrast == "good" ? "black" : "white"
-  const bgColor = node.highlight === true
+  const customColor = node.customHighlightColor ? colord(node.customHighlightColor).toHex() : "#4B2840"
+  const bgColor = node.highlight === true && node.customHighlight === true
     ?
-    "orange.100"
-    : node.highlight === true && node.customHighlight === true
-      ? customColor
-      : "white.800"
+    customColor
+    : node.highlight === true
+      ? "yellow.100"
+      : "whiteAlpha.600"
+
+  const bgHover = node.highlight === true && node.customHighlight === true
+    ?
+    colord(customColor).darken(0.05).toHex()
+    : node.highlight === true
+      ? "yellow.200"
+      : "white"
+
+  const contrast = bgColor == customColor
+    ? ccc.isLevelAAA(color1, bgColor, 12)
+      ? "good"
+      : "bad"
+    : "good"
+
+  const textColor = contrast == "good" ? "black" : "white"
+
+  const borderColor = node.highlight === true && node.customHighlight === true
+    ? contrast == "good"
+      ? colord(customColor).darken(0.23).saturate(0.4).toHex()
+      : colord(customColor).lighten(0.23).saturate(0.4).toHex()
+    : node.highlight === true
+      ? "yellow.400"
+      : "transparent"
+
+  const buttonBgColor = node.highlight === true && node.customHighlight === true
+    ? contrast == "good"
+      ? colord(customColor).darken(0.5).saturate(0.25).toHex()
+      : colord(customColor).lighten(0.6).saturate(0.25).toHex()
+    : node.highlight === true
+      ? "black"
+      : null
+
+  const buttonBgHover = node.highlight === true && node.customHighlight === true
+    ? contrast == "good"
+      ? colord(customColor).darken(0.4).saturate(0.25).toHex()
+      : colord(customColor).lighten(0.5).saturate(0.25).toHex()
+    : node.highlight === true
+      ? colord('#000000').lighten(0.2).toHex()
+      : null
+
+  const buttonTextColor = node.highlight === true && node.customHighlight === true
+    ? textColor == "white" ? "black" : "white"
+    : node.highlight === true
+      ? "white"
+      : null
 
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
-  const bgHover = node.highlight === true ?
-    "yellow.200" : ["whiteAlpha.500", "whiteAlpha.900"]
+
   const border = node.highlight === true ?
     "5px solid" : "5px solid"
-  const borderColor = node.highlight === true ?
-    "yellow.400" : "transparent"
+
   const buttonVariant = node.highlight == true ? "black" : contrast == "bad" ? "black" : "outline"
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
@@ -181,7 +221,17 @@ const Hit = (props: any) => {
                 href={node.applicationLink}
                 isExternal
               >
-                <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
+                <Button
+                  rightIcon={<FiExternalLink />}
+                  variant={buttonVariant}
+                  bgColor={buttonBgColor}
+                  color={buttonTextColor}
+                  _hover={{
+                    bgColor: buttonBgHover,
+                  }}
+                >
+                  Apply
+                </Button>
               </Link>
             </HStack>
             {node.source ? <Text display={["none", "block"]} fontStyle="italic" fontSize={["sm", "md"]} align={['left', 'right']} pr="2px" color={textColor} >Via {node.source}</Text> : null}
