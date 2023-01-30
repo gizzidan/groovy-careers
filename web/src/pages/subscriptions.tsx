@@ -84,14 +84,15 @@ const Subscriptions = () => {
             <Card variant="outline">
               <CardHeader>
                 <Heading color="purple.500" size='md'>Iridium</Heading>
-                <Text color="purple.500" fontSize="md"><Text fontSize="2xl" as="span">$250</Text>/month</Text>
-                <Text color="blackAlpha.600" size="sm">3 postings per month.</Text>
+                <Text color="purple.500" fontSize="md"><Text fontSize="2xl" as="span">$349</Text>/month</Text>
+                <Text color="blackAlpha.600" size="sm">3 postings per month</Text>
               </CardHeader>
               <CardBody>
                 <Text>Each post includes:</Text>
                 <UnorderedList>
                   <ListItem>Brand logo</ListItem>
                   <ListItem>Sticky for 1 day</ListItem>
+                  <ListItem>Highlight</ListItem>
                 </UnorderedList>
               </CardBody>
               <CardFooter>
@@ -103,8 +104,8 @@ const Subscriptions = () => {
             <Card variant="outline">
               <CardHeader>
                 <Heading color="pink.500" size='md'>Rhodium</Heading>
-                <Text color="pink.500" fontSize="md"><Text fontSize="2xl" as="span">$420</Text>/month</Text>
-                <Text color="blackAlpha.600" size="sm">4 postings per month.</Text>
+                <Text color="pink.500" fontSize="md"><Text fontSize="2xl" as="span">$499</Text>/month</Text>
+                <Text color="blackAlpha.600" size="sm">5 postings per month</Text>
               </CardHeader>
               <CardBody>
                 <Text>Each post includes:</Text>
@@ -124,7 +125,7 @@ const Subscriptions = () => {
               <CardHeader>
                 <Heading size='md'>Cesium</Heading>
                 <Text fontSize="md"><Text fontSize="2xl" as="span">$690</Text>/month</Text>
-                <Text color="blackAlpha.600" size="sm">6 postings per month.</Text>
+                <Text color="blackAlpha.600" size="sm">6 postings per month</Text>
               </CardHeader>
               <CardBody>
                 <Text>Each post includes:</Text>

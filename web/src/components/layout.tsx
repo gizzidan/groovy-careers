@@ -1,4 +1,4 @@
-import { Box, VStack, Text, Heading, Link } from '@chakra-ui/react'
+import { Box, VStack, Text, Heading, Link, Highlight } from '@chakra-ui/react'
 import { graphql, useStaticQuery } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -20,9 +20,9 @@ const Layout = ({ children }: Props) => {
         >
           <Box as="main">{children}</Box>
           <VStack textAlign="center" py={[10, 20]} as="footer">
-            <Heading fontFamily={"GT-America-Extended"} fontWeight="500" size="md" as="h4">Send new jobs to your inbox:</Heading>
+            <Heading fontFamily={"GT-America-Extended"} fontWeight="500" size="md" as="h4"><Highlight query={'new jobs'} styles={{ px: '2', py: '1', rounded: 'full', bg: 'mantis.100' }}>Send new jobs to your inbox:</Highlight> </Heading>
             <NewsletterSignup />
-            <Text>
+            <Text pt={4}>
               © {new Date().getFullYear()}, Groovy Careers
             </Text>
           </VStack>

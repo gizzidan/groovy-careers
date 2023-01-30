@@ -150,10 +150,28 @@ export default {
 			description: "Highlight your posting.",
 		},
 		{
+			name: "customHighlight",
+			title: "Custom Highlight",
+			type: "boolean",
+		},
+		{
+			name: "customHighlightColor",
+			title: "Custom Highlight Color",
+			type: "string",
+			description: "Custom highlight color.",
+		},
+		{
 			name: "coupon",
 			title: "Coupon",
 			type: "string",
 			description: "Coupon code for pre-purchased postings.",
+		},
+		{
+			name: "squareId",
+			title: "Square ID",
+			type: "string",
+			description: "For linking the job posting to an order in Square.",
+			readOnly: true,
 		},
 		{
 			name: "paymentStatus",

@@ -53,7 +53,7 @@ export default async function incrementSubscription(
 		res.send(200);
 
 		// Do stuff
-		await delay(3000);
+		await delay(2000);
 		const data = JSON.parse(req.body);
 		const invoice = JSON.parse(JSON.stringify(data.data.object.invoice));
 

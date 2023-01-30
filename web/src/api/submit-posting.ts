@@ -34,7 +34,10 @@ export default async function handler(
 	const id = req.body.companyName.replace(/\s+/g, "-");
 
 	const tags = req.body.tags.split(",");
-	const diversity = req.body.diverseOwnership.split(",");
+
+	const diversity = req.body.diverseOwnership
+		? req.body.diverseOwnership.split(",")
+		: null;
 
 	// Create new tags if they don't exist
 	tags[0] && tags[0] != "undefined"
@@ -165,6 +168,7 @@ export default async function handler(
 		.type;
 
 	// Create new posting
+	const postingId = uuidv4();
 	const salaryRange = req.body.salaryRange.split(",");
 	const highlight = JSON.parse(req.body.highlight);
 	const includeLogo = JSON.parse(req.body.includeLogo);
@@ -195,14 +199,21 @@ export default async function handler(
 				const high =
 					coupon[0] &&
 					coupon[0].subscriptionName &&
-					["Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
+					["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
 						? true
 						: highlight;
 
 				const payment =
 					coupon[0] &&
 					coupon[0].subscriptionName &&
-					["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
+					coupon[0].subscriptionName == "Iridium" &&
+					highlight == true
+						? false
+						: coupon[0] &&
+						  coupon[0].subscriptionName &&
+						  ["Iridium", "Rhodium", "Cesium"].includes(
+								coupon[0].subscriptionName
+						  )
 						? true
 						: false;
 
@@ -228,6 +239,7 @@ export default async function handler(
 					stickyLength: sticky,
 					includeLogo: logo,
 					highlight: high,
+					squareId: postingId,
 					paymentStatus: payment,
 					coupon: req.body.couponCode,
 					slug: {
@@ -247,12 +259,12 @@ export default async function handler(
 
 	// Square API code
 	const square = new Client({
-		accessToken: process.env.SQUARE_PRODUCTION_TOKEN,
-		environment: Environment.Production,
+		accessToken: process.env.SQUARE_SANDBOX_TOKEN,
+		environment: Environment.Sandbox,
 	});
 
 	const checkoutApi = square.checkoutApi;
-
+	/*
 	const pinModifier = {
 		catalogObjectId:
 			req.body.stickyLength == "1"
@@ -275,7 +287,30 @@ export default async function handler(
 				? "FICFMAA75ULELU2KQMZFNJ4Q"
 				: "ABNURN26DL77T2UCY6IKQ6SH",
 	};
+*/
 
+	const pinModifier = {
+		catalogObjectId:
+			req.body.stickyLength == "1"
+				? "FPCUAMKX7IFMBN6VXVUHHW7P"
+				: req.body.stickyLength == "7"
+				? "XQLHYEUJOBVHAFGMHEGEPFNJ"
+				: "3EKJX2IIJLEBFN2LTRB6XOAM",
+	};
+
+	const highlightModifier = {
+		catalogObjectId:
+			req.body.highlight == "true"
+				? "B7QOSIEBCM4OBXOTV6LIVH4B"
+				: "5MYAZGJT4UNEQZ45WYQW7N2D",
+	};
+
+	const logoModifier = {
+		catalogObjectId:
+			req.body.includeLogo == "true"
+				? "NRSQDZM5EJSWPD6YOO4EWY6T"
+				: "IJYKNKUNYR442QGIXQTS6NJQ",
+	};
 	const modifierList = [pinModifier, highlightModifier, logoModifier];
 
 	await sanity.fetch(couponQuery, couponParams).then(async (coupon) => {
@@ -284,21 +319,25 @@ export default async function handler(
 			coupon[0].subscriptionName &&
 			["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
 		) {
+			await sanity.patch(coupon[0]._id).inc({ postingCount: -1 }).commit();
 			res.status(200).json("Pass");
 		} else {
 			try {
 				const response = await checkoutApi.createPaymentLink({
 					idempotencyKey: uuidv4(),
 					order: {
-						locationId: "L9FNRE58BK4DX",
+						locationId: "LKA24FR5PZCZV",
 						lineItems: [
 							{
 								quantity: "1",
-								catalogObjectId: "CXGRZTQXLWSZK5YNJG7JWY4E",
+								catalogObjectId: "WPOCQUDYD3IPHJRDQ4BXOZCC",
 								itemType: "ITEM",
 								modifiers: modifierList,
 							},
 						],
+						metadata: {
+							sanity_id: postingId,
+						},
 					},
 				});
 

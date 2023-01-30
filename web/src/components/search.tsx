@@ -30,6 +30,7 @@ import DiversityTags from './diversity-tags';
 import PaginationNav from './pagination-nav';
 import SearchBoxComponent from './search-box';
 import getRouting from './routing';
+import ColorContrastChecker from 'color-contrast-checker'
 
 const indexName = "dev_cannabisfriendly"
 const routing = getRouting(indexName)
@@ -40,22 +41,31 @@ export const formatter = buildFormatter(enShort)
 const Hit = (props: any) => {
   const [isLargerThan400] = useMediaQuery('(min-width: 400px)')
   const node = props.hit
+
+  // Color Checker
+  var ccc = new ColorContrastChecker()
+  const color1 = "#000000"
+  const customColor = "#FFE900"
+
+  const contrast = ccc.isLevelAAA(color1, customColor, 15) ? "good" : "bad"
+  const textColor = contrast == "good" ? "black" : "white"
+  const bgColor = node.highlight === true ?
+    customColor : customColor
+
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
-  const bgColor = node.highlight === true ?
-    "orange.100" : ["whiteAlpha.500", "whiteAlpha.500"]
   const bgHover = node.highlight === true ?
     "yellow.200" : ["whiteAlpha.500", "whiteAlpha.900"]
   const border = node.highlight === true ?
     "5px solid" : "5px solid"
   const borderColor = node.highlight === true ?
     "yellow.400" : "transparent"
-  const buttonVariant = node.highlight == true ? "black" : "outline"
+  const buttonVariant = node.highlight == true ? "black" : contrast == "bad" ? "black" : "outline"
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
-    : <Text fontSize={["sm", "md"]}><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
+    : <Text color={textColor} fontSize={["sm", "md"]}><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
 
-  console.log(node.publishedAt)
+
   return (
     < Grid
       p={[2, 3]}
@@ -87,21 +97,23 @@ const Hit = (props: any) => {
             : null
           }
           <VStack spacing={1} align="left">
-            <Heading size={['xs', 'sm']} variant="card" as="h3">
+            <Heading color={textColor} size={['xs', 'sm']} variant="card" as="h3">
               <Highlight attribute="position" hit={props.hit} />
             </Heading>
             {node.diverseOwnership
-              ? <DiversityTags label={node.companyName} node={node}
-                diverseOwnership={node.diverseOwnership.diverseOwnership} />
+              ? <Box color={textColor}>
+                <DiversityTags label={node.companyName} node={node}
+                  diverseOwnership={node.diverseOwnership.diverseOwnership} />
+              </Box>
               : null}
             {node.minAnnualSalary > 0 ?
-              <Text variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
+              <Text color={textColor} variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
               : null}
           </VStack>
         </HStack>
       </GridItem>
       <GridItem colStart={[2, 3]} gridRow={1} colSpan={[1]} alignSelf={["middle", "start"]}>
-        <Text color="blackAlpha.800" fontSize="sm">
+        <Text color={contrast == "good" ? "blackAlpha.900" : "whiteAlpha.900"} fontSize="sm">
           <Highlight attribute="location" hit={props.hit} />
         </Text>
       </GridItem>
@@ -115,10 +127,11 @@ const Hit = (props: any) => {
             href={`/?category=${node.category}`}
           >
             <Tag
+              colorScheme={contrast == "good" ? "blackAlpha" : "whiteAlpha"}
               fontFamily="GT-America-Mono"
               _hover={{
-                bg: "blackAlpha.600",
-                color: "white"
+                bg: contrast == "good" ? "blackAlpha.700" : "whiteAlpha.700",
+                color: contrast == "good" ? "white" : "black"
               }}
             >
               {node.category.toUpperCase()}
@@ -135,10 +148,11 @@ const Hit = (props: any) => {
                 key={tag.slug.current}
               >
                 <Tag
+                  colorScheme={contrast == "good" ? "blackAlpha" : "whiteAlpha"}
                   fontFamily="GT-America-Mono"
                   _hover={{
-                    bg: "blackAlpha.600",
-                    color: "white"
+                    bg: contrast == "good" ? "blackAlpha.700" : "whiteAlpha.700",
+                    color: contrast == "good" ? "white" : "black"
                   }}
                 >
                   {tag.tagName}
@@ -166,7 +180,7 @@ const Hit = (props: any) => {
                 <Button rightIcon={<FiExternalLink />} variant={buttonVariant}>Apply</Button>
               </Link>
             </HStack>
-            {node.source ? <Text display={["none", "block"]} fontStyle="italic" fontSize={["sm", "md"]} align={['left', 'right']} pr="2px" color="black" >Via {node.source}</Text> : null}
+            {node.source ? <Text display={["none", "block"]} fontStyle="italic" fontSize={["sm", "md"]} align={['left', 'right']} pr="2px" color={textColor} >Via {node.source}</Text> : null}
           </VStack>
         </HStack>
       </GridItem>

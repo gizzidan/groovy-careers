@@ -26,7 +26,7 @@ export default function mailchimpSignup(
 		email: req.body.email,
 	};
 
-	const tags: any[] = [{ name: req.body.frequency, status: "active" }];
+	const tags: any[] = [];
 	req.body.categories.map((node: any) =>
 		tags.push({ name: node, status: "active" })
 	);

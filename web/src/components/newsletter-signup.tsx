@@ -1,4 +1,4 @@
-import { Grid, GridItem, Input, Tooltip, MenuButton, IconButton, MenuList, MenuOptionGroup, Menu, MenuItemOption, MenuDivider, Button, FormControl, useToast } from '@chakra-ui/react';
+import { Grid, GridItem, Input, MenuButton, IconButton, MenuList, MenuOptionGroup, Menu, VStack, MenuItemOption, Text, Button, FormControl, useToast } from '@chakra-ui/react';
 import { useStaticQuery, graphql } from 'gatsby';
 import React, { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -58,22 +58,22 @@ const NewsletterSignup = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid
-        my={3}
-        gap={1}
-        templateColumns={['repeat(4, 1fr)', '.25fr 2fr 1fr']}
-        alignItems="center"
-        width={['85vw', '500px']}
+      <VStack spacing={3} align="center">
+        <Grid
+          mt={3}
+          gap={1}
+          templateColumns={['repeat(4, 1fr)', '.25fr 2fr 1fr']}
+          alignItems="center"
+          width={['85vw', '500px']}
 
-      >
-        <GridItem colStart={[2, 2]} colEnd={[5, 2]}>
-          <FormControl isInvalid={errors.email ? true : false}>
-            <Input placeholder="Email address" borderColor={"blackAlpha.200"} bg="whiteAlpha.700" {...register("email", { required: true, pattern: /^\S+@\S+$/i })}></Input>
-          </FormControl>
-        </GridItem>
-        <GridItem rowStart={1} colStart={[1, 1]} colEnd={1}>
-          <Menu closeOnSelect={false}>
-            <Tooltip label="Change frequency and categories" aria-label='A tooltip'>
+        >
+          <GridItem colStart={[2, 2]} colEnd={[5, 2]}>
+            <FormControl isInvalid={errors.email ? true : false}>
+              <Input placeholder="Email address" borderColor={"blackAlpha.200"} bg="whiteAlpha.700" {...register("email", { required: true, pattern: /^\S+@\S+$/i })}></Input>
+            </FormControl>
+          </GridItem>
+          <GridItem rowStart={1} colStart={[1, 1]} colEnd={1}>
+            <Menu closeOnSelect={false}>
               <MenuButton
                 as={IconButton}
                 icon={<FiSliders />}
@@ -84,64 +84,39 @@ const NewsletterSignup = () => {
               >
                 Select
               </MenuButton>
-            </Tooltip>
-            <MenuList zIndex="9999" minWidth='240px'>
-              <Controller
-                control={control}
-                name="frequency"
-                defaultValue='daily'
-                render={({ field }) => (
-                  <>
-                    <MenuOptionGroup
-                      {...field}
-                      onChange={(value: any) => {
-                        console.log(value);
-                        field.onChange(value);
-                      }}
-                      defaultValue='daily'
-                      title='Frequency'
-                      type='radio'
-                    >
-                      <MenuItemOption value='daily'>Daily</MenuItemOption>
-                      <MenuItemOption value='weekly'>Weekly</MenuItemOption>
-                    </MenuOptionGroup>
-                  </>
-                )}
-              />
-              <MenuDivider />
-              <FormControl>
+              <MenuList zIndex="9999" minWidth='240px'>
+                <Controller
+                  control={control}
+                  name="categories"
+                  defaultValue={categories}
+                  render={({ field }) => (
+                    <>
+                      <MenuOptionGroup
+                        {...field}
+                        onChange={(value: any) => {
+                          console.log(value);
+                          field.onChange(value);
+                        }}
+                        title='Category'
+                        type='checkbox'
+                      >
+                        {data.allSanityCategory.nodes.map((node: any) =>
+                          <MenuItemOption key={node.id} value={node.categoryName}>{node.categoryName}</MenuItemOption>
+                        )}
+                      </MenuOptionGroup>
+                    </>
+                  )}
+                />
 
-              </FormControl>
-              <Controller
-                control={control}
-                name="categories"
-                defaultValue={categories}
-                render={({ field }) => (
-                  <>
-                    <MenuOptionGroup
-                      {...field}
-                      onChange={(value: any) => {
-                        console.log(value);
-                        field.onChange(value);
-                      }}
-                      title='Category'
-                      type='checkbox'
-                    >
-                      {data.allSanityCategory.nodes.map((node: any) =>
-                        <MenuItemOption key={node.id} value={node.categoryName}>{node.categoryName}</MenuItemOption>
-                      )}
-                    </MenuOptionGroup>
-                  </>
-                )}
-              />
-
-            </MenuList>
-          </Menu>
-        </GridItem>
-        <GridItem colSpan={[4, 1]}>
-          <Button w="100%" isLoading={isSubmitting} type="submit" colorScheme={"pink"}>Subscribe</Button>
-        </GridItem>
-      </Grid>
+              </MenuList>
+            </Menu>
+          </GridItem>
+          <GridItem colSpan={[4, 1]}>
+            <Button w="100%" isLoading={isSubmitting} type="submit" colorScheme={"pink"}>Subscribe</Button>
+          </GridItem>
+        </Grid>
+        <Text fontSize="sm" color="blackAlpha.600">Get new jobs sent to your inbox weekly</Text>
+      </VStack>
     </form >
   );
 }

@@ -40,6 +40,7 @@ import {
 import SEO from '../components/seo'
 import FileUpload from '../components/file-upload'
 import RichTextEditor from '@mantine/rte';
+import { ChromePicker } from 'react-color'
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -69,6 +70,8 @@ type Inputs = {
   stickyLength: number,
   includeLogo: boolean,
   highlight: boolean,
+  customHighlight: boolean,
+  customHighlightColor: any,
   couponCode: string,
   companyLogo: any,
 }
@@ -134,7 +137,9 @@ const NewPostingForm = ({ data }: PopulateList) => {
     for (const [key, value] of Object.entries(data)) {
       key == "companyLogo" && value && value[0]
         ? formData.append(key, value[0], value[0].name)
-        : formData.append(key, value);
+        : key == "customHighlightColor" && value
+          ? formData.append(key, value.hex)
+          : formData.append(key, value);
     }
 
     await fetch(API_ENDPOINT, {
@@ -177,6 +182,9 @@ const NewPostingForm = ({ data }: PopulateList) => {
 
   const [highlightState, setHighlightState] = useState(false)
   const handleHighlight = () => setHighlightState(highlightState ? false : true)
+
+  const [customHighlight, setCustomHighlight] = useState(false)
+  const handleCustomHighlight = () => setCustomHighlight(customHighlight ? false : true)
 
   const [coupon, setCoupon] = useState('')
   const [updated, setUpdated] = useState(coupon)
@@ -584,10 +592,42 @@ const NewPostingForm = ({ data }: PopulateList) => {
                 })}
                 pb="0"
                 mb="0"
-                isDisabled={(updated == "Rhodium" || updated == "Cesium") ? true : false}
-                isChecked={(updated == "Rhodium" || updated == "Cesium") ? true : highlightState}
+                isDisabled={["Iridium", "Rhodium", "Cesium"].includes(updated) ? true : false}
+                isChecked={["Iridium", "Rhodium", "Cesium"].includes(updated) ? true : highlightState}
               />
             </FormControl>
+            {highlightState == true ?
+              <FormControl display="flex" alignItems={"center"}>
+                <FormLabel>Use custom highlight color (+$99)</FormLabel>
+                <Switch
+                  {...register('customHighlight', {
+                    onChange: handleCustomHighlight,
+                  })}
+                  isDisabled={["Iridium", "Rhodium", "Cesium"].includes(updated) ? true : false}
+                  isChecked={["Iridium", "Rhodium"].includes(updated) ? false : updated == "Cesium" ? true : customHighlight}
+                />
+              </FormControl> : null
+            }
+            {customHighlight == true || updated == "Cesium" ?
+              <FormControl>
+                <FormLabel htmlFor="customHighlight">Pick a color:</FormLabel>
+                <Controller
+                  control={control}
+                  name="customHighlightColor"
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                    fieldState: { isTouched, isDirty, error },
+                    formState,
+                  }) => (
+                    <ChromePicker
+                      disableAlpha={true}
+                      color={value}
+                      onChange={onChange}
+                    />
+                  )}
+                />
+              </FormControl> : null
+            }
             <Button isLoading={isSubmitting} type="submit">Submit</Button>
           </VStack >
         </form>
