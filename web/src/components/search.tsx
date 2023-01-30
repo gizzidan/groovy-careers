@@ -45,12 +45,16 @@ const Hit = (props: any) => {
   // Color Checker
   var ccc = new ColorContrastChecker()
   const color1 = "#000000"
-  const customColor = "#FFE900"
+  const customColor = node.customHighlightColor ? node.customHighlightColor : "#fff"
 
   const contrast = ccc.isLevelAAA(color1, customColor, 15) ? "good" : "bad"
   const textColor = contrast == "good" ? "black" : "white"
-  const bgColor = node.highlight === true ?
-    customColor : customColor
+  const bgColor = node.highlight === true
+    ?
+    "orange.100"
+    : node.highlight === true && node.customHighlight === true
+      ? customColor
+      : "white.800"
 
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"

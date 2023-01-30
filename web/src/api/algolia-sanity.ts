@@ -50,6 +50,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
           position,
           highlight,
 					customHighlight,
+					customHighlightColor,
           email,
 					source,
           includeLogo,

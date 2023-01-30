@@ -239,6 +239,8 @@ export default async function handler(
 					stickyLength: sticky,
 					includeLogo: logo,
 					highlight: high,
+					customHighlight: JSON.parse(req.body.customHighlight),
+					customHighlightColor: req.body.customHighlightColor,
 					squareId: postingId,
 					paymentStatus: payment,
 					coupon: req.body.couponCode,
