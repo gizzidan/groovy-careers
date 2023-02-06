@@ -139,7 +139,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
   }
 
   const toast = useToast()
-  const API_ENDPOINT = `${process.env.NOTIFICATION_URL}/api/submit-posting`;
+  const API_ENDPOINT = `/api/submit-posting`;
   const handlePost: SubmitHandler<Inputs> = async data => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
