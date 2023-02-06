@@ -89,7 +89,7 @@ const handler = (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
 						minAnnualSalary: document.minAnnualSalary,
 						maxAnnualSalary: document.maxAnnualSalary,
 						location: document.location,
-						paymentStatus: document.PaymentStatus,
+						paymentStatus: document.paymentStatus,
 						stickyLength: document.stickyLength,
 						stickyBoolean: Boolean(document.stickyLength),
 						tags: document.tags,

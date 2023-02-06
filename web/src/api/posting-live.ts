@@ -13,7 +13,6 @@ const postingLive = async (
 		res.json({ message: "Bad request" });
 		return;
 	}
-	console.log(req.body);
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 	const msg = {
 		to: req.body.email,
@@ -28,7 +27,7 @@ const postingLive = async (
 	sgMail
 		.send(msg)
 		.then(() => {
-			console.log("Email sent");
+			console.log("Posting live email sent");
 		})
 		.catch((error) => {
 			console.error(error);
