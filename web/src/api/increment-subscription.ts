@@ -26,11 +26,10 @@ export const config = {
 };
 
 // The URL where event notifications are sent.
-const NOTIFICATION_URL =
-	"https://73c4-173-2-140-251.ngrok.io/api/increment-subscription";
+const NOTIFICATION_URL = `${process.env.NOTIFICATION_URL}/api/increment-subscription`;
 
 // The signature key defined for the subscription.
-const SIGNATURE_KEY = "itCU0rQElV6rdHvVeSo3kQ";
+const SIGNATURE_KEY = process.env.INCREMENT_SUB_SIG_KEY!;
 
 // isFromSquare generates a signature from the url and body and compares it to the Square signature header.
 function isFromSquare(signature: any, body: any) {
@@ -53,7 +52,7 @@ export default async function incrementSubscription(
 		res.send(200);
 
 		// Do stuff
-		await delay(2000);
+		await delay(5000);
 		const data = JSON.parse(req.body);
 		const invoice = JSON.parse(JSON.stringify(data.data.object.invoice));
 
@@ -75,9 +74,9 @@ export default async function incrementSubscription(
 										subscription[0].subscriptionName == "Iridium"
 											? 3
 											: subscription[0].subscriptionName == "Rhodium"
-											? 4
+											? 5
 											: subscription[0].subscriptionName == "Cesium"
-											? 6
+											? 10
 											: 0,
 								})
 								.commit();

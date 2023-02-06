@@ -106,7 +106,7 @@ const Hit = (props: any) => {
 
   const buttonVariant = node.highlight == true ? "black" : contrast == "bad" ? "black" : "outline"
   const time = Boolean(node.stickyLength)
-    ? <Badge fontSize={[".6em", "xs"]} colorScheme="mantis">Featured</Badge>
+    ? <Badge fontSize={[".6em", "xs"]} bgColor={contrast == "good" ? "blackAlpha.800" : "whiteAlpha.800"} color={contrast == "good" ? "white" : "black"}>Featured</Badge>
     : <Text color={textColor} fontSize={["sm", "md"]}><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
 
 

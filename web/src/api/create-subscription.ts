@@ -1,14 +1,10 @@
-import {
-	GatsbyFunctionRequest,
-	GatsbyFunctionResponse,
-	graphql,
-	useStaticQuery,
-} from "gatsby";
-import { request } from "http";
+import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
+import sgMail from "@sendgrid/mail";
 import { Client, Environment, ApiError } from "square";
 import { sanity } from "./algolia-sanity";
 import crypto from "crypto";
 import { v4 as uuidv4 } from "uuid";
+const mailchimp = require("@mailchimp/mailchimp_marketing");
 
 const square = new Client({
 	accessToken: process.env.SQUARE_SANDBOX_TOKEN,
@@ -24,11 +20,10 @@ export const config = {
 };
 
 // The URL where event notifications are sent.
-const NOTIFICATION_URL =
-	"https://73c4-173-2-140-251.ngrok.io/api/create-subscription";
+const NOTIFICATION_URL = `${process.env.NOTIFICATION_URL}/api/create-subscription`;
 
 // The signature key defined for the subscription.
-const SIGNATURE_KEY = "UouhTrYjqO7u_f9mYotBLg";
+const SIGNATURE_KEY = process.env.CREATE_SUB_SIG_KEY!;
 
 // isFromSquare generates a signature from the url and body and compares it to the Square signature header.
 function isFromSquare(signature: any, body: any) {
@@ -51,9 +46,14 @@ export default async function createSubscription(
 		res.send(200);
 
 		// Do stuff
+		mailchimp.setConfig({
+			apiKey: process.env.MAILCHIMP_API_KEY,
+			server: "us18",
+		});
+
 		const body = JSON.parse(req.body);
 		const subscriptionQuery =
-			'*[_type == "subscription" && _id == $squareSubscriptionId] {_id}';
+			'*[_type == "subscription" && _id == $squareSubscriptionId] {_id, subscriptionName, couponCode}';
 		const subscriptionParams = { squareSubscriptionId: body.data.id };
 
 		// Code for subscription created webhook
@@ -77,14 +77,13 @@ export default async function createSubscription(
 								current: couponCode.toUpperCase(),
 							},
 							subscriptionName:
-								body.data.object.subscription.plan_id ==
-								"XIZED35MTYAGUHRRDWEG6KEA"
+								body.data.object.subscription.plan_id == process.env.IRIDIUM_ID
 									? "Iridium"
 									: body.data.object.subscription.plan_id ==
-									  "GWWJJGVWIVKRXLHRSGDWDHEV"
+									  process.env.RHODIUM_ID
 									? "Rhodium"
 									: body.data.object.subscription.plan_id ==
-									  "GHASDFJASDFJASDFJASDFJ"
+									  process.env.CESIUM_ID
 									? "Cesium"
 									: null,
 						};
@@ -92,17 +91,37 @@ export default async function createSubscription(
 							.transaction()
 							.createIfNotExists(newSubscription)
 							.commit();
-					})
-					.then(async () => {
-						const response = await square.customersApi.retrieveCustomer(
-							body.data.object.subscription.customer_id
-						);
-
-						const email = response.result.customer?.emailAddress;
 						await sanity
-							.patch(body.data.object.subscription.id)
-							.set({ email: email })
-							.commit();
+							.fetch(subscriptionQuery, subscriptionParams)
+							.then(async (subscription) => {
+								const response = await square.customersApi.retrieveCustomer(
+									body.data.object.subscription.customer_id
+								);
+								const email = response.result.customer?.emailAddress;
+								sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+								const msg = {
+									to: email!,
+									from: "dan@groovy.careers",
+									templateId: "d-3014e7dc9c8b4125a0aab3d5b23c9f9b",
+									dynamicTemplateData: {
+										subscriptionName: subscription[0].subscriptionName,
+										subscriptionCode: `<strong>${subscription[0].couponCode.current}</strong>`,
+									},
+								};
+								console.log(msg);
+								sgMail
+									.send(msg)
+									.then(() => {
+										console.log("Email sent");
+									})
+									.catch((error) => {
+										console.error(error);
+									});
+								await sanity
+									.patch(body.data.object.subscription.id)
+									.set({ email: email })
+									.commit();
+							});
 					})
 			: // Code for subscription updated webhook
 			body.type == "subscription.updated"

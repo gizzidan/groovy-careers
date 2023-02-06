@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Schema from "@sanity/schema";
 import JSONBig from "json-bigint";
 import delay from "delay";
+import sgMail from "@sendgrid/mail";
 
 export default async function handler(
 	req: GatsbyFunctionRequest,
@@ -28,7 +29,7 @@ export default async function handler(
 	const companyQuery = '*[_type == "company" && name == $companyName] {_id}';
 	const companyParams = { companyName: req.body.companyName };
 	const couponQuery =
-		'*[_type == "subscription" && couponCode.current == $couponCode] {_id, subscriptionName}';
+		'*[_type == "subscription" && couponCode.current == $couponCode] {_id, subscriptionName, postingCount}';
 	const couponParams = { couponCode: req.body.couponCode };
 
 	const id = req.body.companyName.replace(/\s+/g, "-");
@@ -181,6 +182,7 @@ export default async function handler(
 				const logo =
 					coupon[0] &&
 					coupon[0].subscriptionName &&
+					coupon[0].postingCount > 0 &&
 					["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
 						? true
 						: includeLogo;
@@ -188,6 +190,7 @@ export default async function handler(
 				const sticky =
 					coupon[0] &&
 					coupon[0].subscriptionName &&
+					coupon[0].postingCount > 0 &&
 					["Iridium", "Rhodium"].includes(coupon[0].subscriptionName)
 						? 1
 						: coupon[0] &&
@@ -196,9 +199,23 @@ export default async function handler(
 						? 7
 						: parseInt(req.body.stickyLength);
 
+				const customHigh =
+					coupon[0] &&
+					coupon[0].subscriptionName &&
+					coupon[0].postingCount > 0 &&
+					["Iridium", "Rhodium"].includes(coupon[0].subscriptionName)
+						? false
+						: coupon[0] &&
+						  coupon[0].subscriptionName &&
+						  coupon[0].postingCount > 0 &&
+						  coupon[0].subscriptionName == "Cesium"
+						? true
+						: JSON.parse(req.body.customHighlight);
+
 				const high =
 					coupon[0] &&
 					coupon[0].subscriptionName &&
+					coupon[0].postingCount > 0 &&
 					["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
 						? true
 						: highlight;
@@ -206,14 +223,8 @@ export default async function handler(
 				const payment =
 					coupon[0] &&
 					coupon[0].subscriptionName &&
-					coupon[0].subscriptionName == "Iridium" &&
-					highlight == true
-						? false
-						: coupon[0] &&
-						  coupon[0].subscriptionName &&
-						  ["Iridium", "Rhodium", "Cesium"].includes(
-								coupon[0].subscriptionName
-						  )
+					coupon[0].postingCount > 0 &&
+					["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
 						? true
 						: false;
 
@@ -239,7 +250,7 @@ export default async function handler(
 					stickyLength: sticky,
 					includeLogo: logo,
 					highlight: high,
-					customHighlight: JSON.parse(req.body.customHighlight),
+					customHighlight: customHigh,
 					customHighlightColor: req.body.customHighlightColor,
 					squareId: postingId,
 					paymentStatus: payment,
@@ -294,45 +305,68 @@ export default async function handler(
 	const pinModifier = {
 		catalogObjectId:
 			req.body.stickyLength == "1"
-				? "FPCUAMKX7IFMBN6VXVUHHW7P"
+				? process.env.STICKY_LENGTH_1
 				: req.body.stickyLength == "7"
-				? "XQLHYEUJOBVHAFGMHEGEPFNJ"
-				: "3EKJX2IIJLEBFN2LTRB6XOAM",
+				? process.env.STICKY_LENGTH_7
+				: process.env.STICKY_LENGTH_0,
 	};
 
 	const highlightModifier = {
 		catalogObjectId:
-			req.body.highlight == "true"
-				? "B7QOSIEBCM4OBXOTV6LIVH4B"
-				: "5MYAZGJT4UNEQZ45WYQW7N2D",
+			req.body.highlight == "true" && req.body.customHighlight == "true"
+				? process.env.CUSTOM_HIGHLIGHT_TRUE
+				: req.body.highlight == "true"
+				? process.env.HIGHLIGHT_TRUE
+				: process.env.HIGHLIGHT_FALSE,
 	};
 
 	const logoModifier = {
 		catalogObjectId:
 			req.body.includeLogo == "true"
-				? "NRSQDZM5EJSWPD6YOO4EWY6T"
-				: "IJYKNKUNYR442QGIXQTS6NJQ",
+				? process.env.INCLUDE_LOGO_TRUE
+				: process.env.INCLUDE_LOGO_FALSE,
 	};
 	const modifierList = [pinModifier, highlightModifier, logoModifier];
 
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 	await sanity.fetch(couponQuery, couponParams).then(async (coupon) => {
 		if (
 			coupon[0] &&
 			coupon[0].subscriptionName &&
+			coupon[0].postingCount > 0 &&
 			["Iridium", "Rhodium", "Cesium"].includes(coupon[0].subscriptionName)
 		) {
 			await sanity.patch(coupon[0]._id).inc({ postingCount: -1 }).commit();
 			res.status(200).json("Pass");
+			const msg = {
+				to: req.body.email,
+				from: "dan@groovy.careers",
+				templateId: "d-0fdd40cc23614662a0395815505a513e",
+				dynamicTemplateData: {
+					subscriptionName: `<strong>${coupon[0].subscriptionName}</strong>`,
+					jobTitle: req.body.position,
+					postingCount: `<strong>${coupon[0].postingCount - 1}</strong>`,
+				},
+			};
+			console.log(msg);
+			sgMail
+				.send(msg)
+				.then(() => {
+					console.log("Email sent");
+				})
+				.catch((error) => {
+					console.error(error);
+				});
 		} else {
 			try {
 				const response = await checkoutApi.createPaymentLink({
 					idempotencyKey: uuidv4(),
 					order: {
-						locationId: "LKA24FR5PZCZV",
+						locationId: process.env.SQUARE_LOCATION_ID!,
 						lineItems: [
 							{
 								quantity: "1",
-								catalogObjectId: "WPOCQUDYD3IPHJRDQ4BXOZCC",
+								catalogObjectId: process.env.JOB_POSTING_ID,
 								itemType: "ITEM",
 								modifiers: modifierList,
 							},
@@ -347,6 +381,24 @@ export default async function handler(
 				const linkParsed = JSONBig.parse(
 					JSONBig.stringify(response.result.paymentLink?.url!)
 				);
+				const msg = {
+					to: req.body.email,
+					from: "dan@groovy.careers",
+					templateId: "d-7bcfbe39e39b49179476ee740dc4f9d3",
+					dynamicTemplateData: {
+						paymentUrl: linkParsed,
+						jobTitle: req.body.position,
+					},
+				};
+				console.log(msg);
+				sgMail
+					.send(msg)
+					.then(() => {
+						console.log("Email sent");
+					})
+					.catch((error) => {
+						console.error(error);
+					});
 				await delay(1000);
 				res.status(200).json(linkParsed);
 			} catch (error) {

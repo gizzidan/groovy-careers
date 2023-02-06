@@ -18,11 +18,10 @@ export const config = {
 };
 
 // The URL where event notifications are sent.
-const NOTIFICATION_URL =
-	"https://73c4-173-2-140-251.ngrok.io/api/payment-success";
+const NOTIFICATION_URL = `${process.env.NOTIFICATION_URL}/api/payment-success`;
 
 // The signature key defined for the subscription.
-const SIGNATURE_KEY = "-_zmFWHgzsJIhXKpocpEcA";
+const SIGNATURE_KEY = process.env.PAYMENT_SUCCESS_SIG_KEY!;
 
 // isFromSquare generates a signature from the url and body and compares it to the Square signature header.
 function isFromSquare(signature: any, body: any) {

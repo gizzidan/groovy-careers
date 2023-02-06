@@ -124,9 +124,17 @@ const NewPostingForm = ({ data }: PopulateList) => {
     resetField('description')
     resetField('applicationLink')
     resetField('companyLogo')
+    resetField('highlight', { defaultValue: false })
+    resetField('customHighlight', { defaultValue: false })
+    resetField('includeLogo', { defaultValue: false })
+    resetField('stickyLength', { defaultValue: '0' })
     resetField('salaryRange', { defaultValue: [75000, 100000] })
     setCoupon('')
     setUpdated('')
+    setLogoState(false)
+    setHighlightState(false)
+    setCustomHighlight(false)
+    setValue('0')
     setSliderValue([75000, 100000])
   }
 
@@ -201,10 +209,18 @@ const NewPostingForm = ({ data }: PopulateList) => {
   const handleUpdated = () => {
     for (const sub of subscription) {
       if (sub.couponCode.current == coupon) {
-        if (sub.status == "ACTIVE") {
+        if (sub.status == "ACTIVE" && sub.postingCount > 0) {
           console.log("Coupon is active")
           setUpdated(sub.subscriptionName)
           setPostingsCount(sub.postingCount)
+          if (sub.subscriptionName == "Cesium") {
+            setHighlightState(true)
+            setLogoState(true)
+            setCustomHighlight(true)
+          } else {
+            setHighlightState(true)
+            setLogoState(true)
+          }
           toast({
             title: "Code successfully applied",
             position: "bottom",
@@ -214,15 +230,28 @@ const NewPostingForm = ({ data }: PopulateList) => {
           });
           return
         } else {
-          console.log("IS NOT ACTIVE")
+          toast({
+            title: "Code is inactive or you have used up all of your postings for your billing period!",
+            position: "bottom",
+            status: "error",
+            duration: 5000,
+            isClosable: true
+          });
           return
         }
       } else {
         setUpdated('')
         setPostingsCount(0)
+        setHighlightState(false)
+        setLogoState(false)
+        setCustomHighlight(false)
       }
     }
-
+    setUpdated('')
+    setPostingsCount(0)
+    setHighlightState(false)
+    setLogoState(false)
+    setCustomHighlight(false)
     toast({
       title: "Code is not valid!",
       position: "bottom",
@@ -561,7 +590,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                   <Radio {...register("stickyLength")}
                     value='1'
                   >
-                    24 hours (+$19)
+                    24 hours (+$29)
                   </Radio>
                   <Radio {...register("stickyLength")} value='7'>7 days (+$49)</Radio>
                 </Stack>
@@ -598,7 +627,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
             </FormControl>
             {highlightState == true ?
               <FormControl display="flex" alignItems={"center"}>
-                <FormLabel>Use custom highlight color (+$99)</FormLabel>
+                <FormLabel>Use custom highlight color (+$49)</FormLabel>
                 <Switch
                   {...register('customHighlight', {
                     onChange: handleCustomHighlight,
@@ -610,7 +639,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
             }
             {customHighlight == true || updated == "Cesium" ?
               <FormControl>
-                <FormLabel htmlFor="customHighlight">Pick a color:</FormLabel>
+                <FormLabel htmlFor="customHighlightColor">Pick a color:</FormLabel>
                 <Controller
                   control={control}
                   name="customHighlightColor"

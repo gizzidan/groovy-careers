@@ -96,7 +96,9 @@ const Subscriptions = () => {
                 </UnorderedList>
               </CardBody>
               <CardFooter>
-                <Link w="100%" target="_blank" rel="noreferrer noopener" href="https://square.link/u/73h9wkYa">
+                <Link _hover={{
+                  textDecoration: "none"
+                }} w="100%" target="_blank" rel="noreferrer noopener" href="https://square.link/u/73h9wkYa">
                   <Button colorScheme="purple" variant="outline" w="100%">Subscribe</Button>
                 </Link>
               </CardFooter>
@@ -116,7 +118,9 @@ const Subscriptions = () => {
                 </UnorderedList>
               </CardBody>
               <CardFooter>
-                <Link w="100%" target="_blank" rel="noreferrer noopener" href="https://square.link/u/NGFtV2r2">
+                <Link _hover={{
+                  textDecoration: "none"
+                }} w="100%" target="_blank" rel="noreferrer noopener" href="https://square.link/u/NGFtV2r2">
                   <Button colorScheme="pink" variant="outline" w="100%">Subscribe</Button>
                 </Link>
               </CardFooter>
@@ -124,19 +128,21 @@ const Subscriptions = () => {
             <Card bg="gray.100" variant="outline">
               <CardHeader>
                 <Heading size='md'>Cesium</Heading>
-                <Text fontSize="md"><Text fontSize="2xl" as="span">$690</Text>/month</Text>
-                <Text color="blackAlpha.600" size="sm">6 postings per month</Text>
+                <Text fontSize="md"><Text fontSize="2xl" as="span">$999</Text>/month</Text>
+                <Text color="blackAlpha.600" size="sm">10 postings per month</Text>
               </CardHeader>
               <CardBody>
                 <Text>Each post includes:</Text>
                 <UnorderedList>
                   <ListItem>Brand logo</ListItem>
                   <ListItem>Sticky for 7 days</ListItem>
-                  <ListItem>Highlight</ListItem>
+                  <ListItem> Custom Highlight Color</ListItem>
                 </UnorderedList>
               </CardBody>
               <CardFooter>
-                <Link w="100%" target="_blank" rel="noreferrer noopener" href="https://square.link/u/88zl0Q4a">
+                <Link _hover={{
+                  textDecoration: "none"
+                }} w="100%" target="_blank" rel="noreferrer noopener" href="https://sandbox.square.link/u/zv8OAwKU">
                   <Button bg="black" variant="solid" w="100%">Subscribe</Button>
                 </Link>
               </CardFooter>

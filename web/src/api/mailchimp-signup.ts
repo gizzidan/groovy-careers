@@ -1,9 +1,4 @@
-import {
-	GatsbyFunctionRequest,
-	GatsbyFunctionResponse,
-	graphql,
-	useStaticQuery,
-} from "gatsby";
+import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 const md5 = require("md5");
 
