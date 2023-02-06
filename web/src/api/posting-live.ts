@@ -19,7 +19,7 @@ const postingLive = async (
 	const msg = {
 		to: req.body.email,
 		from: "dan@groovy.careers",
-		templateId: "d-32b9889f23bd47d6a6a5188556134998 ",
+		templateId: "d-32b9889f23bd47d6a6a5188556134998",
 		dynamicTemplateData: {
 			jobTitle: req.body.position,
 			postingUrl: req.body.slug.current,
