@@ -1,7 +1,5 @@
-import algoliasearch from "algoliasearch";
 import sgMail from "@sendgrid/mail";
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
-import sanity from "./algolia-sanity";
 
 const postingLive = async (
 	req: GatsbyFunctionRequest,
@@ -15,14 +13,15 @@ const postingLive = async (
 		res.json({ message: "Bad request" });
 		return;
 	}
-
+	console.log(req.body);
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 	const msg = {
 		to: req.body.email,
 		from: "dan@groovy.careers",
 		templateId: "d-32b9889f23bd47d6a6a5188556134998",
 		dynamicTemplateData: {
 			jobTitle: req.body.position,
-			postingUrl: req.body.slug.current,
+			postingUrl: `${process.env.NOTIFICATION_URL}/req.body.slug.current`,
 		},
 	};
 	console.log(msg);
@@ -34,7 +33,7 @@ const postingLive = async (
 		.catch((error) => {
 			console.error(error);
 		});
-	return res.status(200);
+	return res.status(200).json("Email successfully sent");
 };
 
 export default postingLive;

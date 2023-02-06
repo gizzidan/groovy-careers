@@ -23,7 +23,7 @@ const Layout = ({ children }: Props) => {
             <Heading fontFamily={"GT-America-Extended"} fontWeight="500" size="md" as="h4"><Highlight query={'new jobs'} styles={{ px: '2', py: '1', rounded: 'full', bg: 'mantis.100' }}>Send new jobs to your inbox:</Highlight> </Heading>
             <NewsletterSignup />
             <Text pt={4}>
-              © {new Date().getFullYear()}, Groovy Careers
+              © {new Date().getFullYear()}, Groovy Careers | view <Link href="https://headwayapp.co/groovy-changelog" color="purple.500">changelog</Link>
             </Text>
           </VStack>
         </Box>

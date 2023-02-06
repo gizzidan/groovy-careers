@@ -116,7 +116,7 @@ type PopulateList = {
 
 
 const NewPostingForm = ({ data }: PopulateList) => {
-  const { register, handleSubmit, control, setError, resetField, reset, watch, formState, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<Inputs>()
+  const { register, handleSubmit, control, setError, resetField, reset, watch, formState, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<Inputs>({ defaultValues: { customHighlight: false } })
 
   const resetForm = () => {
     resetField('couponCode', { defaultValue: "" })
@@ -139,7 +139,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
   }
 
   const toast = useToast()
-  const API_ENDPOINT = '/api/submit-posting';
+  const API_ENDPOINT = `${process.env.NOTIFICATION_URL}/api/submit-posting`;
   const handlePost: SubmitHandler<Inputs> = async data => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
@@ -243,6 +243,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
         setUpdated('')
         setPostingsCount(0)
         setHighlightState(false)
+        setValue('0')
         setLogoState(false)
         setCustomHighlight(false)
       }
@@ -251,6 +252,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
     setPostingsCount(0)
     setHighlightState(false)
     setLogoState(false)
+    setValue('0')
     setCustomHighlight(false)
     toast({
       title: "Code is not valid!",
@@ -578,6 +580,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
             <FormControl>
               <FormLabel htmlFor='stickyLength'>Pin your post to the top for:</FormLabel>
               <RadioGroup
+                defaultValue='0'
                 w="100%"
                 value={(updated == "Iridium" || updated == "Rhodium") ? '1' : updated == "Cesium" ? '7' : value}
                 onChange={setValue}
