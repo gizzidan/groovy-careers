@@ -18,7 +18,7 @@ export const config = {
 };
 
 // The URL where event notifications are sent.
-const NOTIFICATION_URL = `${process.env.NOTIFICATION_URL}/api/payment-success`;
+const NOTIFICATION_URL = `https://groovy.careers/api/payment-success`;
 
 // The signature key defined for the subscription.
 const SIGNATURE_KEY = process.env.PAYMENT_SUCCESS_SIG_KEY!;

@@ -20,7 +20,7 @@ export const config = {
 };
 
 // The URL where event notifications are sent.
-const NOTIFICATION_URL = `${process.env.NOTIFICATION_URL}/api/create-subscription`;
+const NOTIFICATION_URL = `https://groovy.careers/api/create-subscription`;
 
 // The signature key defined for the subscription.
 const SIGNATURE_KEY = process.env.CREATE_SUB_SIG_KEY!;
