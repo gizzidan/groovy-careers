@@ -4,6 +4,10 @@ require("dotenv").config({
 });
 
 const config: GatsbyConfig = {
+	proxy: {
+		prefix: "/api",
+		url: "https://groovy.careers",
+	},
 	siteMetadata: {
 		title: `Groovy Careers`,
 		description: `A job board tailored for socially innovative and culturally disruptive companies.`,
