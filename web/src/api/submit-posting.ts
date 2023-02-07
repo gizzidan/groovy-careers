@@ -2,7 +2,6 @@ import { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { sanity } from "./algolia-sanity";
 import { Client, Environment } from "square";
 import { v4 as uuidv4 } from "uuid";
-import Schema from "@sanity/schema";
 import JSONBig from "json-bigint";
 import delay from "delay";
 import sgMail from "@sendgrid/mail";
@@ -122,52 +121,6 @@ export default async function handler(
 		  })
 		: null;
 
-	const defaultSchema = Schema.compile({
-		name: "myPosting",
-		types: [
-			{
-				name: "jobPosting",
-				title: "Job Posting",
-				type: "document",
-				fields: [
-					{
-						name: "position",
-						title: "Position",
-						type: "string",
-						validation: (Rule: { required: () => any }) => Rule.required(),
-					},
-					{
-						name: "htmlToDescription",
-						title: "HTML to Description",
-						type: "htmlToPortableText",
-					},
-					{
-						name: "description",
-						title: "Description",
-						type: "array",
-						of: [
-							{
-								type: "block",
-							},
-						],
-						validation: (Rule: { required: () => any }) => Rule.required(),
-					},
-				],
-				initialValue: {
-					stickyLength: 0,
-					highlight: false,
-					paymentStatus: false,
-					includeLogo: false,
-				},
-			},
-		],
-	});
-
-	const blockContentType = defaultSchema
-		.get("jobPosting")
-		.fields.find((field: { name: string }) => field.name === "description")
-		.type;
-
 	// Create new posting
 	const postingId = uuidv4();
 	const salaryRange = req.body.salaryRange.split(",");
@@ -273,34 +226,10 @@ export default async function handler(
 	// Square API code
 	const square = new Client({
 		accessToken: process.env.SQUARE_SANDBOX_TOKEN,
-		environment: Environment.Sandbox,
+		environment: Environment.Production,
 	});
 
 	const checkoutApi = square.checkoutApi;
-	/*
-	const pinModifier = {
-		catalogObjectId:
-			req.body.stickyLength == "1"
-				? "H5J746E25CQIZV2ZORCHRTMD"
-				: req.body.stickyLength == "7"
-				? "Z4VTAU6DQ6GFV3NHKCJNHY4O"
-				: "UYNLQUZV4DPROBY4OTWZWK5M",
-	};
-
-	const highlightModifier = {
-		catalogObjectId:
-			req.body.highlight == "true"
-				? "5G2LSNEQQ43U6RK4TBTVHREE"
-				: "7PP6ATIEGWW7HBUZEBSHK6NA",
-	};
-
-	const logoModifier = {
-		catalogObjectId:
-			req.body.includeLogo == "true"
-				? "FICFMAA75ULELU2KQMZFNJ4Q"
-				: "ABNURN26DL77T2UCY6IKQ6SH",
-	};
-*/
 
 	const pinModifier = {
 		catalogObjectId:
