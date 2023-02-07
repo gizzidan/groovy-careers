@@ -225,7 +225,7 @@ export default async function handler(
 
 	// Square API code
 	const square = new Client({
-		accessToken: process.env.SQUARE_SANDBOX_TOKEN,
+		accessToken: process.env.SQUARE_TOKEN,
 		environment: Environment.Production,
 	});
 
