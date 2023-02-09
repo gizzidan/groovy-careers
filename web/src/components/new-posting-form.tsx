@@ -302,7 +302,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
   return (
     <>
       <Box bg="white" py={20} px={4}>
-        <Box m="auto" w="2xl">
+        <Box m="auto" maxW="700px">
           <Heading
             pb={4}
             size={['2xl', '2xl']}
@@ -320,9 +320,6 @@ const NewPostingForm = ({ data }: PopulateList) => {
           <VStack spacing={8} maxW="700px" m="auto">
             <FormControl>
               <FormLabel htmlFor='coupon'>Subscription Code</FormLabel>
-              {updated != ''
-                ? <Badge mb={2} colorScheme="green">Postings Remaining: {postingsCount}</Badge>
-                : null}
               <HStack>
                 <Input value={coupon} {...register('couponCode', {
                   onChange: (e) => { handleCoupon(e) },

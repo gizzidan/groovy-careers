@@ -51,7 +51,7 @@ const Hit = (props: any) => {
     customColor
     : node.highlight === true
       ? "yellow.100"
-      : "whiteAlpha.600"
+      : "whiteAlpha.400"
 
   const bgHover = node.highlight === true && node.customHighlight === true
     ?
@@ -82,7 +82,7 @@ const Hit = (props: any) => {
       : colord(customColor).lighten(0.6).saturate(0.25).toHex()
     : node.highlight === true
       ? "black"
-      : null
+      : undefined
 
   const buttonBgHover = node.highlight === true && node.customHighlight === true
     ? contrast == "good"
@@ -90,13 +90,13 @@ const Hit = (props: any) => {
       : colord(customColor).lighten(0.5).saturate(0.25).toHex()
     : node.highlight === true
       ? colord('#000000').lighten(0.2).toHex()
-      : null
+      : "purple.100"
 
   const buttonTextColor = node.highlight === true && node.customHighlight === true
     ? textColor == "white" ? "black" : "white"
     : node.highlight === true
       ? "white"
-      : null
+      : undefined
 
   const minSalary = "$" + node.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + node.maxAnnualSalary / 1000 + "k"
