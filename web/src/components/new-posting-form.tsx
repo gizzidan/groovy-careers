@@ -324,7 +324,7 @@ const NewPostingForm = ({ data }: PopulateList) => {
                 ? <Badge mb={2} colorScheme="green">Postings Remaining: {postingsCount}</Badge>
                 : null}
               <HStack>
-                <Input defaultValue={''} value={coupon} {...register('couponCode', {
+                <Input value={coupon} {...register('couponCode', {
                   onChange: (e) => { handleCoupon(e) },
                 })} placeholder='Coupon Code' />
                 <Button px={6} onClick={handleUpdated}>Apply</Button>
@@ -580,7 +580,6 @@ const NewPostingForm = ({ data }: PopulateList) => {
             <FormControl>
               <FormLabel htmlFor='stickyLength'>Pin your post to the top for:</FormLabel>
               <RadioGroup
-                defaultValue='0'
                 w="100%"
                 value={(updated == "Iridium" || updated == "Rhodium") ? '1' : updated == "Cesium" ? '7' : value}
                 onChange={setValue}

@@ -44,6 +44,8 @@ type BlockDefault = Block & {
 const components: Partial<PortableTextReactComponents> = {
   block: {
     normal: ({ children }) => <Text justifyItems="left" fontSize={"lg"} > {children}</Text>,
+    h1: ({ children }) => <Heading as="h1" size={"lg"}>{children}</Heading>,
+    h2: ({ children }) => <Heading as="h2" size={"md"}>{children}</Heading>
   },
   list: {
     bullet: ({ children }) => <UnorderedList pl={"7%"} fontSize={"lg"}>{children}</UnorderedList>,

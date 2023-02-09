@@ -44,7 +44,7 @@ const FaqCompanies = (data: any) => {
           spacing={8}
         >
           {faq.faqList.map((faq: any) =>
-            <Faq q={faq.question} a={faq.answer} />
+            <Faq key={faq.answer} q={faq.question} a={faq.answer} />
           )}
         </VStack>
       </VStack>

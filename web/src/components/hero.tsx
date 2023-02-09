@@ -1,29 +1,11 @@
 import React from 'react'
 import { Link as GatsbyLink, useStaticQuery, graphql } from 'gatsby'
 import {
-  Link,
   Flex,
-  Button,
   VStack,
-  HStack,
   Text,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuOptionGroup,
-  MenuItemOption,
-  Box,
-  Image,
   Heading,
   useMediaQuery,
-  MenuDivider,
-  Input,
-  Stack,
-  Grid,
-  GridItem,
-  Portal,
-  IconButton,
-  Tooltip
 } from '@chakra-ui/react'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
 import { FiChevronDown, FiSettings, FiSliders } from "react-icons/fi"

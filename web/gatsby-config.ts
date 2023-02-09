@@ -72,6 +72,19 @@ const config: GatsbyConfig = {
 				resetCSS: true,
 			},
 		},
+		{
+			resolve: `gatsby-plugin-rudderstack`,
+			options: {
+				prodKey: process.env.RUDDERSTACK_PROD_WRITE_KEY,
+				devKey: process.env.RUDDERSTACK_DEV_WRITE_KEY,
+				trackPage: true,
+				trackPageDelay: 50,
+				dataPlaneUrl: `https://groovydanwkdl.dataplane.rudderstack.com`,
+				delayLoad: false,
+				delayLoadTime: 1000,
+				manualLoad: false,
+			},
+		},
 	],
 };
 

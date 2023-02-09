@@ -94,7 +94,6 @@ const NewsletterSignup = () => {
                       <MenuOptionGroup
                         {...field}
                         onChange={(value: any) => {
-                          console.log(value);
                           field.onChange(value);
                         }}
                         title='Category'
