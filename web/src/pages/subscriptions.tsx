@@ -34,7 +34,7 @@ const Subscriptions = () => {
             variant="body"
             textAlign="center"
           >
-            Subscribe to one of our monthly plans to get more bang for your buck. The number of postings reload each month and rollover month-to-month. If you cancel you keep all of your postings until you use them. Each plan can be paused for up to 3 billing cycles.
+            (Coming Soon) Subscribe to one of our monthly plans to get more bang for your buck. The number of postings reload each month and rollover month-to-month. If you cancel you keep all of your postings until you use them. Each plan can be paused for up to 3 billing cycles.
           </Text>
         </VStack >
         <Heading
@@ -50,7 +50,7 @@ const Subscriptions = () => {
         >
           How it Works
         </Heading>
-        <Grid pt={5} w="2xl" mx="auto" gridTemplateColumns={"1fr 5fr"}>
+        <Grid pt={5} maxW="2xl" mx="auto" gridTemplateColumns={"1fr 5fr"}>
           <GridItem>
             <Text color="mantis.400" textAlign="center" px={3} fontFamily="GT-America-Extended" fontSize="5xl">1</Text>
           </GridItem>
@@ -59,7 +59,7 @@ const Subscriptions = () => {
             <Text fontSize="lg" pt={2} >Select the plan below that includes the features that work for your business & budget.</Text>
           </GridItem>
         </Grid >
-        <Grid py={5} w="2xl" mx="auto" gridTemplateColumns={"1fr 5fr"}>
+        <Grid py={5} maxW="2xl" mx="auto" gridTemplateColumns={"1fr 5fr"}>
           <GridItem>
             <Text color="mantis.400" textAlign="center" px={3} fontFamily="GT-America-Extended" fontSize="5xl">2</Text>
           </GridItem>
@@ -68,7 +68,7 @@ const Subscriptions = () => {
             <Text fontSize="lg" pt={2}>Use your company email, enter your company name, and pay online. When complete, we'll send a receipt to the provided email.</Text>
           </GridItem>
         </Grid>
-        <Grid pb={10} w="2xl" mx="auto" gridTemplateColumns={"1fr 5fr"}>
+        <Grid pb={10} maxW="2xl" mx="auto" gridTemplateColumns={"1fr 5fr"}>
           <GridItem>
             <Text color="mantis.400" textAlign="center" px={3} fontFamily="GT-America-Extended" fontSize="5xl">3</Text>
           </GridItem>
