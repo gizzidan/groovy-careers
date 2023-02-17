@@ -24,6 +24,12 @@ const config: GatsbyConfig = {
 	},
 	plugins: [
 		{
+			resolve: `gatsby-plugin-facebook-pixel`,
+			options: {
+				pixelId: "742048860601364",
+			},
+		},
+		{
 			resolve: "gatsby-source-sanity",
 			options: {
 				projectId: "6t1tj18u",
