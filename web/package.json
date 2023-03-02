@@ -4,6 +4,9 @@
 	"private": true,
 	"description": "cannabis-friendly-careers",
 	"author": "Dan Gizzi",
+	"engines": {
+		"node": "18.x"
+	},
 	"keywords": [
 		"gatsby"
 	],
