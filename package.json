@@ -17,7 +17,6 @@
 		"graphql-deploy:force": "lerna run graphql-deploy:force",
 		"lint": "lerna run lint",
 		"now-deploy": "now && now alias",
-		"postinstall": "lerna bootstrap",
 		"sanity-deploy": "lerna run sanity-deploy",
 		"start": "lerna run empty-cache && lerna run start --parallel",
 		"test": "echo \"Error: no test specified\" && exit 1"
