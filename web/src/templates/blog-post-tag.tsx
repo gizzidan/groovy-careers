@@ -1,32 +1,8 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 import SEO from '../components/seo'
-import TimeAgo from 'react-timeago'
 import { TextToUpper as cap } from '../utils/convert-to-uppercase'
-import { blocksToText } from '../utils/blocks-to-text'
 var a = require('indefinite');
-import { numDaysBetween } from '../utils/num-days-between'
-import { formatter } from '../components/search'
-import { Img, WrapItem } from '@chakra-ui/react'
-import {
-  Link,
-  Flex,
-  Button,
-  Wrap,
-  VStack,
-  ListItem,
-  Tag,
-  Box,
-  Text,
-  Heading,
-  Avatar,
-  UnorderedList,
-  Grid,
-  GridItem,
-  OrderedList
-} from '@chakra-ui/react'
-import { FiExternalLink } from 'react-icons/fi'
 import BlogPostGrid from '../components/blog-post-grid'
 
 interface Props {

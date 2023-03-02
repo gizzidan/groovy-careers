@@ -3,14 +3,10 @@ import { Link as GatsbyLink, graphql } from 'gatsby'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 import SEO from '../components/seo'
 import { TextToUpper as cap } from '../utils/convert-to-uppercase'
-var a = require('indefinite');
 import { WrapItem } from '@chakra-ui/react'
-import { getImage as sanityGetImage } from "@sanity/asset-utils";
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import {
   Link,
-  Flex,
-  Button,
   Wrap,
   VStack,
   ListItem,
@@ -18,19 +14,10 @@ import {
   Box,
   Text,
   Heading,
-  Avatar,
   UnorderedList,
-  Grid,
-  GridItem,
   OrderedList
 } from '@chakra-ui/react'
-import { FiExternalLink } from 'react-icons/fi'
 
-const sanity = {
-  projectId: "6t1tj18u",
-  dataset: "production",
-
-};
 
 type Block = {
   _key: string;
@@ -44,8 +31,6 @@ type BlockDefault = Block & {
   children: BlockChild[];
   style: string;
 }
-
-
 
 
 interface Props {

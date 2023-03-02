@@ -18,7 +18,7 @@ type TypeLinkSet = {
 const PopoverMenu = ({ linkSet }: TypeLinkSet) => {
   return (
     <Popover trigger='hover'>
-      {({ isOpen, onClose }) => (
+      {({ isOpen, onClose }: any) => (
         <>
           <PopoverTrigger>
             <Button

@@ -1,27 +1,6 @@
 import { GatsbyNode } from "gatsby";
 import * as path from "path";
 
-exports.onCreateWebpackConfig = ({
-	stage,
-	rules,
-	loaders,
-	plugins,
-	actions,
-}: any) => {
-	if (stage === "build-html") {
-		actions.setWebpackConfig({
-			module: {
-				rules: [
-					{
-						test: /canvas/,
-						use: loaders.null(),
-					},
-				],
-			},
-		});
-	}
-};
-
 // Types
 type TypeTag = {
 	id: string;
@@ -83,7 +62,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 	const { createPage } = actions;
 
 	const data = await graphql<TypeData>(`
-		query {
+		query nodeQuery {
 			allSanityBlogPost {
 				nodes {
 					id

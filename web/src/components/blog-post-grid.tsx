@@ -2,28 +2,18 @@ import React from 'react'
 import { Link as GatsbyLink } from 'gatsby'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import { TextToUpper as cap } from '../utils/convert-to-uppercase'
-import { FiArrowRight } from "react-icons/fi";
 import {
   Link,
-  Avatar,
-  Button,
   Box,
-  Badge,
   Tag,
   VStack,
-  Grid,
-  GridItem,
-  HStack,
   Wrap,
-  Text,
   Heading,
-  useMediaQuery,
   SimpleGrid,
   Card,
   CardBody,
   Stack,
   WrapItem,
-  textDecoration,
   CardFooter
 } from '@chakra-ui/react'
 
