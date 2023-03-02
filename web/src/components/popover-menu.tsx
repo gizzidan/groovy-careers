@@ -28,6 +28,7 @@ const PopoverMenu = ({ linkSet }: TypeLinkSet) => {
               variant="link"
               colorScheme={"black"}
               iconSpacing={1}
+              fontSize={{ base: 'lg', md: 'md' }}
               rightIcon={isOpen ? <GoChevronUp /> : <GoChevronDown />}
             >
               {linkSet.title}

@@ -22,6 +22,7 @@ exports.onCreateWebpackConfig = ({
 	}
 };
 
+// Types
 type TypeTag = {
 	id: string;
 	tagName: string;
@@ -40,9 +41,31 @@ type TypeJobPosting = {
 	};
 };
 
+type TypeBlogPost = {
+	id: string;
+	title: string;
+	slug: {
+		current: string;
+	};
+};
+
+type TypeBlogPostTag = {
+	id: string;
+	tagName: string;
+	slug: {
+		current: string;
+	};
+};
+
 type TypeData = {
+	allSanityBlogPost: {
+		nodes: TypeBlogPost[];
+	};
 	allSanityJobTag: {
 		nodes: TypeTag[];
+	};
+	allSanityBlogPostTag: {
+		nodes: TypeBlogPostTag[];
 	};
 	allSanityJobPosting: {
 		edges: TypeJobPosting[];
@@ -61,6 +84,24 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
 	const data = await graphql<TypeData>(`
 		query {
+			allSanityBlogPost {
+				nodes {
+					id
+					title
+					slug {
+						current
+					}
+				}
+			}
+			allSanityBlogPostTag {
+				nodes {
+					id
+					tagName
+					slug {
+						current
+					}
+				}
+			}
 			allSanityJobPosting {
 				edges {
 					node {
@@ -79,10 +120,9 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		}
 	`);
 
+	// Job Posting stuff
 	const jobPostingTemplate = path.resolve("./src/templates/job-posting.tsx");
-
 	const allJobPostings = data.data?.allSanityJobPosting;
-
 	const createJobPostingPromise = allJobPostings?.edges.map((node) => {
 		const posting = node.node;
 		const { id, slug = {} } = posting;
@@ -94,5 +134,35 @@ export const createPages: GatsbyNode["createPages"] = async ({
 		});
 	});
 
-	await Promise.all([createJobPostingPromise]);
+	// Blog Post stuff
+	const blogPostTemplate = path.resolve("./src/templates/blog-post.tsx");
+	const allBlogPosts = data.data?.allSanityBlogPost;
+	const createBlogPostPromise = allBlogPosts?.nodes.map((node) => {
+		const { id, slug = {} } = node;
+		if (!slug) return;
+		createPage({
+			path: `/blog/${node.slug.current}`,
+			component: blogPostTemplate,
+			context: { id },
+		});
+	});
+
+	// Blog Post Tag stuff
+	const blogPostTagTemplate = path.resolve("./src/templates/blog-post-tag.tsx");
+	const allBlogPostTags = data.data?.allSanityBlogPostTag;
+	const createBlogPostTagPromise = allBlogPostTags?.nodes.map((node) => {
+		const { id, tagName, slug = {} } = node;
+		if (!slug) return;
+		createPage({
+			path: `/tags/${node.slug.current}`,
+			component: blogPostTagTemplate,
+			context: { id, tagName },
+		});
+	});
+
+	await Promise.all([
+		createJobPostingPromise,
+		createBlogPostPromise,
+		createBlogPostTagPromise,
+	]);
 };

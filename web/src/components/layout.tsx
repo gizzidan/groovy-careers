@@ -19,10 +19,9 @@ const Layout = ({ children }: Props) => {
           margin="0 auto"
         >
           <Box as="main">{children}</Box>
-          <VStack textAlign="center" py={[10, 20]} as="footer">
-            <Heading fontFamily={"GT-America-Extended"} fontWeight="500" size="md" as="h4"><Highlight query={'new jobs'} styles={{ px: '2', py: '1', rounded: 'full', bg: 'mantis.100' }}>Send new jobs to your inbox:</Highlight> </Heading>
+          <VStack textAlign="center" py={[5, 10]} as="footer">
             <NewsletterSignup />
-            <Text pt={4}>
+            <Text pt={10}>
               © {new Date().getFullYear()}, Groovy Careers | view <Link href="https://headwayapp.co/groovy-changelog" color="purple.500">changelog</Link>
             </Text>
           </VStack>

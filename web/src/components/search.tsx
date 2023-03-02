@@ -51,7 +51,7 @@ const Hit = (props: any) => {
     customColor
     : node.highlight === true
       ? "yellow.100"
-      : "whiteAlpha.400"
+      : "whiteAlpha.500"
 
   const bgHover = node.highlight === true && node.customHighlight === true
     ?
@@ -107,16 +107,23 @@ const Hit = (props: any) => {
   const buttonVariant = node.highlight == true ? "black" : contrast == "bad" ? "black" : "outline"
   const time = Boolean(node.stickyLength)
     ? <Badge fontSize={[".6em", "xs"]} bgColor={contrast == "good" ? "blackAlpha.800" : "whiteAlpha.800"} color={contrast == "good" ? "white" : "black"}>Featured</Badge>
-    : <Text color={textColor} fontSize={["sm", "md"]}><TimeAgo formatter={formatter} date={node.publishedAt_str} /></Text>
+    :
+    <Text
+      color={textColor}
+      fontFamily="GT-America-Mono"
+      fontSize={["sm", "md"]}>
+      <TimeAgo formatter={formatter} date={node.publishedAt_str} />
+    </Text>
 
 
   return (
     < Grid
       p={[2, 3]}
+      mx={1}
       my={3}
       gap={[2, 2]}
       templateColumns={['6fr 2fr 1fr', 'repeat(5, 1fr)']}
-      width="100%"
+      width="auto"
       alignItems="center"
       bg={bgColor}
       _hover={{

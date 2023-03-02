@@ -8,6 +8,7 @@ import blogPost from "./blogPost";
 import jobPosting from "./jobPosting";
 import category from "./category";
 import jobTag from "./jobTag";
+import blogPostTag from "./blogPostTag";
 import company from "./company";
 import faq from "./faq";
 import questionAnswer from "./questionAnswer";
@@ -38,6 +39,7 @@ export default createSchema({
 		jobPosting,
 		category,
 		jobTag,
+		blogPostTag,
 		company,
 		subscription,
 		// homepage

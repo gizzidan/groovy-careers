@@ -114,7 +114,7 @@ const NewsletterSignup = () => {
             <Button w="100%" isLoading={isSubmitting} type="submit" colorScheme={"pink"}>Subscribe</Button>
           </GridItem>
         </Grid>
-        <Text fontSize="sm" color="blackAlpha.600">Get new jobs sent to your inbox weekly</Text>
+        <Text fontSize="sm" color="blackAlpha.700">Get new jobs sent to your inbox weekly</Text>
       </VStack>
     </form >
   );

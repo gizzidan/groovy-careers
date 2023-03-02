@@ -31,7 +31,8 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
-  AccordionIcon
+  AccordionIcon,
+  ListItem
 } from '@chakra-ui/react'
 import AnnouncementBar from './announcement-bar'
 import PopoverMenu from './popover-menu'
@@ -107,7 +108,7 @@ const Header = () => {
     <chakra.header id="header">
       <AnnouncementBar />
       <Flex
-        display={['none', 'none', 'flex', 'flex']}
+        display={{ base: 'none', lg: 'flex' }}
         as="nav"
         bg="transparent"
         w="100%"
@@ -133,9 +134,11 @@ const Header = () => {
                   spacing='30px'
                 >
                   {node.navItems.map((navItems) => (
-                    <List fontFamily="GT-America-Extended" key={navItems.id}>
+                    <List
+                      fontSize={{ base: 'lg', md: 'md' }}
+                      fontFamily="GT-America-Extended" key={navItems.id}>
                       {navItems.href.externalContent ? (
-                        <a href={navItems.href.linkUrl} target='_blank' rel='noopener noreferer'>{navItems.text}</a>
+                        <Link href={navItems.href.linkUrl} target='_blank' rel='noopener noreferer'>{navItems.text}</Link>
                       )
                         : <Link as={GatsbyLink} to={`/${navItems.href.linkUrl}`}>{navItems.text}</Link>
                       }
@@ -158,7 +161,7 @@ const Header = () => {
 
       </Flex>
       <Flex
-        display={['flex', 'flex', 'none', 'none']}
+        display={{ base: "flex", lg: "none" }}
         px={2}
         py={2}
         position="relative"
@@ -194,7 +197,7 @@ const Header = () => {
           w="100vw"
           display={display}
           bgColor="purple.50"
-          zIndex={20}
+          zIndex={99999999999}
           h="100vh"
           pos="fixed"
           top="0"
@@ -217,6 +220,7 @@ const Header = () => {
               <IconButton
                 aria-label="Open Menu"
                 size="lg"
+                mr={3}
                 icon={<FiX />}
                 onClick={() => changeDisplay('none')} // added line
               />
@@ -272,22 +276,27 @@ const Header = () => {
             {navItemsGroup.map((node: { navItems: any[] }) => (
               <React.Fragment key={node.navItems.toString()}>
                 {node.navItems ? (
-                  <Wrap
+                  <Box
                     px={4}
                     display="block"
-                    spacing='30px'
                     w="100%"
+                    fontSize="lg"
                   >
                     {node.navItems.map((navItems) => (
                       <List fontFamily="GT-America" key={navItems.id}>
                         {navItems.href.externalContent ? (
-                          <a onClick={() => changeDisplay('none')} href={navItems.href.linkUrl} target='_blank' rel='noopener noreferer'>{navItems.text}</a>
+                          <ListItem py={2}>
+                            <Link onClick={() => changeDisplay('none')} href={navItems.href.linkUrl} target='_blank' rel='noopener noreferer'>{navItems.text}</Link>
+                          </ListItem>
                         )
-                          : <Link onClick={() => changeDisplay('none')} as={GatsbyLink} to={`/${navItems.href.linkUrl}`}>{navItems.text}</Link>
+                          :
+                          <ListItem py={2}>
+                            <Link onClick={() => changeDisplay('none')} as={GatsbyLink} to={`/${navItems.href.linkUrl}`}>{navItems.text}</Link>
+                          </ListItem>
                         }
                       </List>
                     ))}
-                  </Wrap>
+                  </Box>
                 ) : null}
               </React.Fragment>
             ))}

@@ -20,8 +20,8 @@ const Logo = (props: any) => {
 					textDecoration: "none",
 				}}
 			>
-				<Text display={['none', 'block']}>GROOVY CAREERS</Text>
-				<Text display={['block', 'none']}>GROOVY</Text>
+				<Text display={{ base: 'none', md: 'block' }}>GROOVY CAREERS</Text>
+				<Text display={{ base: 'block', md: 'none' }}>GROOVY</Text>
 			</Link>
 
 		</Box>

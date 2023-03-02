@@ -4,6 +4,11 @@ export default {
 	type: "document",
 	fields: [
 		{
+			name: "image",
+			title: "Image",
+			type: "image",
+		},
+		{
 			name: "title",
 			title: "Title",
 			type: "string",
@@ -26,6 +31,21 @@ export default {
 			initialValue: new Date().toISOString().substring(0, 10),
 		},
 		{
+			name: "tags",
+			title: "Tags",
+			type: "array",
+			of: [
+				{
+					type: "reference",
+					to: [
+						{
+							type: "blogPostTag",
+						},
+					],
+				},
+			],
+		},
+		{
 			name: "summary",
 			title: "Summary",
 			type: "text",
@@ -38,6 +58,9 @@ export default {
 			of: [
 				{
 					type: "block",
+				},
+				{
+					type: "image",
 				},
 			],
 			validation: (Rule) => Rule.required(),
