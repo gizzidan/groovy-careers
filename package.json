@@ -7,6 +7,7 @@
 		"node": "18.x"
 	},
 	"scripts": {
+		"build": "lerna run build --parallel",
 		"clean": "lerna clean",
 		"deploy": "lerna run deploy",
 		"empty-cache": "lerna run empty-cache",
