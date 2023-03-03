@@ -8,13 +8,12 @@
 		"gatsby"
 	],
 	"scripts": {
-		"develop": "gatsby develop",
-		"start": "npm run develop",
+		"dev": "gatsby develop",
+		"prebuild": "npm install",
 		"deploy": "npm run now-deploy",
 		"build": "gatsby build",
 		"serve": "gatsby serve",
 		"empty-cache": "gatsby clean",
-		"lint": "eslint .",
 		"now-build": "npm run build",
 		"typecheck": "tsc --noEmit"
 	},

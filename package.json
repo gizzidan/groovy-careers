@@ -1,28 +1,27 @@
 {
-	"private": false,
+	"private": true,
 	"name": "cannabis-friendly-careers",
 	"version": "1.0.0",
 	"author": "WDG",
-	"engines": {
-		"node": "18.x"
-	},
 	"scripts": {
-		"build": "lerna run build --parallel",
-		"clean": "lerna clean",
-		"deploy": "lerna run deploy",
-		"empty-cache": "lerna run empty-cache",
-		"init": "cd studio && sanity init && lerna run graphql-deploy",
-		"format": "lerna run format",
-		"graphql-deploy": "lerna run graphql-deploy",
-		"graphql-deploy:force": "lerna run graphql-deploy:force",
-		"lint": "lerna run lint",
-		"now-deploy": "now && now alias",
-		"sanity-deploy": "lerna run sanity-deploy",
-		"start": "lerna run empty-cache && lerna run start --parallel",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"build": "npm run build:studio && npm run build:web",
+		"build:studio": "cd studio && npm run build",
+		"build:web": "cd web && npm run build",
+		"dev": "npm-run-all --parallel dev:studio dev:web",
+		"dev:studio": "cd studio && npm run dev",
+		"dev:web": "cd web && npm run dev",
+		"prebuild": "npm-run-all --parallel prebuild:studio prebuild:web",
+		"prebuild:studio": "cd studio && npm run prebuild",
+		"prebuild:web": "cd web && npm run prebuild",
+		"test": "npm run test:studio && npm run test:web",
+		"test:studio": "cd studio && npm run test",
+		"test:web": "cd web && npm run test"
 	},
 	"devDependencies": {
-		"lerna": "^6.5.1",
+		"npm-run-all": "^4.1.5",
 		"rimraf": "^2.6.3"
+	},
+	"dependencies": {
+		"@sanity/cli": "^1.150.1"
 	}
 }

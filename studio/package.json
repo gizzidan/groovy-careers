@@ -12,11 +12,9 @@
 		"graphql-deploy": "sanity graphql deploy --playground",
 		"graphql-deploy:force": "sanity graphql deploy --playground --force",
 		"sanity-deploy": "sanity deploy",
-		"lint": "eslint .",
-		"start": "sanity start",
+		"dev": "sanity start",
 		"build": "sanity build",
-		"now-build": "npm run build",
-		"now-dev": "npm run build",
+		"prebuild": "sanity install",
 		"test": "sanity check"
 	},
 	"keywords": [
