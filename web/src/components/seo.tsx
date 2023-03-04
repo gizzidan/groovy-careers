@@ -1,5 +1,6 @@
 import React from "react"
 import { useSiteMetadata } from "../hooks/use-site-metadata"
+import defaultImage from "../images/icon.png";
 
 interface Props {
     description?: string
@@ -9,17 +10,17 @@ interface Props {
     title?: string
 }
 
-const SEO = ({ title, description, pathname, children }: Props) => {
+const SEO = ({ title, description, image, pathname, children }: Props) => {
 
-    const { title: defaultTitle, description: defaultDescription, image, siteUrl } = useSiteMetadata()
+    const { title: defaultTitle, description: defaultDescription, siteUrl } = useSiteMetadata()
 
     const seo = {
         title: title || defaultTitle,
         description: description || defaultDescription,
-        image: `${siteUrl}${image}`,
+        image: image == undefined ? defaultImage : image,
         url: `${siteUrl}${pathname || ``}`,
-
     }
+    console.log(seo.image)
     return (
         <>
             <title>{seo.title}</title>
@@ -28,7 +29,7 @@ const SEO = ({ title, description, pathname, children }: Props) => {
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={seo.title} />
             <meta name="twitter:url" content={seo.url} />
-            <meta name="twitter:image" content={seo.image} />
+            <meta name="twitter:image" content={`${siteUrl}${seo.image}`} />
             <meta name="twitter:description" content={seo.description} />
             {children}
         </>
