@@ -1,6 +1,6 @@
 import React from "react"
 import { useSiteMetadata } from "../hooks/use-site-metadata"
-import defaultImage from "../images/icon.png";
+import defaultImage from "../images/twitter-card-image.png";
 
 interface Props {
     description?: string
