@@ -20,16 +20,15 @@ const SEO = ({ title, description, image, pathname, children }: Props) => {
         image: image == undefined ? defaultImage : image,
         url: `${siteUrl}${pathname || ``}`,
     }
-    console.log(seo.image)
     return (
         <>
             <title>{seo.title}</title>
             <meta name="description" content={seo.description} />
-            <meta name="image" content={seo.image} />
+            <meta name="image" content={image == undefined ? `${siteUrl}${seo.image}` : seo.image} />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={seo.title} />
             <meta name="twitter:url" content={seo.url} />
-            <meta name="twitter:image" content={`${siteUrl}${seo.image}`} />
+            <meta name="twitter:image" content={image == undefined ? `${siteUrl}${seo.image}` : seo.image} />
             <meta name="twitter:description" content={seo.description} />
             {children}
         </>

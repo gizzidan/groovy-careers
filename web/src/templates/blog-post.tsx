@@ -4,7 +4,7 @@ import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 import SEO from '../components/seo'
 import { TextToUpper as cap } from '../utils/convert-to-uppercase'
 import { WrapItem } from '@chakra-ui/react'
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import { GatsbyImage, getImage, getSrc } from 'gatsby-plugin-image'
 import {
   Link,
   Wrap,
@@ -213,7 +213,13 @@ const BlogPostTemplate = ({ pageContext, data }: Props) => {
 export default BlogPostTemplate
 
 export const Head = ({ data }: any) => {
+  const featureImageSrc = getSrc(data.sanityBlogPost.image.asset)
+
   return (
-    <SEO title={data.sanityBlogPost.title} description={data.sanityBlogPost.summary} />
+    <SEO
+      title={data.sanityBlogPost.title}
+      description={data.sanityBlogPost.summary}
+      image={`${data.sanityBlogPost.image.asset.url}?w=1200`}
+    />
   )
 }

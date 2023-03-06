@@ -8,6 +8,8 @@ import { blocksToText } from '../utils/blocks-to-text'
 var a = require('indefinite');
 import { numDaysBetween } from '../utils/num-days-between'
 import { formatter } from '../components/search'
+import defaultImage from "../images/twitter-card-image.png";
+import { useSiteMetadata } from "../hooks/use-site-metadata"
 import {
   Link,
   Flex,
@@ -262,8 +264,12 @@ const JobPostingTemplate = ({ pageContext, data }: Props) => {
 export default JobPostingTemplate
 
 export const Head = ({ data }: any) => {
+  const { siteUrl } = useSiteMetadata()
+
   const position = data.sanityJobPosting?.position
   const company = data.sanityJobPosting?.company.name
+  const logoExists = data.sanityJobPosting?.company.logo
+  const logo = data.sanityJobPosting?.company.logo ? data.sanityJobPosting?.company.logo?.asset.url : defaultImage
   const location = data.sanityJobPosting?.location
   const minSalary = "$" + data.sanityJobPosting?.minAnnualSalary / 1000 + "k"
   const maxSalary = "$" + data.sanityJobPosting?.maxAnnualSalary / 1000 + "k"
@@ -271,6 +277,10 @@ export const Head = ({ data }: any) => {
   const title = cap(position)
     + " at " + company + " (" + minSalary + "-" + maxSalary + ")" + " in " + location
   return (
-    <SEO title={title} description={description} />
+    <SEO
+      title={title}
+      description={description}
+      image={logoExists == undefined ? `${siteUrl}${defaultImage}` : logo}
+    />
   )
 }
