@@ -271,11 +271,12 @@ export const Head = ({ data }: any) => {
   const logoExists = data.sanityJobPosting?.company.logo
   const logo = data.sanityJobPosting?.company.logo ? data.sanityJobPosting?.company.logo?.asset.url : defaultImage
   const location = data.sanityJobPosting?.location
-  const minSalary = "$" + data.sanityJobPosting?.minAnnualSalary / 1000 + "k"
-  const maxSalary = "$" + data.sanityJobPosting?.maxAnnualSalary / 1000 + "k"
+  const minSalary = data.sanityJobPosting?.minAnnualSalary > 1 ? "$" + data.sanityJobPosting?.minAnnualSalary / 1000 + "k" : null
+  const maxSalary = data.sanityJobPosting?.minAnnualSalary > 1 ? "$" + data.sanityJobPosting?.maxAnnualSalary / 1000 + "k" : null
   const description = blocksToText(data.sanityJobPosting?._rawDescription).split(/\s+/).slice(0, 19).join(" ") + "..."
-  const title = cap(position)
-    + " at " + company + " (" + minSalary + "-" + maxSalary + ")" + " in " + location
+  const title = minSalary !== null ? position
+    + " at " + company + " (" + minSalary + "-" + maxSalary + ")" + " in " + location : position
+    + " at " + company + " in " + location
   return (
     <SEO
       title={title}

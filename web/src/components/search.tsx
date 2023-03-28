@@ -13,10 +13,12 @@ import {
   Wrap,
   Text,
   Heading,
+  Skeleton,
   useMediaQuery
 } from '@chakra-ui/react'
 import {
   InstantSearch,
+  useInstantSearch,
   Hits,
   Highlight,
   Configure,
@@ -115,137 +117,140 @@ const Hit = (props: any) => {
       <TimeAgo formatter={formatter} date={node.publishedAt_str} />
     </Text>
 
+  const { status } = useInstantSearch()
 
   return (
-    < Grid
-      p={[2, 3]}
-      mx={1}
-      my={3}
-      gap={[2, 2]}
-      templateColumns={['6fr 2fr 1fr', 'repeat(5, 1fr)']}
-      width="auto"
-      alignItems="center"
-      bg={bgColor}
-      _hover={{
-        bg: bgHover
-      }}
-      borderLeft={border}
-      borderColor={borderColor}
-      key={node.objectID}
+    <Skeleton isLoaded={status !== 'stalled'}>
+      < Grid
+        p={[2, 3]}
+        mx={1}
+        my={3}
+        gap={[2, 2]}
+        templateColumns={['6fr 2fr 1fr', 'repeat(5, 1fr)']}
+        width="auto"
+        alignItems="center"
+        bg={bgColor}
+        _hover={{
+          bg: bgHover
+        }}
+        borderLeft={border}
+        borderColor={borderColor}
+        key={node.objectID}
 
-    >
-      <GridItem zIndex="docked" height="100%" gridRow={1} colStart={[1, 1]} colSpan={[3, 5]}>
-        <Link target="_blank" rel="noreferrer noopener" href={`/${node.path}/`}><Box height="100%" ></Box></Link>
-      </GridItem>
-      <GridItem colStart={[1, 1]} gridRow={[1, 1]} colSpan={[1, 2]}>
-        <HStack spacing={[3, 5]}>
-          {isLargerThan400 ?
-            node.includeLogo === true ?
-              node.logo
-                ? <Avatar name={node.companyName} src={node.logo.logo.asset.url}></Avatar>
+      >
+        <GridItem zIndex="docked" height="100%" gridRow={1} colStart={[1, 1]} colSpan={[3, 5]}>
+          <Link target="_blank" rel="noreferrer noopener" href={`/${node.path}/`}><Box height="100%" ></Box></Link>
+        </GridItem>
+        <GridItem colStart={[1, 1]} gridRow={[1, 1]} colSpan={[1, 2]}>
+          <HStack spacing={[3, 5]}>
+            {isLargerThan400 ?
+              node.includeLogo === true ?
+                node.logo
+                  ? <Avatar name={node.companyName} src={node.logo.logo.asset.url}></Avatar>
+                  : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
                 : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
-              : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
-            : null
-          }
-          <VStack spacing={1} align="left">
-            <Heading color={textColor} size={['xs', 'sm']} variant="card" as="h3">
-              <Highlight attribute="position" hit={props.hit} />
-            </Heading>
-            {node.diverseOwnership
-              ? <Box color={textColor}>
-                <DiversityTags label={node.companyName} node={node}
-                  diverseOwnership={node.diverseOwnership.diverseOwnership} />
-              </Box>
-              : null}
-            {node.minAnnualSalary > 0 ?
-              <Text color={textColor} variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
-              : null}
-          </VStack>
-        </HStack>
-      </GridItem>
-      <GridItem colStart={[2, 3]} gridRow={1} colSpan={[1]} alignSelf={["middle", "start"]}>
-        <Text color={contrast == "good" ? "blackAlpha.900" : "whiteAlpha.900"} fontSize="sm">
-          <Highlight attribute="location" hit={props.hit} />
-        </Text>
-      </GridItem>
-      <GridItem display={["none", "flex"]} colStart={4} gridRow={1} colSpan={1} alignSelf="start">
-        <Wrap align="center">
-          <Link
-            zIndex="sticky"
-            _hover={{
-              textDecoration: "none",
-            }}
-            href={`/?category=${node.category}`}
-          >
-            <Tag
-              colorScheme={contrast == "good" ? "blackAlpha" : "whiteAlpha"}
-              fontFamily="GT-America-Mono"
+              : null
+            }
+            <VStack spacing={1} align="left">
+              <Heading color={textColor} size={['xs', 'sm']} variant="card" as="h3">
+                <Highlight attribute="position" hit={props.hit} />
+              </Heading>
+              {node.diverseOwnership
+                ? <Box color={textColor}>
+                  <DiversityTags label={node.companyName} node={node}
+                    diverseOwnership={node.diverseOwnership.diverseOwnership} />
+                </Box>
+                : null}
+              {node.minAnnualSalary > 0 ?
+                <Text color={textColor} variant="mono" fontSize="xs">{minSalary} - {maxSalary}</Text>
+                : null}
+            </VStack>
+          </HStack>
+        </GridItem>
+        <GridItem colStart={[2, 3]} gridRow={1} colSpan={[1]} alignSelf={["middle", "start"]}>
+          <Text color={contrast == "good" ? "blackAlpha.900" : "whiteAlpha.900"} fontSize="sm">
+            <Highlight attribute="location" hit={props.hit} />
+          </Text>
+        </GridItem>
+        <GridItem display={["none", "flex"]} colStart={4} gridRow={1} colSpan={1} alignSelf="start">
+          <Wrap align="center">
+            <Link
+              zIndex="sticky"
               _hover={{
-                bg: contrast == "good" ? "blackAlpha.700" : "whiteAlpha.700",
-                color: contrast == "good" ? "white" : "black"
+                textDecoration: "none",
               }}
+              href={`/?category=${node.category}`}
             >
-              {node.category.toUpperCase()}
-            </Tag>
-          </Link>
-          {node.tags
-            ? node.tags.map((tag: any) =>
-              <Link
-                zIndex="sticky"
+              <Tag
+                colorScheme={contrast == "good" ? "blackAlpha" : "whiteAlpha"}
+                fontFamily="GT-America-Mono"
                 _hover={{
-                  textDecoration: "none",
+                  bg: contrast == "good" ? "blackAlpha.700" : "whiteAlpha.700",
+                  color: contrast == "good" ? "white" : "black"
                 }}
-                href={`/?tag=${tag.tagName}`}
-                key={tag.slug.current}
               >
-                <Tag
-                  colorScheme={contrast == "good" ? "blackAlpha" : "whiteAlpha"}
-                  fontFamily="GT-America-Mono"
+                {node.category.toUpperCase()}
+              </Tag>
+            </Link>
+            {node.tags
+              ? node.tags.map((tag: any) =>
+                <Link
+                  zIndex="sticky"
                   _hover={{
-                    bg: contrast == "good" ? "blackAlpha.700" : "whiteAlpha.700",
-                    color: contrast == "good" ? "white" : "black"
+                    textDecoration: "none",
                   }}
+                  href={`/?tag=${tag.tagName}`}
+                  key={tag.slug.current}
                 >
-                  {tag.tagName}
-                </Tag>
-              </Link>
-            )
-            : null
-          }
-        </Wrap>
-      </GridItem>
-      <GridItem colStart={[3, 5]} gridRow={1} colSpan={1}>
-        <HStack verticalAlign="center" float={['right', 'right']}>
-          <VStack align={['right', 'right']}>
-            <HStack>
-              {time}
-              <Link
-                _hover={{
-                  textDecoration: "none",
-                }}
-                zIndex="sticky"
-                display={["none", "flex"]}
-                href={node.applicationLink}
-                isExternal
-              >
-                <Button
-                  rightIcon={<FiExternalLink />}
-                  variant={buttonVariant}
-                  bgColor={buttonBgColor}
-                  color={buttonTextColor}
+                  <Tag
+                    colorScheme={contrast == "good" ? "blackAlpha" : "whiteAlpha"}
+                    fontFamily="GT-America-Mono"
+                    _hover={{
+                      bg: contrast == "good" ? "blackAlpha.700" : "whiteAlpha.700",
+                      color: contrast == "good" ? "white" : "black"
+                    }}
+                  >
+                    {tag.tagName}
+                  </Tag>
+                </Link>
+              )
+              : null
+            }
+          </Wrap>
+        </GridItem>
+        <GridItem colStart={[3, 5]} gridRow={1} colSpan={1}>
+          <HStack verticalAlign="center" float={['right', 'right']}>
+            <VStack align={['right', 'right']}>
+              <HStack>
+                {time}
+                <Link
                   _hover={{
-                    bgColor: buttonBgHover,
+                    textDecoration: "none",
                   }}
+                  zIndex="sticky"
+                  display={["none", "flex"]}
+                  href={node.applicationLink}
+                  isExternal
                 >
-                  Apply
-                </Button>
-              </Link>
-            </HStack>
-            {node.source ? <Text display={["none", "block"]} fontStyle="italic" fontSize={["sm", "md"]} align={['left', 'right']} pr="2px" color={textColor} >Via {node.source}</Text> : null}
-          </VStack>
-        </HStack>
-      </GridItem>
-    </Grid >
+                  <Button
+                    rightIcon={<FiExternalLink />}
+                    variant={buttonVariant}
+                    bgColor={buttonBgColor}
+                    color={buttonTextColor}
+                    _hover={{
+                      bgColor: buttonBgHover,
+                    }}
+                  >
+                    Apply
+                  </Button>
+                </Link>
+              </HStack>
+              {node.source ? <Text display={["none", "block"]} fontStyle="italic" fontSize={["sm", "md"]} align={['left', 'right']} pr="2px" color={textColor} >Via {node.source}</Text> : null}
+            </VStack>
+          </HStack>
+        </GridItem>
+      </Grid >
+    </Skeleton>
   )
 }
 
