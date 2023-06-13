@@ -20,7 +20,7 @@
 	"dependencies": {
 		"@applitools/jsdom": "^1.0.4",
 		"@chakra-ui/gatsby-plugin": "^3.0.4",
-		"@chakra-ui/react": "^2.4.8",
+		"@chakra-ui/react": "^2.5.5",
 		"@choc-ui/chakra-autocomplete": "^5.1.4",
 		"@emotion/react": "^11.10.0",
 		"@emotion/styled": "^11.10.0",

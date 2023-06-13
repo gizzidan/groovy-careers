@@ -12,7 +12,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Box
-        bgGradient='linear(to-r, purple.100, pink.100, mantis.100)'>
+        bgGradient='linear(to-r, purple.100, pink.100, purple.100)'>
         <Header />
         <Box
           as="div"
