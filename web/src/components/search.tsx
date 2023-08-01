@@ -145,7 +145,7 @@ const Hit = (props: any) => {
           <HStack spacing={[3, 5]}>
             {isLargerThan400 ?
               node.includeLogo === true ?
-                node.logo
+                node.logo.logo.asset
                   ? <Avatar name={node.companyName} src={node.logo.logo.asset.url}></Avatar>
                   : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
                 : <Avatar color="black" bg="blackAlpha.300" name={node.companyName}></Avatar>
