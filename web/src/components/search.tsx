@@ -63,7 +63,7 @@ const Hit = (props: any) => {
       : "white"
 
   const contrast = bgColor == customColor
-    ? ccc.isLevelAAA(color1, bgColor, 12)
+    ? ccc.isLevelAAA(color1, bgColor, 11)
       ? "good"
       : "bad"
     : "good"
